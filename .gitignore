@@ -34,3 +34,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# logs and temp files
+build_log.txt
+lint_full.txt
+lint_log.txt
+ts_errors.txt
+ts_errors_utf8.txt
+nextjs_output.html
+.cursor/

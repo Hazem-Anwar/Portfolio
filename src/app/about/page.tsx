@@ -1,0 +1,720 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Nav from "@/components/Nav";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import InternalFooter from "@/components/InternalFooter";
+import Link from "next/link";   
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+const FigmaBox = ({ label, show }: { label: string; show: boolean }) => (
+  <div
+    className={`absolute -inset-2 border border-[#a855f7] pointer-events-none transition-opacity duration-300 z-40 ${
+      show ? "opacity-100" : "opacity-0"
+    }`}
+  >
+    <div className="absolute -top-[3px] -left-[3px] w-1.5 h-1.5 bg-white border border-[#a855f7] rounded-[1px]" />
+    <div className="absolute -top-[3px] -right-[3px] w-1.5 h-1.5 bg-white border border-[#a855f7] rounded-[1px]" />
+    <div className="absolute -bottom-[3px] -left-[3px] w-1.5 h-1.5 bg-white border border-[#a855f7] rounded-[1px]" />
+    <div className="absolute -bottom-[3px] -right-[3px] w-1.5 h-1.5 bg-white border border-[#a855f7] rounded-[1px]" />
+    <div className="absolute -top-[18px] left-[-1px] bg-[#a855f7] text-white text-[9px] font-bold font-sans px-1.5 py-[2px] rounded-sm tracking-wider whitespace-nowrap shadow-sm leading-none">
+      {label}
+    </div>
+  </div>
+);
+
+const PhotoTag = ({
+  text,
+  active,
+  cursorPos,
+}: {
+  text: string;
+  active: boolean;
+  cursorPos: { x: number; y: number };
+}) => {
+  const [displayText, setDisplayText] = useState("");
+
+  useEffect(() => {
+    if (active) {
+      let i = 0;
+      const interval = setInterval(() => {
+        setDisplayText(text.slice(0, i + 1));
+        i++;
+        if (i >= text.length) clearInterval(interval);
+      }, 40);
+      return () => clearInterval(interval);
+    } else {
+      setDisplayText("");
+    }
+  }, [active, text]);
+
+  if (!active && !displayText) return null;
+
+  return (
+    <div
+      className="fixed pointer-events-none z-[100] flex flex-row items-start font-sans transition-opacity duration-300"
+      style={{ left: cursorPos.x, top: cursorPos.y, opacity: active ? 1 : 0 }}
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" className="drop-shadow-md z-10 mt-1 mr-[-6px]">
+        <path d="M5 3L19 10L12.5 13.5L9 20L5 3Z" fill="#a855f7" stroke="white" strokeWidth="2" strokeLinejoin="round" />
+      </svg>
+      <div className="flex flex-col text-left mt-4" style={{ filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.4))" }}>
+        <div className="bg-[#d8b4fe] text-black px-2 py-0.5 text-[10px] font-sans rounded-t-md w-max font-semibold border border-b-0 border-[#c084fc]/30">
+          Hazem Anwar
+        </div>
+        <div className="bg-[#c084fc] text-black font-medium px-3 py-2 text-[13px] rounded-b-md rounded-tr-md shadow-lg tracking-wide min-h-[32px] flex items-center border border-[#c084fc]">
+          {displayText}
+          <span className="w-[1.5px] h-3.5 bg-black ml-1 inline-block animate-pulse align-middle" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --- TOOLKIT LOGOS ---
+// --- TOOLKIT LOGOS (Tabler Style) ---
+const FigmaLogo = () => (
+  <svg width="24" height="24" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#0acf83" d="M45.5 129c11.9 0 21.5-9.6 21.5-21.5V86H45.5C33.6 86 24 95.6 24 107.5S33.6 129 45.5 129zm0 0"/>
+    <path fill="#a259ff" d="M24 64.5C24 52.6 33.6 43 45.5 43H67v43H45.5C33.6 86 24 76.4 24 64.5zm0 0"/>
+    <path fill="#f24e1e" d="M24 21.5C24 9.6 33.6 0 45.5 0H67v43H45.5C33.6 43 24 33.4 24 21.5zm0 0"/>
+    <path fill="#ff7262" d="M67 0h21.5C100.4 0 110 9.6 110 21.5S100.4 43 88.5 43H67zm0 0"/>
+    <path fill="#1abcfe" d="M110 64.5c0 11.9-9.6 21.5-21.5 21.5S67 76.4 67 64.5 76.6 43 88.5 43 110 52.6 110 64.5zm0 0"/>
+  </svg>
+);
+
+const FigJamLogo = () => (
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#0ACF83" fillOpacity="0.1"/>
+    <rect x="7" y="7" width="10" height="10" rx="2" stroke="#FF7262" strokeWidth="2"/>
+    <path d="M12 7v10M7 12h10" stroke="#FF7262" strokeWidth="1.5" strokeLinecap="round"/>
+  </svg>
+);
+
+const ReactLogo = () => (
+  <svg width="28" height="28" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+    <path d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64c11.2 0 21.7-2.9 30.8-7.9L48.4 55.3v36.6h-6.8V41.8h6.8l50.5 75.8C116.4 106.2 128 86.5 128 64c0-35.3-28.7-64-64-64zm22.1 84.6l-7.5-11.3V41.8h7.5v42.8z" fill="white"/>
+  </svg>
+);
+
+const ClaudeLogo = () => (
+  <svg width="28" height="28" viewBox="0 0 256 256" fill="none">
+    <path d="M50.2869 170.192L100.606 141.956L101.448 139.495L100.606 138.135H98.1452L89.7263 137.617L60.9725 136.84L36.0395 135.804L11.8837 134.508L5.79613 133.213L0.097168 125.701L0.680016 121.945L5.79613 118.513L13.1141 119.16L29.3044 120.261L53.5897 121.945L71.2047 122.981L97.3033 125.701H101.448L102.031 124.017L100.606 122.981L99.5052 121.945L74.378 104.913L47.1784 86.9092L32.931 76.5474L25.2244 71.3018L21.3388 66.38L19.655 55.6297L26.6492 47.9231L36.0395 48.5707L38.4356 49.2183L47.9555 56.5363L68.2904 72.2732L94.8424 91.831L98.7281 95.0691L100.282 93.9681L100.477 93.191L100.282 93.9681L100.477 93.191L98.7281 90.2768L84.2864 64.1781L68.8733 37.6261L62.0086 26.6167L60.1953 20.0111C59.5477 17.2912 59.0944 15.0245 59.0944 12.2398L67.06 1.42474L71.4637 0L82.0845 1.42474L86.553 5.3104L93.1586 20.3997L103.844 44.167L120.423 76.4827L125.28 86.0673L127.871 94.9395L128.842 97.6595H130.526V96.1052L131.886 77.9074L134.411 55.5649L136.872 26.811L137.714 18.7159L141.729 9.00177L149.695 3.75613L155.912 6.73514L161.028 14.0531L160.316 18.7807L157.272 38.5328L151.314 69.4885L147.428 90.212H149.695L152.285 87.6216L162.777 73.698L180.392 51.6792L188.163 42.9365L197.229 33.2871L203.058 28.6891H214.067L222.162 40.7346L218.536 53.1687L207.203 67.5457L197.812 79.7207L184.342 97.8538L175.923 112.36L176.7 113.526L178.708 113.332L209.145 106.856L225.595 103.877L245.217 100.509L254.09 104.654L255.061 108.863L251.564 117.476L230.581 122.657L205.972 127.579L169.318 136.257L168.864 136.581L169.382 137.228L185.896 138.783L192.955 139.171H210.246L242.433 141.567L250.852 147.137L255.903 153.937L255.061 159.118L242.109 165.723L224.623 161.579L183.824 151.864L169.836 148.367H167.893V149.533L179.55 160.931L200.921 180.23L227.667 205.098L229.027 211.25L225.595 216.107L221.968 215.589L198.46 197.909L189.393 189.944L168.864 172.653H167.504V174.466L172.232 181.395L197.229 218.957L198.525 230.484L196.711 234.24L190.235 236.507L183.112 235.212L168.476 214.683L153.386 191.563L141.211 170.839L139.722 171.681L132.533 249.071L129.166 253.021L121.394 256L114.918 251.078L111.486 243.113L114.918 227.376L119.063 206.846L122.431 190.527L125.474 170.257L127.288 163.521L127.158 163.068L125.669 163.262L110.385 184.245L87.1359 215.654L68.7438 235.341L64.34 237.09L56.6982 233.139L57.4106 226.08L61.6848 219.799L87.1359 187.418L102.484 167.342L112.393 155.75L112.328 154.066H111.745L44.1346 197.974L32.0891 199.528L26.9082 194.671L27.5558 186.706L30.0167 184.115L50.3517 170.127L50.2869 170.192Z" fill="#D97757"/>
+  </svg>
+);
+
+const ChatGPTLogo = () => (
+  <svg width="28" height="28" viewBox="0 0 256 256" fill="none">
+    <path d="M237.648 104.776C243.456 87.344 241.456 68.248 232.168 52.392C218.2 28.072 190.12 15.56 162.696 21.448C150.496 7.70397 132.968 -0.112033 114.592 -3.33171e-05C86.56 -0.0640333 61.688 17.984 53.064 44.656C35.056 48.344 19.512 59.616 10.416 75.592C-3.65598 99.848 -0.447981 130.424 18.352 151.224C12.544 168.656 14.544 187.752 23.832 203.608C37.8 227.928 65.88 240.44 93.304 234.552C105.496 248.296 123.032 256.112 141.408 255.992C169.456 256.064 194.336 238 202.96 211.304C220.968 207.616 236.512 196.344 245.608 180.368C259.664 156.112 256.448 125.56 237.656 104.76L237.648 104.776ZM141.424 239.264C130.2 239.28 119.328 235.352 110.712 228.16C111.104 227.952 111.784 227.576 112.224 227.304L163.2 197.864C165.808 196.384 167.408 193.608 167.392 190.608V118.744L188.936 131.184C189.168 131.296 189.32 131.52 189.352 131.776V191.288C189.32 217.752 167.888 239.208 141.424 239.264ZM38.352 195.24C32.728 185.528 30.704 174.144 32.632 163.096C33.008 163.32 33.672 163.728 34.144 164L85.12 193.44C87.704 194.952 90.904 194.952 93.496 193.44L155.728 157.504V182.384C155.744 182.64 155.624 182.888 155.424 183.048L103.896 212.8C80.944 226.016 51.632 218.16 38.36 195.24H38.352ZM24.936 83.968C30.536 74.24 39.376 66.8 49.904 62.936C49.904 63.376 49.88 64.152 49.88 64.696V123.584C49.864 126.576 51.464 129.352 54.064 130.832L116.296 166.76L94.752 179.2C94.536 179.344 94.264 179.368 94.024 179.264L42.488 149.488C19.584 136.224 11.728 106.92 24.928 83.976L24.936 83.968ZM201.944 125.16L139.712 89.224L161.256 76.792C161.472 76.648 161.744 76.624 161.984 76.728L213.52 106.48C236.464 119.736 244.328 149.088 231.072 172.032C225.464 181.744 216.632 189.184 206.112 193.056V132.408C206.136 129.416 204.544 126.648 201.952 125.16H201.944ZM223.384 92.888C223.008 92.656 222.344 92.256 221.872 91.984L170.896 62.544C168.312 61.032 165.112 61.032 162.52 62.544L100.288 98.48V73.6C100.272 73.344 100.392 73.096 100.592 72.936L152.12 43.208C175.072 29.968 204.416 37.848 217.648 60.808C223.24 70.504 225.264 81.856 223.368 92.888H223.384ZM88.576 137.232L67.024 124.792C66.792 124.68 66.64 124.456 66.608 124.2V64.688C66.624 38.192 88.12 16.72 114.616 16.736C125.824 16.736 136.672 20.672 145.288 27.84C144.896 28.048 144.224 28.424 143.776 28.696L92.8 58.136C90.192 59.616 88.592 62.384 88.608 65.384L88.576 137.216V137.232ZM100.28 112L128 95.992L155.72 111.992V144L128 160L100.28 144V112Z" fill="#10A37F"/>
+  </svg>
+);
+
+const GeminiLogo = () => (
+  <img 
+    src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/gemini-color.png" 
+    alt="Gemini" 
+    className="w-7 h-7 object-contain"
+  />
+);
+
+const JiraLogo = () => (
+  <svg width="24" height="24" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="jira-grad-a" gradientUnits="userSpaceOnUse" x1="22.034" y1="9.773" x2="17.118" y2="14.842" gradientTransform="scale(4)">
+        <stop offset=".176" stopColor="#0052cc"/><stop offset="1" stopColor="#2684ff"/>
+      </linearGradient>
+      <linearGradient id="jira-grad-b" gradientUnits="userSpaceOnUse" x1="16.641" y1="15.564" x2="10.957" y2="21.094" gradientTransform="scale(4)">
+        <stop offset=".176" stopColor="#0052cc"/><stop offset="1" stopColor="#2684ff"/>
+      </linearGradient>
+    </defs>
+    <path d="M108.023 16H61.805c0 11.52 9.324 20.848 20.847 20.848h8.5v8.226c0 11.52 9.328 20.848 20.848 20.848V19.977A3.98 3.98 0 00108.023 16zm0 0" fill="#2684ff"/>
+    <path d="M85.121 39.04H38.902c0 11.519 9.325 20.847 20.844 20.847h8.504v8.226c0 11.52 9.328 20.848 20.848 20.848V43.016a3.983 3.983 0 00-3.977-3.977zm0 0" fill="url(#jira-grad-a)"/>
+    <path d="M62.219 62.078H16c0 11.524 9.324 20.848 20.848 20.848h8.5v8.23c0 11.52 9.328 20.844 20.847 20.844V66.059a3.984 3.984 0 00-3.976-3.98zm0 0" fill="url(#jira-grad-b)"/>
+  </svg>
+);
+
+const GitHubLogo = () => (
+  <svg viewBox="0 0 24 24" className="w-full h-full fill-white transition-all duration-300 group-hover:scale-110" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.011-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+  </svg>
+);
+
+const GitLabLogo = () => (
+  <svg width="24" height="24" viewBox="0 0 128 128" xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#E24329" d="m124.755 51.382-.177-.452L107.47 6.282a4.459 4.459 0 0 0-1.761-2.121 4.581 4.581 0 0 0-5.236.281 4.578 4.578 0 0 0-1.518 2.304L87.404 42.088H40.629L29.077 6.746a4.492 4.492 0 0 0-1.518-2.31 4.581 4.581 0 0 0-5.236-.281 4.502 4.502 0 0 0-1.761 2.121L3.422 50.904l-.17.452c-5.059 13.219-.763 28.192 10.537 36.716l.059.046.157.111 26.061 19.516 12.893 9.758 7.854 5.93a5.283 5.283 0 0 0 6.388 0l7.854-5.93 12.893-9.758 26.218-19.634.065-.052c11.273-8.526 15.562-23.472 10.524-36.677z"/>
+    <path fill="#FC6D26" d="m124.755 51.382-.177-.452a57.79 57.79 0 0 0-23.005 10.341L64 89.682c12.795 9.68 23.934 18.09 23.934 18.09l26.218-19.634.065-.052c11.291-8.527 15.586-23.488 10.538-36.704z"/>
+    <path fill="#FCA326" d="m40.066 107.771 12.893 9.758 7.854 5.93a5.283 5.283 0 0 0 6.388 0l7.854-5.93 12.893-9.758s-11.152-8.436-23.947-18.09a18379.202 18379.202 0 0 0-23.935 18.09z"/>
+    <path fill="#FC6D26" d="M26.42 61.271A57.73 57.73 0 0 0 3.422 50.904l-.17.452c-5.059 13.219-.763 28.192 10.537 36.716l.059.046.157.111 26.061 19.516L64 89.655 26.42 61.271z"/>
+  </svg>
+);
+
+const PlaywrightLogo = () => (
+  <svg width="28" height="28" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M43.662 70.898c-4.124 1.17-6.829 3.222-8.611 5.272 1.707-1.494 3.993-2.865 7.077-3.739 3.155-.894 5.846-.888 8.069-.459v-1.739c-1.897-.173-4.072-.035-6.536.664ZM34.863 56.28l-15.314 4.035s.279.394.796.92l12.984-3.421s-.184 2.371-1.782 4.492c3.022-2.287 3.316-6.025 3.316-6.025Zm12.819 35.991C26.131 98.076 14.729 73.1 11.277 60.137 9.682 54.153 8.986 49.621 8.8 46.697a4.955 4.955 0 0 1 .011-.794c-1.118.068-1.653.649-1.544 2.328.186 2.923.882 7.454 2.477 13.44 3.45 12.961 14.854 37.937 36.405 32.132 4.691-1.264 8.215-3.565 10.86-6.504-2.438 2.202-5.49 3.937-9.327 4.972Zm4.05-51.276v1.534h8.453c-.173-.543-.348-1.032-.522-1.534h-7.932Z" fill="#2D4552"/>
+    <path d="M62.074 53.627c3.802 1.08 5.812 3.745 6.875 6.104l4.239 1.204s-.578-8.255-8.045-10.376c-6.985-1.985-11.284 3.881-11.807 4.64 2.032-1.448 4.999-2.633 8.738-1.572Zm33.741 6.142c-6.992-1.994-11.289 3.884-11.804 4.633 2.034-1.446 4.999-2.632 8.737-1.566 3.796 1.081 5.804 3.743 6.87 6.104l4.245 1.208s-.588-8.257-8.048-10.379Zm-4.211 21.766-35.261-9.858s.382 1.935 1.846 4.441l29.688 8.3c2.444-1.414 3.726-2.883 3.726-2.883Zm-24.446 21.218c-27.92-7.485-24.544-43.059-20.027-59.916 1.86-6.947 3.772-12.11 5.358-15.572-.946-.195-1.73.304-2.504 1.878-1.684 3.415-3.837 8.976-5.921 16.76-4.516 16.857-7.892 52.429 20.027 59.914 13.159 3.525 23.411-1.833 31.053-10.247-7.254 6.57-16.515 10.253-27.986 7.182Z" fill="#2D4552"/>
+    <path d="M51.732 83.935v-7.179l-19.945 5.656s1.474-8.563 11.876-11.514c3.155-.894 5.846-.888 8.069-.459V40.995h9.987c-1.087-3.36-2.139-5.947-3.023-7.744-1.461-2.975-2.96-1.003-6.361 1.842-2.396 2.001-8.45 6.271-17.561 8.726-9.111 2.457-16.476 1.805-19.55 1.273-4.357-.752-6.636-1.708-6.422 1.605.186 2.923.882 7.455 2.477 13.44 3.45 12.962 14.854 37.937 36.405 32.132 5.629-1.517 9.603-4.515 12.357-8.336h-8.309v.002Zm-32.185-23.62 15.316-4.035s-.446 5.892-6.188 7.405c-5.743 1.512-9.128-3.371-9.128-3.371Z" fill="#E2574C"/>
+    <path d="M109.372 41.336c-3.981.698-13.532 1.567-25.336-1.596-11.807-3.162-19.64-8.692-22.744-11.292-4.4-3.685-6.335-6.246-8.24-2.372-1.684 3.417-3.837 8.977-5.921 16.762-4.516 16.857-7.892 52.429 20.027 59.914 27.912 7.479 42.772-25.017 47.289-41.875 2.084-7.783 2.998-13.676 3.25-17.476.287-4.305-2.67-3.055-8.324-2.064ZM53.28 55.282s4.4-6.843 11.862-4.722c7.467 2.121 8.045 10.376 8.045 10.376L53.28 55.282Zm18.215 30.706c-13.125-3.845-15.15-14.311-15.15-14.311l35.259 9.858c0-.002-7.117 8.25-20.109 4.453Zm12.466-21.51s4.394-6.838 11.854-4.711c7.46 2.124 8.048 10.379 8.048 10.379l-19.902-5.668Z" fill="#2EAD33"/>
+    <path d="M44.762 78.733 31.787 82.41s1.41-8.029 10.968-11.212l-7.347-27.573-.635.193c-9.111 2.457-16.476 1.805-19.55 1.273-4.357-.751-6.636-1.708-6.422 1.606.186 2.923.882 7.454 2.477 13.44 3.45 12.961 14.854 37.937 36.405 32.132l.635-.199-3.555-13.337ZM19.548 60.315l15.316-4.035s-.446 5.892-6.188 7.405c-5.743 1.512-9.128-3.371-9.128-3.371Z" fill="#D65348"/>
+    <path d="m72.086 86.132-.594-.144c-13.125-3.844-15.15-14.311-15.15-14.311l18.182 5.082L84.15 39.77l-.116-.031c-11.807-3.162-19.64-8.692-22.744-11.292-4.4-3.685-6.335-6.246-8.24-2.372-1.682 3.417-3.836 8.977-5.92 16.762-4.516 16.857-7.892 52.429 20.027 59.914l.572.129 4.357-16.748Zm-18.807-30.85s4.4-6.843 11.862-4.722c7.467 2.121 8.045 10.376 8.045 10.376l-19.907-5.654Z" fill="#1D8D22"/>
+    <path d="m45.423 78.544-3.48.988c.822 4.634 2.271 9.082 4.545 13.011.396-.087.788-.163 1.192-.273a25.224 25.224 0 0 0 2.98-1.023c-2.541-3.771-4.222-8.114-5.237-12.702Zm-1.359-32.64c-1.788 6.674-3.388 16.28-2.948 25.915a20.061 20.061 0 0 1 2.546-.923l.644-.144c-.785-10.292.912-20.78 2.825-27.915a139.404 139.404 0 0 1 1.455-5.05 45.171 45.171 0 0 1-2.578 1.53 132.234 132.234 0 0 0-1.944 6.587Z" fill="#C04B41"/>
+  </svg>
+);
+
+const CypressLogo = () => (
+  <svg width="28" height="28" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+    <path style={{ color: "#000", fill: "#4a4a4c", fillRule: "evenodd", strokeWidth: 1.77778, strokeMiterlimit: 10 }} d="M63.11 16c-27.02 0-48.887 21.867-48.887 48.89 0 27.02 21.866 48.887 48.886 48.887 27.023 0 48.891-21.866 48.891-48.886C112 37.868 90.131 16 63.11 16zM46.222 42.133c2.843 0 5.511.355 7.644 1.246 2.313.887 4.446 2.133 6.578 3.91l-4.98 6.754c-1.422-1.066-2.844-1.777-4.086-2.309-1.246-.535-2.844-.71-4.27-.71-6.043 0-9.066 4.62-9.066 14.042 0 4.801.71 8.18 2.312 10.133 1.602 2.133 3.735 3.024 6.754 3.024 1.426 0 2.848-.18 4.09-.711 1.246-.535 2.668-1.246 4.446-2.313l4.976 7.114c-4.086 3.373-8.71 4.976-14.043 4.976-4.266 0-7.824-.89-11.023-2.668-3.02-1.777-5.512-4.441-7.11-7.82-1.6-3.38-2.488-7.29-2.488-11.91 0-4.446.887-8.536 2.488-11.914 1.598-3.555 4.09-6.223 7.11-8.176 3.023-1.602 6.578-2.668 10.668-2.668zm14.933 1.601h12.266l8.535 35.375 9.066-35.375h11.91L89.067 86.398C87.29 91.91 84.621 96 80.891 99.023c-3.735 3.02-8.711 4.622-14.934 5.157L64.711 96c4.09-.535 7.11-1.422 9.066-2.844.711-.535 2.133-2.133 2.133-2.133L61.156 43.734z"/>
+    <path style={{ color: "#000", fill: "#fff", fillRule: "evenodd", strokeMiterlimit: 10 }} d="M63.11 15.111c-27.5 0-49.776 22.276-49.776 49.78 0 27.498 22.276 49.775 49.775 49.775 27.503 0 49.78-22.276 49.78-49.775 0-27.503-22.278-49.78-49.78-49.78zm0 1.778c26.542 0 48.001 21.458 48.001 48.002 0 26.54-21.458 47.998-48.002 47.998-26.54 0-47.998-21.459-47.998-47.998 0-26.545 21.459-48.002 47.998-48.002z"/>
+  </svg>
+);
+
+const TailwindLogo = () => (
+  <svg width="24" height="24" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+    <path d="M64.004 25.602c-17.067 0-27.73 8.53-32 25.597 6.398-8.531 13.867-11.73 22.398-9.597 4.871 1.214 8.352 4.746 12.207 8.66C72.883 56.629 80.145 64 96.004 64c17.066 0 27.73-8.531 32-25.602-6.399 8.536-13.867 11.735-22.399 9.602-4.87-1.215-8.347-4.746-12.207-8.66-6.27-6.367-13.53-13.738-29.394-13.738zM32.004 64c-17.066 0-27.73 8.531-32 25.602C6.402 81.066 13.87 77.867 22.402 80c4.871 1.215 8.352 4.746 12.207 8.66 6.274 6.367 13.536 13.738 29.395 13.738 17.066 0 27.73-8.53 32-25.597-6.399 8.531-13.867 11.73-22.399 9.597-4.87-1.214-8.347-4.746-12.207-8.66C55.128 71.371 47.868 64 32.004 64zm0 0" fill="#38bdf8"/>
+  </svg>
+);
+
+const TSLogo = () => (
+  <svg width="24" height="24" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#fff" d="M22.67 47h99.67v73.67H22.67z"/>
+    <path data-name="original" fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5zm100.73-5a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"/>
+  </svg>
+);
+
+const GSAPLogo = () => (
+  <div className="flex items-center gap-[2px] font-black text-[#88CE02] text-[20px] tracking-tighter relative me-auto group/gsap overflow-hidden p-2 rounded-lg">
+    {/* Letter Animation */}
+    {["G", "S", "A", "P"].map((char, i) => (
+      <span 
+        key={i} 
+        className="relative z-10 transition-all duration-500 hover:text-white"
+        style={{ 
+          animation: `float-char 4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate ${i * 0.2}s`,
+          display: "inline-block",
+          willChange: "transform, color"
+        }}
+      >
+        {char}
+      </span>
+    ))}
+    
+    {/* Crazy Elements Inside */}
+    <div className="absolute inset-x-0 bottom-0 top-0 pointer-events-none opacity-40 group-hover/gsap:opacity-100 transition-opacity">
+      <div className="absolute bottom-2 left-2 w-10 h-10 border border-[#88CE02]/20 rounded-full animate-ping" />
+      <div className="absolute top-1 right-2 w-3 h-3 bg-[#88CE02]/20 rounded-sm animate-spin-slow rotate-12" />
+      <div className="absolute top-1/2 left-[20%] w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce" />
+      <div className="absolute top-3/4 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#88CE02]/40 to-transparent scale-x-0 group-hover/gsap:scale-x-100 transition-transform duration-700" />
+    </div>
+
+    <style jsx>{`
+      @keyframes float-char {
+        0% { transform: translateY(0) rotate(0deg) scale(1); }
+        100% { transform: translateY(-6px) rotate(4deg) scale(1.06); color: #fff; }
+      }
+    `}</style>
+  </div>
+);
+
+const IllustratorLogo = () => (
+  <svg width="28" height="28" viewBox="0 0 512 512" fill="none">
+    <rect width="512" height="512" rx="72" fill="#330000"/>
+    <path d="M140 150L210 370H170L155 320H95L80 370H40L110 150H140ZM145 285L125 210L105 285H145Z" fill="#FF9A00"/>
+    <path d="M260 150H300V370H260V150Z" fill="#FF9A00"/>
+  </svg>
+);
+
+const PhotoshopLogo = () => (
+  <svg width="28" height="28" viewBox="0 0 512 512" fill="none">
+    <rect width="512" height="512" rx="72" fill="#001E36"/>
+    <path d="M120 150H180C210 150 230 170 230 195S210 240 180 240H160V370H120V150ZM160 190V210H180C190 210 195 205 195 200S190 190 180 190H160Z" fill="#31A8FF"/>
+    <path d="M270 280C270 250 290 230 320 230C350 230 370 250 370 280V370H330V280C330 275 325 270 320 270S310 275 310 280V370H270V280Z" fill="#31A8FF"/>
+  </svg>
+);
+
+const AntigravityLogo = () => (
+  <img 
+    src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/antigravity-color.png" 
+    alt="Antigravity" 
+    className="w-7 h-7 object-contain"
+  />
+);
+
+const VueLogo = () => (
+  <svg width="28" height="28" viewBox="0 0 256 221" fill="none">
+    <path d="M204.8 0H256L128 220.8L0 0H97.92L128 51.2L157.44 0H204.8Z" fill="#41B883"/>
+    <path d="M0 0L128 220.8L256 0H204.8L128 132.48L50.56 0H0Z" fill="#41B883"/>
+    <path d="M50.56 0L128 133.12L204.8 0H157.44L128 51.2L97.92 0H50.56Z" fill="#35495E"/>
+  </svg>
+);
+
+const HTMLLogo = () => (
+  <svg width="28" height="28" viewBox="0 0 512 512" fill="none">
+    <path d="M71.5 460L35 0H477L440.5 460L256 512L71.5 460Z" fill="#E34F26"/>
+    <path d="M256 472L405.5 431L435 59H256V472Z" fill="#EF652A"/>
+    <path d="M136.5 149H256V211H141.5L147 274H256V336L185.5 317L181.5 272H119L127 363L256 399V399.5L385 363L400.5 187H256H136.5V149Z" fill="white"/>
+  </svg>
+);
+
+const SassLogo = () => (
+  <svg width="32" height="32" viewBox="0 0 256 192" fill="none">
+    <path d="M128 0C103.4 0 83.2 20.2 83.2 44.8C83.2 57.3 88.3 68.6 96.6 76.8C88.3 85 83.2 96.3 83.2 108.8C83.2 133.4 103.4 153.6 128 153.6C152.6 153.6 172.8 133.4 172.8 108.8C172.8 96.3 167.7 85 159.4 76.8C167.7 68.6 172.8 57.3 172.8 44.8C172.8 20.2 152.6 0 128 0Z" fill="#CF649A"/>
+  </svg>
+);
+
+const BootstrapLogo = () => (
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.5 9.5c0 1.1-.6 2.1-1.6 2.6V12.2c1.2.5 1.9 1.6 1.9 3 0 2.2-1.7 3.8-4 3.8H8.5V5h4.3c2.3 0 3.7 1.6 3.7 4.5zM10.8 7.3V10.1H12c.9 0 1.4-.6 1.4-1.4s-.5-1.4-1.4-1.4h-1.2zm0 5.6v3.2H12.2c1 0 1.5-.7 1.5-1.6 0-.8-.5-1.6-1.5-1.6h-1.4z" fill="#7952B3"/>
+  </svg>
+);
+
+export default function AboutPage() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const photoStackRef = useRef<HTMLDivElement>(null);
+  const leftColRef = useRef<HTMLDivElement>(null);
+  
+  const [showTitleBox, setShowTitleBox] = useState(false);
+  const [activePhotoIdx, setActivePhotoIdx] = useState(-1);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [firstPhotoAlt, setFirstPhotoAlt] = useState("");
+
+  const photos = [
+    { src: "/images/about/portrait.png", alt: "Father of Ahmed", x: "10%", y: "0px" },
+    { src: "/images/about/hazem_ahmed.jpg", alt: "Family First", x: "-20%", y: "580px" },
+    { src: "/images/about/desk.jpg", alt: "Craft over everything", x: "5%", y: "1160px" },
+    { src: "/images/about/candid.jpg", alt: "Hazem Anwar", x: "-10%", y: "1740px" },
+  ];
+
+  const firstPhotoAlts = ["Father of Ahmed", "Product Designer", "Frontend Engineer"];
+
+  useGSAP(() => {
+    const introTl = gsap.timeline({ delay: 0.5 });
+
+    // 1. Initial Cursor Animation
+    introTl.fromTo(cursorRef.current, { opacity: 0, x: 800, y: 400 }, { opacity: 1, duration: 0.5 });
+    introTl.to(cursorRef.current, {
+      x: () => {
+        const rect = titleRef.current?.getBoundingClientRect();
+        return rect ? rect.left + 20 : 0;
+      },
+      y: () => {
+        const rect = titleRef.current?.getBoundingClientRect();
+        return rect ? rect.top + 40 : 0;
+      },
+      duration: 1,
+      ease: "power3.inOut",
+      onComplete: () => setShowTitleBox(true)
+    });
+
+    introTl.to({}, { duration: 1 }); // Wait
+
+    // 2. Sequential Typing for FIRST PHOTO ONLY (3 Strings)
+    introTl.to(cursorRef.current, {
+      x: () => {
+        const el = document.getElementById("photo-0");
+        const rect = el?.getBoundingClientRect();
+        return rect ? rect.left + rect.width / 2 : 0;
+      },
+      y: () => {
+        const el = document.getElementById("photo-0");
+        const rect = el?.getBoundingClientRect();
+        return rect ? rect.top + rect.height / 2 : 0;
+      },
+      duration: 0.8,
+      ease: "power2.inOut",
+      onStart: () => {
+        setShowTitleBox(false);
+        setActivePhotoIdx(-1);
+      },
+      onUpdate: () => {
+        const x = gsap.getProperty(cursorRef.current, "x") as number;
+        const y = gsap.getProperty(cursorRef.current, "y") as number;
+        setCursorPos({ x, y });
+      },
+      onComplete: () => {
+        setActivePhotoIdx(0);
+        gsap.set(cursorRef.current, { opacity: 0 }); // Hide main cursor immediately when PhotoTag takes over
+      }
+    });
+
+    // Sub-sequence for the 3 strings on the same photo
+    firstPhotoAlts.forEach((text, i) => {
+      introTl.to({}, { 
+        duration: 3, 
+        onStart: () => setFirstPhotoAlt(text) 
+      });
+      if (i < firstPhotoAlts.length - 1) {
+        introTl.to({}, { duration: 0.5 }); 
+      }
+    });
+
+    // Final stay and vanish
+    introTl.to({}, { duration: 1 });
+    introTl.to({}, {
+      duration: 0.5,
+      onStart: () => {
+        setActivePhotoIdx(-1);
+        setShowTitleBox(false);
+      }
+    });
+
+    // introTl.to(cursorRef.current, { opacity: 0, scale: 0.8, duration: 0.5 }); // Removed as we hide it above
+
+    // 3. Pinning
+    if (window.innerWidth > 1024) {
+      ScrollTrigger.create({
+        trigger: "#hero-section",
+        start: "top 140px",
+        end: "bottom bottom",
+        pin: leftColRef.current,
+        pinSpacing: false,
+        anticipatePin: 1
+      });
+    }
+
+    // Reveals
+    const reveals = gsap.utils.toArray<HTMLElement>(".reveal");
+    reveals.forEach((el) => {
+      gsap.fromTo(el, { opacity: 0, y: 30 }, {
+        opacity: 1, y: 0, duration: 1, ease: "power3.out",
+        scrollTrigger: { trigger: el, start: "top 85%", once: true }
+      });
+    });
+
+  }, { scope: containerRef });
+
+  return (
+    <div ref={containerRef} className="bg-bg min-h-screen relative overflow-x-hidden">
+      <Nav />
+      <div ref={cursorRef} className="fixed pointer-events-none z-[200] opacity-0 flex flex-row items-start font-sans">
+        <svg width="24" height="24" viewBox="0 0 24 24" className="drop-shadow-md z-10 mt-1 mr-[-6px]">
+          <path d="M5 3L19 10L12.5 13.5L9 20L5 3Z" fill="#a855f7" stroke="white" strokeWidth="2" strokeLinejoin="round" />
+        </svg>
+        <div className="flex flex-col text-left mt-4" style={{ filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.4))" }}>
+          <div className="bg-[#d8b4fe] text-black px-2 py-0.5 text-[10px] font-sans rounded-t-md w-max font-semibold border border-[#c084fc]/30">
+            Hazem Anwar
+          </div>
+        </div>
+      </div>
+
+      {activePhotoIdx === 0 && (
+        <PhotoTag 
+          text={firstPhotoAlt} 
+          active={true} 
+          cursorPos={cursorPos} 
+        />
+      )}
+
+      <main className="max-w-[1440px] mx-auto px-6 md:px-12 pt-[140px] relative z-10">
+        <section id="hero-section" className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-20 items-start pb-40 relative">
+          <div ref={leftColRef} className="reveal-pinned flex flex-col justify-start pb-20">
+            <span className="font-mono text-[13px] md:text-[15px] tracking-[0.25em] uppercase text-[#e4fe9a] mb-10 block">
+              01 / The Book
+            </span>
+            <div className="relative inline-block mb-12">
+              <h1 ref={titleRef} className="font-display text-[84px] md:text-[160px] leading-[0.85] tracking-[-0.02em] relative">
+                ABOUT
+              </h1>
+              <FigmaBox label="h1 / Title" show={showTitleBox} />
+            </div>
+            <div className="flex flex-col gap-10">
+              <p className="text-[24px] md:text-[34px] font-light leading-[1.3] text-text/90 max-w-[720px]">
+                I&apos;ve spent 20+ years learning that{" "}
+                <strong className="font-medium text-text border-b-2 border-[#e4fe9a]/60 pb-1">craft isn&apos;t a shortcut</strong> — it&apos;s the path.
+                I design for those who crave clarity without sacrificing
+                depth. I build things that move, feel intentional,
+                and <em className="italic text-text/70">actually ship</em>.
+              </p>
+              <div className="space-y-12 mt-4">
+                 <div className="flex flex-col">
+                  <span className="font-mono text-[12px] text-[#e4fe9a] tracking-widest uppercase mb-4 opacity-80">01 / The Drive</span>
+                  <p className="text-[17px] md:text-[20px] text-text/50 max-w-[620px] leading-[1.7] font-light">
+                    I design for those who refuse to blend in. I craft digital experiences that are bold, memorable, and engineered to leave a lasting impact.
+                  </p>
+                 </div>
+                 <div className="flex flex-col">
+                  <span className="font-mono text-[12px] text-[#e4fe9a] tracking-widest uppercase mb-4 opacity-80">02 / The Off-Screen</span>
+                  <p className="text-[17px] md:text-[20px] text-text/50 max-w-[620px] leading-[1.7] font-light">
+                    When I&apos;m not pushing pixels, you&apos;ll find me in <strong className="text-text/70 font-medium italic">Minecraft</strong> — solving problems on the fly. It&apos;s the nerd side of me, and I&apos;m not sorry about it.
+                  </p>
+                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div ref={photoStackRef} className="relative pt-12 flex flex-col items-center lg:items-start min-h-[2600px] mb-20">
+            {photos.map((photo, i) => (
+              <div
+                key={i}
+                id={`photo-${i}`}
+                className="absolute w-[320px] md:w-[480px] aspect-[4/5] bg-bg border border-white/5 transition-all duration-700 ease-out hover:scale-[1.02] overflow-hidden rounded-lg hover:z-50 group shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
+                style={{
+                  transform: `translate(${photo.x}, ${photo.y})`,
+                  zIndex: 10 + i,
+                }}
+              >
+                <img src={photo.src} alt={photo.alt} className="w-full h-full object-cover grayscale brightness-[0.8] rounded-lg hover:brightness-[1.1] hover:grayscale-0 hover:scale-[1.02] transition-all duration-700" />
+                <FigmaBox label={`Image / 0${i+1}`} show={activePhotoIdx === i} />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div className="bg-[#e4fe9a] w-[100vw] relative left-1/2 -translate-x-1/2 px-6 md:px-12 py-24 md:py-40 grid grid-cols-1 md:grid-cols-3 gap-20 md:gap-0 mt-32 reveal containe">
+          <div className="text-center md:px-12 md:border-r border-black/10">
+            <div className="font-display text-[84px] md:text-[130px] leading-none text-bg tracking-[-0.04em]">5+</div>
+            <div className="font-mono text-[14px] md:text-[16px] tracking-[0.3em] uppercase text-bg/40 mt-4 leading-none">Years Experience</div>
+          </div>
+          <div className="text-center md:px-12 md:border-r border-black/10">
+            <div className="font-display text-[84px] md:text-[130px] leading-none text-bg tracking-[-0.04em]">20+</div>
+            <div className="font-mono text-[14px] md:text-[16px] tracking-[0.3em] uppercase text-bg/40 mt-4 leading-none">Projects Shipped</div>
+          </div>
+          <div className="text-center md:px-12">
+            <div className="font-display text-[84px] md:text-[130px] leading-none text-bg tracking-[-0.04em]">3</div>
+            <div className="font-mono text-[14px] md:text-[16px] tracking-[0.3em] uppercase text-bg/40 mt-4 leading-none">Disciplines</div>
+          </div>
+        </div>
+
+        {/* 01 — THE STORY */}
+        <section className="py-32 border-t border-border mt-32">
+          <div className="flex items-baseline gap-5 mb-16 reveal">
+            <span className="font-mono text-[11px] tracking-[0.2em] text-[#e4fe9a]">01</span>
+            <h2 className="font-display text-[48px] md:text-[72px] leading-none tracking-[0.02em]">
+              THE <span className="text-outline">STORY</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-16 reveal">
+            <div className="hidden lg:block font-mono text-[11px] tracking-[0.2em] uppercase text-muted pt-2 opacity-40">
+              <span className="block w-8 h-[1px] bg-white/20 mb-3" />
+              Hazem Anwar
+            </div>
+            <div className="text-[18px] md:text-[20px] font-light leading-[1.8] text-text/80 space-y-8">
+              <p>
+                I&apos;m Hazem Anwar — a product designer and frontend engineer
+                based in EMEA. What makes me different: <strong className="text-text font-medium border-b border-[#e4fe9a]/30 pb-px">I design and build</strong>.
+                No handoff friction. No &quot;that&apos;s an engineering problem.&quot;
+              </p>
+              <div className="text-[24px] md:text-[28px] font-light italic text-text border-l-[3px] border-[#e4fe9a] pl-8 py-2 leading-relaxed opacity-90">
+                Father. United supporter. Losing at FIFA to a four-year-old
+                who has no business being that good.
+              </div>
+              <p>
+                I studied Multimedia & Web Development at the Islamic University of Gaza —
+                a place that taught me resourcefulness as much as technology.
+                Today I work across the full product lifecycle: research, design,
+                implementation, and quality assurance.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* CAREER TIMELINE */}
+        <section className="py-24 border-t border-border">
+          <div className="flex items-baseline gap-5 mb-14 reveal">
+            <span className="font-mono text-[11px] tracking-[0.2em] text-[#e4fe9a]">02</span>
+            <h2 className="font-display text-[36px] md:text-[64px] leading-none tracking-[0.02em]">
+              CAREER <span className="text-outline">TIMELINE</span>
+            </h2>
+          </div>
+          <div className="flex flex-col">
+            {[
+              { years: "2024 — Now", title: "Product Designer & Frontend Engineer", desc: "Full-stack design and engineering across booking, loyalty, and real estate platforms. Design systems, React implementation, and SQA.", company: "Freelance" },
+              { years: "2022 — 2024", title: "Senior UX Designer", desc: "Led end-to-end product design for a loyalty and gamification platform serving 200k+ users. Built the company's first design system.", company: "Loyalty Co." },
+              { years: "2020 — 2022", title: "UI/UX Designer", desc: "Designed mobile-first experiences for iOS and Android. Introduced component-based design thinking to the team.", company: "Tech Studio" },
+              { years: "2019 — 2020", title: "Frontend Developer", desc: "Built responsive interfaces with React and Vue. Bridged the gap between design mockups and production code.", company: "Agency" },
+            ].map((item, i) => (
+              <div key={i} className="timeline-row grid grid-cols-1 md:grid-cols-[120px_1fr_auto] gap-8 items-baseline py-7 border-b border-border hover:bg-white/[0.02] transition-colors group">
+                <span className="font-mono text-[11px] tracking-[0.12em] text-muted">{item.years}</span>
+                <div>
+                  <div className="text-[16px] font-medium mb-1 text-text">{item.title}</div>
+                  <div className="text-[14px] text-muted max-w-[480px] leading-relaxed">{item.desc}</div>
+                </div>
+                <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-[#e4fe9a]">{item.company}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 03 — CORE FOUNDATIONS */}
+        <section className="py-24 border-t border-border">
+          <div className="flex items-baseline gap-5 mb-14 reveal">
+            <span className="font-mono text-[11px] tracking-[0.2em] text-[#e4fe9a]">03</span>
+            <h2 className="font-display text-[36px] md:text-[64px] leading-none tracking-[0.02em]">
+              CORE <span className="text-outline">FOUNDATIONS</span>
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border border border-border">
+            {[
+              { num: "01", name: "People First", desc: "Every pixel, every component, every interaction exists to serve a human being. I start with why before I start with how." },
+              { num: "02", name: "Commit to Craft", desc: "Lazy good enough isn't good enough. Every project deserves intention — in the typography, the animation, the edge cases." },
+              { num: "03", name: "Adapt & Iterate", desc: "Plans change. Users surprise you. Great design adapts without losing its core intention. Ship, learn, improve." },
+              { num: "04", name: "Connect the Dots", desc: "Design and engineering aren't separate disciplines — they're the same conversation. I speak both languages fluently." },
+            ].map((item, i) => (
+              <div key={i} className="foundation-item bg-bg p-8 md:p-9 hover:bg-white/[0.02] transition-colors">
+                <div className="font-mono text-[11px] text-[#e4fe9a] tracking-[0.2em] mb-3">{item.num}</div>
+                <div className="text-[18px] font-medium mb-2.5">{item.name}</div>
+                <div className="text-[14px] text-muted leading-[1.7]">{item.desc}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 04 — CORE COMPETENCIES */}
+        <section className="py-24 border-t border-border">
+          <div className="flex items-baseline gap-5 mb-14 reveal">
+            <span className="font-mono text-[11px] tracking-[0.2em] text-[#e4fe9a]">04</span>
+            <h2 className="font-display text-[36px] md:text-[64px] leading-none tracking-[0.02em]">
+              CORE <span className="text-outline">COMPETENCIES</span>
+            </h2>
+          </div>
+          <div className="flex flex-col">
+            {[
+              { icon: "◈", name: "Design Systems & Governance", desc: "Building scalable design languages and establishing governance frameworks that keep teams moving fast and aligned." },
+              { icon: "◲", name: "Platform 0-to-1 Products", desc: "Taking products from zero to launch — defining vision, architecture, and experience across web and mobile surfaces." },
+              { icon: "⊞", name: "Cross-Functional Delivery", desc: "Shipping design as code. Reducing handoff friction. Delivering production-ready components that match the design exactly." },
+              { icon: "◇", name: "Strategic Product Thinking", desc: "Connecting business objectives to user needs. Knowing which problems are worth solving and in what order." },
+              { icon: "∿", name: "Quality & SQA", desc: "Manual testing, UI/UX QA, and performance auditing. Shipping with confidence, not crossed fingers." },
+              { icon: "◉", name: "Animation & Interaction", desc: "GSAP, Framer Motion, Three.js. Motion that feels intentional — not decoration, but communication." },
+            ].map((item, i) => (
+              <div key={i} className="comp-row grid grid-cols-[32px_1fr] md:grid-cols-[40px_200px_1fr] gap-8 items-start py-6 border-b border-border hover:bg-white/[0.018] transition-colors">
+                <div className="w-8 h-8 border border-border flex items-center justify-center text-[14px] shrink-0">{item.icon}</div>
+                <div className="text-[15px] font-medium pt-1.5 md:pt-1">{item.name}</div>
+                <div className="hidden md:block text-[14px] text-muted leading-[1.65]">{item.desc}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 05 — TOOLKIT */}
+        <section className="py-24 border-t border-border">
+          <div className="flex items-baseline gap-5 mb-14 reveal">
+            <span className="font-mono text-[11px] tracking-[0.2em] text-[#e4fe9a]">05</span>
+            <h2 className="font-display text-[36px] md:text-[64px] leading-none tracking-[0.02em]">
+              MY <span className="text-outline">TOOLKIT</span>
+            </h2>
+          </div>
+          {[
+            { label: "Development", items: [
+              { logo: <ReactLogo />, name: "React / Next.js", sub: "App Router · SSR/SSG · Scalable full-stack apps" },
+              { logo: <TSLogo />, name: "TypeScript", sub: "Type-safe architecture · Maintainable codebase" },
+              { logo: <TailwindLogo />, name: "Tailwind CSS", sub: "Utility-first styling · Rapid UI building" },
+              { logo: <GSAPLogo />, name: "GSAP + Three.js", sub: "Advanced animations · Interactive 3D", wideLogo: true },
+            ]},
+            { label: "Design", items: [
+              { logo: <FigmaLogo />, name: "Figma", sub: "UI systems · Design tokens · Prototyping" },
+              { logo: <FigJamLogo />, name: "FigJam", sub: "User journeys · Wireframes · Ideation" },
+              { logo: <IllustratorLogo />, name: "Illustrator", sub: "Vector assets · Icons · Brand identity" },
+              { logo: <PhotoshopLogo />, name: "Photoshop", sub: "Visual editing · Mockups · Asset refinement" },
+            ]},
+            { label: "AI Workflow", items: [
+              { logo: <ClaudeLogo />, name: "Claude AI", sub: "Primary coding assistant · Deep reasoning · Architecture Decisions" },
+              { logo: <ChatGPTLogo />, name: "ChatGPT", sub: "Problem solving · Debugging · System thinking" },
+              { logo: <GeminiLogo />, name: "Google Gemini", sub: "Research · Exploration · Quick iterations" },
+              { logo: <AntigravityLogo />, name: "Google Antigravity", sub: "Creative coding · Experimental UI ideas" },
+            ]},
+            { label: "QA & Workflow", items: [
+              { logo: <PlaywrightLogo />, name: "Playwright", sub: "End-to-end testing · Reliable automation · Cross-browser" },
+              { logo: <CypressLogo />, name: "Cypress", sub: "Integration testing · Fast feedback loop" },
+              { logo: <JiraLogo />, name: "Jira / Trello", sub: "Agile workflows · Task management" },
+              { logo: <GitHubLogo />, name: "GitHub / GitLab / Notion", sub: "Version control · Project management · Knowledge base" },
+            ]},
+          ].map((group, idx) => (
+            <div key={idx} className={idx > 0 ? "mt-10" : "relative group/category"}>
+              {group.label === "Development" && (
+                <div className="absolute top-[-10px] left-0 w-[240px] h-[100px] pointer-events-none hidden md:block opacity-40">
+                  {/* Decorative Elements on the Left */}
+                  <div className="absolute top-0 left-0 w-12 h-12 border border-[#88CE02]/20 rounded-full animate-ping" />
+                  <div className="absolute top-6 left-12 w-3 h-3 bg-[#88CE02]/30 rounded-full animate-pulse blur-sm" />
+                  
+                  <svg className="absolute top-[-20px] left-[-20px] w-full h-full opacity-10" viewBox="0 0 240 100">
+                    <path d="M10 80 Q 60 0 120 80" stroke="#88CE02" strokeWidth="1" fill="none" strokeDasharray="4 4" className="animate-dash" />
+                  </svg>
+                  
+                  <style jsx>{`
+                    .animate-dash {
+                      stroke-dasharray: 10;
+                      animation: dash 5s linear infinite;
+                    }
+                    @keyframes dash {
+                      to { stroke-dashoffset: 100; }
+                    }
+                  `}</style>
+                </div>
+              )}
+              <div className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted mb-6 reveal">{group.label}</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border reveal">
+                {group.items.map((item: any, i) => (
+                  <div key={i} className={`tool-item bg-bg p-6 transition-all duration-300 group relative ${item.highlight ? 'bg-[#e4fe9a]/[0.03] border-[#e4fe9a]/20' : 'hover:bg-white/[0.02]'}`}>
+                    <div className={`${item.wideLogo ? 'w-auto' : 'w-8'} h-8 mb-5 flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}>
+                      {item.logo}
+                    </div>
+                    <div className="flex items-baseline gap-2 mb-1.5">
+                      <div className="text-[14px] font-medium text-text">{item.name}</div>
+                    </div>
+                    <div className="text-[12px] text-muted leading-relaxed font-light">{item.sub}</div>
+                    
+                    {item.highlight && (
+                      <div className="absolute top-4 right-4 h-1.5 w-1.5 rounded-full bg-[#e4fe9a] shadow-[0_0_8px_#e4fe9a]" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+
+        {/* 06 — BEYOND WORK */}
+        <section className="py-24 border-t border-border">
+          <div className="flex items-baseline gap-5 mb-14 reveal">
+            <span className="font-mono text-[11px] tracking-[0.2em] text-[#e4fe9a]">06</span>
+            <h2 className="font-display text-[36px] md:text-[64px] leading-none tracking-[0.02em]">
+              BEYOND <span className="text-outline">WORK</span>
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-12 reveal">
+            <div className="hidden lg:block font-mono text-[11px] tracking-[0.2em] uppercase text-muted pt-1">
+              <span className="block w-6 h-px bg-border mb-2.5" />
+              Outside work
+            </div>
+            <div className="text-[17px] font-light leading-[1.85] text-text/80">
+              <p>
+                Father of Ahmed — the reason there&apos;s a Minecraft room in this portfolio.
+                Manchester United supporter since before I understood what relegation meant.
+                Video game enthusiast who takes co-op sessions more seriously than he should.
+                Currently losing at FIFA to a four-year-old. It&apos;s humbling.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA SECTION */}
+        {/* <section className="py-[120px] border-t border-border mt-12 reveal">
+          <div className="font-mono text-[11px] tracking-[0.25em] uppercase text-muted mb-5">Let&apos;s work together</div>
+          <div className="font-display text-[56px] md:text-[120px] leading-[0.9] tracking-[-0.01em] mb-8">
+            LET&apos;S<br />
+            <span className="text-outline">TALK.</span>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <a href="mailto:hazem.amrainana98@gmail.com" className="font-mono text-[11px] tracking-[0.18em] uppercase text-bg bg-[#e4fe9a] px-6 py-4 font-bold hover:bg-[#e4fe9a]/80 transition-all shadow-lg shadow-[#e4fe9a]/10">
+              hazem.amrainana98@gmail.com
+            </a>
+            <a href="https://www.linkedin.com/in/hazem-anwar98" target="_blank" className="font-mono text-[11px] tracking-[0.18em] uppercase text-text border border-border px-6 py-4 hover:bg-text hover:text-bg transition-all">
+              LinkedIn ↗
+            </a>
+            <a href="https://www.behance.net/hazem-anwar" target="_blank" className="font-mono text-[11px] tracking-[0.18em] uppercase text-text border border-border px-6 py-4 hover:bg-text hover:text-bg transition-all">
+              Behance ↗
+            </a>
+          </div>
+        </section> */}
+
+         <InternalFooter />
+      </main>
+    </div>
+  );
+}
