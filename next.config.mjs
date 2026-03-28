@@ -1,13 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
-    // تجاهل أخطاء TypeScript عشان الـ Build يكمل
-    ignoreBuildErrors: true,
+     ignoreBuildErrors: true,
   },
   eslint: {
-    // تجاهل أخطاء ESLint أثناء الـ Build
-    ignoreDuringBuilds: true,
+     ignoreDuringBuilds: true,
   },
+   images: {
+    unoptimized: true,
+  }
 };
 
 export default nextConfig;
