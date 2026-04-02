@@ -238,31 +238,50 @@ export default function HeroV2({ isLoaded = true }: { isLoaded?: boolean }) {
         }
 
         // 3. Move to Subtitle & Draw Marquee Selection Box
+        // Reverted to 'Higher Mouse' logic where the cursor finishes tightly below the text
+        const getSubtitleBounds = () => {
+          const em = subRef.current?.querySelector('em');
+          if (!em) return { left: 0, top: 0, right: 0, bottom: 0, width: 0, height: 0 };
+          const r = em.getBoundingClientRect();
+          const px = 60; // horizontal padding
+          const py_top = 50; // generous top padding
+          const py_bottom = 5; // tight bottom padding to keep mouse 'higher'
+          return {
+            left: r.left - px,
+            top: r.top - py_top,
+            right: r.right + px,
+            bottom: r.bottom + py_bottom,
+            width: r.width + px * 2,
+            height: r.height + py_top + py_bottom
+          };
+        };
+
         dTl.to(demoCursor, {
-          x: () => { const r = subRef.current?.getBoundingClientRect(); return r ? r.left - 30 : 0; },
-          y: () => { const r = subRef.current?.getBoundingClientRect(); return r ? r.top - 30 : 0; },
+          x: () => getSubtitleBounds().left,
+          y: () => getSubtitleBounds().top,
           duration: 0.8, ease: "power2.inOut"
         });
+
         const box3 = subRef.current ? subRef.current.querySelector('.figma-demo-box') : null;
         if (box3) {
           dTl.to(demoCursor, { scale: 0.85, duration: 0.1 }); // Mouse Down
           
           dTl.set(demoMarquee, { 
             opacity: 1, width: 0, height: 0, 
-            x: () => { const r = subRef.current?.getBoundingClientRect(); return r ? r.left - 30 : 0; },
-            y: () => { const r = subRef.current?.getBoundingClientRect(); return r ? r.top - 30 : 0; }
+            x: () => getSubtitleBounds().left,
+            y: () => getSubtitleBounds().top
           });
 
           // Drag to bottom-right
           dTl.to(demoCursor, {
-            x: () => { const r = subRef.current?.getBoundingClientRect(); return r ? r.right + 30 : 0; },
-            y: () => { const r = subRef.current?.getBoundingClientRect(); return r ? r.bottom + 30 : 0; },
+            x: () => getSubtitleBounds().right,
+            y: () => getSubtitleBounds().bottom,
             duration: 0.8, ease: "power3.inOut"
           }, "marqueeDrag");
           
           dTl.to(demoMarquee, {
-            width: () => { const r = subRef.current?.getBoundingClientRect(); return r ? r.width + 60 : 0; },
-            height: () => { const r = subRef.current?.getBoundingClientRect(); return r ? r.height + 60 : 0; },
+            width: () => getSubtitleBounds().width,
+            height: () => getSubtitleBounds().height,
             duration: 0.8, ease: "power3.inOut"
           }, "marqueeDrag");
 
@@ -325,7 +344,9 @@ export default function HeroV2({ isLoaded = true }: { isLoaded?: boolean }) {
 
   // Pointer Handlers
   const handlePointerDown = (e: React.PointerEvent) => {
-    if (e.button !== 0) return;
+    // Only allow left mouse button or touch
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    
     e.preventDefault();
     setIsDragging(true);
     setShowChat(false);
@@ -538,6 +559,7 @@ export default function HeroV2({ isLoaded = true }: { isLoaded?: boolean }) {
                   onPointerDown={handlePointerDown}
                   onPointerEnter={() => setIsHovered(true)}
                   onPointerLeave={() => setIsHovered(false)}
+                  style={{ touchAction: 'none' }}
                 >
                   <FigmaBox label="h1 / First Name" />
 

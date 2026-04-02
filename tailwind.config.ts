@@ -10,18 +10,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#05050a",
-        text: "#f0f0eb",
-        accent: "#2563eb",
-        "accent-light": "#3b82f6",
-        muted: "#6b7280",
-        border: "rgba(240, 240, 235, 0.1)",
+        bg: "var(--bg)",
+        text: "var(--text)",
+        accent: "var(--accent)",
+        "accent-light": "var(--accent-light, #3b82f6)",
+        muted: "var(--muted)",
+        border: "var(--border)",
       },
       fontFamily: {
         display: ["var(--font-bebas)", "sans-serif"],
         body: ["var(--font-epilogue)", "sans-serif"],
         mono: ["var(--font-dm-mono)", "monospace"],
         space: ["var(--font-space-grotesk)", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
       },
       fontSize: {
         "fluid-hero": "clamp(5rem, 18vw, 22rem)",

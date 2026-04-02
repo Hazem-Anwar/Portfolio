@@ -38,13 +38,12 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Epilogue:ital,wght@0,100..900;1,100..900&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Bebas+Neue&family=Epilogue:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap"
           rel="stylesheet"
         />
       </head>
       <body className="bg-bg text-text antialiased">
         <Grain />
-        <Cursor />
         {children}
       </body>
     </html>

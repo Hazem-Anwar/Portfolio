@@ -117,7 +117,7 @@ export default function WorkCard({ project }: { project: Project }) {
       </div>
 
       {/* Project Visual */}
-      <div className="relative aspect-[4/5] lg:aspect-[10/12] w-full rounded-sm overflow-hidden border border-white/10 bg-zinc-900 shadow-2xl h-full lg:h-auto flex items-start justify-center">
+      <div className="relative aspect-[4/5] lg:aspect-[10/12] w-full rounded-sm overflow-hidden border border-white/10 bg-zinc-900 shadow-2xl h-full max-h-[300px] lg:h-auto flex items-start justify-center">
         <div
           className={`project-image-inner absolute ${
             project.type === "Front-end"

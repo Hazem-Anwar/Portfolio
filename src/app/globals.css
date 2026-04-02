@@ -5,14 +5,27 @@
 @tailwind utilities;
 
 :root {
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --font-bricolage: "Bricolage Grotesque", sans-serif;
   --font-bebas: "Bebas Neue", sans-serif;
   --font-epilogue: "Epilogue", sans-serif;
-  --font-dm-mono: "DM Mono", monospace;
-  --font-space-grotesk: "Space Grotesk", sans-serif;
   --bg: #05050a;
   --text: #f0f0eb;
   --accent: #2563eb;
+  --accent-light: #3b82f6;
+  --muted: #6b7280;
+  --border: rgba(240, 240, 235, 0.1);
 }
+
+html.light-mode {
+  --bg: #FFFFFF;
+  --text: #111111;
+  --accent: #FF4D00;
+  --accent-light: #ff7a41;
+  --muted: #666666;
+  --border: #E5E5E5;
+}
+
 
 * {
   margin: 0;
@@ -27,11 +40,10 @@ html {
 }
 
 body {
-  font-family: var(--font-epilogue);
+  font-family: var(--font-jakarta);
   background-color: var(--bg);
   color: var(--text);
   overflow-x: hidden;
-  cursor: none;
 }
 
 /* Custom Scrollbar */
@@ -69,6 +81,7 @@ body {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  line-clamp: 2;
   overflow: hidden;
 }
 
@@ -128,14 +141,14 @@ html.lenis {
 
 /* Container */
 .container-custom {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 40px;
 }
 
 @media (max-width: 768px) {
   .container-custom {
-    padding: 0 1.25rem;
+    padding: 0 24px;
   }
 }
 
@@ -200,7 +213,6 @@ html.lenis {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  cursor: none;
 }
 
 .btn-primary:hover {
@@ -222,7 +234,6 @@ html.lenis {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  cursor: none;
 }
 
 .btn-ghost:hover {
@@ -357,3 +368,21 @@ html.lenis {
   width: 100%;
   height: 100%;
 }
+
+/* Scrollbar Hide Utilities */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
