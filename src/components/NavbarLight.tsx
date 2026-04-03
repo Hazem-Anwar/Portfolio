@@ -36,14 +36,23 @@ function TypewriterText({ text, active }: { text: string; active: boolean }) {
   return <>{displayText}</>;
 }
 
+import AboutModal from "./AboutModal";
+
 export default function NavbarLight() {
   const containerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleAbout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsAboutOpen(!isAboutOpen);
+    if (isOpen) setIsOpen(false); // Close mobile menu if open
   };
 
   useEffect(() => {
@@ -90,9 +99,12 @@ export default function NavbarLight() {
             <Link href="#work" className="text-[#666] hover:text-[#111] px-6 py-2 rounded-full text-[13px] font-semibold transition-all duration-300">
               Work
             </Link>
-            <Link href="/about" className="text-[#666] hover:text-[#111] px-6 py-2 rounded-full text-[13px] font-semibold transition-all duration-300">
+            <button 
+              onClick={toggleAbout}
+              className="text-[#666] hover:text-[#111] px-6 py-2 rounded-full text-[13px] font-semibold transition-all duration-300"
+            >
               About
-            </Link>
+            </button>
             <Link href="#cv" className="text-[#666] hover:text-[#111] px-6 py-2 rounded-full text-[13px] font-semibold transition-all duration-300">
               CV
             </Link>
@@ -141,13 +153,12 @@ export default function NavbarLight() {
         >
           Work
         </Link>
-        <Link 
-          href="/about" 
-          onClick={toggleMenu}
+        <button 
+          onClick={toggleAbout}
           className="text-4xl font-bold tracking-tight hover:text-[#ff4d00] transition-colors"
         >
           About
-        </Link>
+        </button>
         <Link 
           href="#cv" 
           onClick={toggleMenu}
@@ -163,6 +174,11 @@ export default function NavbarLight() {
           Contact
         </Link>
       </div>
+
+      <AboutModal 
+        isOpen={isAboutOpen} 
+        onClose={() => setIsAboutOpen(false)} 
+      />
     </>
   );
 }

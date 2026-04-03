@@ -1,471 +1,231 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Nav from "@/components/Nav";
-import { useGSAP } from "@gsap/react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import InternalFooter from "@/components/InternalFooter";
-import Link from "next/link";   
-import Tools from "@/components/Toolkit";
+import NavbarLight from "@/components/NavbarLight";
+import LineFooter from "@/components/LineFooter";
+import LogoSlider from "@/components/LogoSlider";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const FigmaBox = ({ label, show }: { label: string; show: boolean }) => (
-  <div
-    className={`absolute -inset-2 border border-[#a855f7] pointer-events-none transition-opacity duration-300 z-40 ${
-      show ? "opacity-100" : "opacity-0"
-    }`}
-  >
-    <div className="absolute -top-[3px] -left-[3px] w-1.5 h-1.5 bg-white border border-[#a855f7] rounded-[1px]" />
-    <div className="absolute -top-[3px] -right-[3px] w-1.5 h-1.5 bg-white border border-[#a855f7] rounded-[1px]" />
-    <div className="absolute -bottom-[3px] -left-[3px] w-1.5 h-1.5 bg-white border border-[#a855f7] rounded-[1px]" />
-    <div className="absolute -bottom-[3px] -right-[3px] w-1.5 h-1.5 bg-white border border-[#a855f7] rounded-[1px]" />
-    <div className="absolute -top-[18px] left-[-1px] bg-[#a855f7] text-white text-[9px] font-bold font-sans px-1.5 py-[2px] rounded-sm tracking-wider whitespace-nowrap shadow-sm leading-none">
-      {label}
-    </div>
-  </div>
-);
-
-const PhotoTag = ({
-  text,
-  active,
-  cursorPos,
-}: {
-  text: string;
-  active: boolean;
-  cursorPos: { x: number; y: number };
-}) => {
-  const [displayText, setDisplayText] = useState("");
-
+// Replicating HeroLight helper components for identical look
+function TypewriterText({ text, active }: { text: string; active: boolean }) {
+  const [displayText, setDisplayText] = useState(text);
+  const type = useCallback(() => {
+    let iteration = 0;
+    const interval = setInterval(() => {
+      setDisplayText(text.split("").map((letter, index) => (index <= iteration ? text[index] : "")).join(""));
+      if (iteration >= text.length) clearInterval(interval);
+      iteration += 1;
+    }, 35);
+    return interval;
+  }, [text]);
   useEffect(() => {
     if (active) {
-      let i = 0;
-      const interval = setInterval(() => {
-        setDisplayText(text.slice(0, i + 1));
-        i++;
-        if (i >= text.length) clearInterval(interval);
-      }, 40);
+      const interval = type();
       return () => clearInterval(interval);
     } else {
-      setDisplayText("");
+      setDisplayText(text);
     }
-  }, [active, text]);
+  }, [active, text, type]);
+  return <>{displayText}</>;
+}
 
-  if (!active && !displayText) return null;
-
+function SignatureTypewriter({ text, delay = 0.5 }: { text: string; delay?: number }) {
+  const textRef = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    if (!textRef.current) return;
+    const tl = gsap.timeline({ delay });
+    tl.fromTo(textRef.current, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: text.length * 0.05, ease: "none" });
+  }, [text, delay]);
   return (
-    <div
-      className="fixed pointer-events-none z-[100] flex flex-row items-start font-sans transition-opacity duration-300"
-      style={{ left: cursorPos.x, top: cursorPos.y, opacity: active ? 1 : 0 }}
-    >
-      <svg width="20" height="20" viewBox="0 0 24 24" className="drop-shadow-md z-10 mt-1 mr-[-6px]">
-        <path d="M5 3L19 10L12.5 13.5L9 20L5 3Z" fill="#a855f7" stroke="white" strokeWidth="2" strokeLinejoin="round" />
-      </svg>
-      <div className="flex flex-col text-left mt-4" style={{ filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.4))" }}>
-        <div className="bg-[#d8b4fe] text-black px-2 py-0.5 text-[10px] font-sans rounded-t-md w-max font-semibold border border-b-0 border-[#c084fc]/30">
-          Hazem Anwar
-        </div>
-        <div className="bg-[#c084fc] text-black font-medium px-3 py-2 text-[13px] rounded-b-md rounded-tr-md shadow-lg tracking-wide min-h-[32px] flex items-center border border-[#c084fc]">
-          {displayText}
-          <span className="w-[1.5px] h-3.5 bg-black ml-1 inline-block animate-pulse align-middle" />
-        </div>
-      </div>
-    </div>
+    <span className="relative inline-flex items-center min-h-[1.2em]">
+      <span ref={textRef} className="relative block whitespace-nowrap pr-1" style={{ clipPath: "inset(0 100% 0 0)" }}>{text}</span>
+    </span>
   );
-};
+}
+
+const timelineData = [
+  { years: "2024 — NOW", role: "Product Designer & Front-End Engineer", company: "Freelance" },
+  { years: "2022 — 2024", role: "Senior UX Designer", company: "Loyalty Co." },
+  { years: "2020 — 2022", role: "UI/UX Designer", company: "Tech Studio" }
+];
+
+const competencies = [
+  { title: "Design Systems", desc: "Modular foundations for scalable products." },
+  { title: "Technical UX", desc: "Bridging pixels and production code." },
+  { title: "Interaction", desc: "Motion design with purpose." }
+];
 
 export default function AboutPage() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const photoStackRef = useRef<HTMLDivElement>(null);
-  const leftColRef = useRef<HTMLDivElement>(null);
-  
-  const [showTitleBox, setShowTitleBox] = useState(false);
-  const [activePhotoIdx, setActivePhotoIdx] = useState(-1);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [firstPhotoAlt, setFirstPhotoAlt] = useState("");
-  const [isDesktop, setIsDesktop] = useState(false);
+  const scrollSectionRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const btnsRef = useRef<HTMLDivElement>(null);
+  const imgCardRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const skillsRef = useRef<HTMLDivElement>(null);
+
+  const [isHoveredWork, setIsHoveredWork] = useState(false);
+  const [isHoveredCV, setIsHoveredCV] = useState(false);
 
   useEffect(() => {
-    const checkDesktop = () => setIsDesktop(window.innerWidth > 1024);
-    checkDesktop();
-    window.addEventListener('resize', checkDesktop);
-    return () => window.removeEventListener('resize', checkDesktop);
-  }, []);
+    // 1. Initial Hero Animations (Identical to HeroLight)
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    tl.to("nav", { opacity: 1, y: 0, duration: 0.8, startAt: { y: -20 } }, 0.1);
+    tl.to("#hero-signature", { opacity: 1, duration: 0.8 }, 0.4);
+    tl.to(headingRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20 } }, "-=0.6");
+    tl.to(descRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20 } }, "-=0.65");
+    tl.to(skillsRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20 } }, "-=0.7");
+    tl.to(btnsRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20 } }, "-=0.7");
+    tl.to("#hero-logos", { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20 } }, "-=0.7");
+    tl.to(imgCardRef.current, { opacity: 1, y: 0, duration: 0.9, startAt: { y: 40 } }, "-=0.8");
+    tl.to(badgeRef.current, { opacity: 1, scale: 1, duration: 0.6, startAt: { scale: 0.5 } }, "-=0.4");
+    tl.to("#glow-1", { opacity: 1, duration: 3, ease: "power2.out" }, 0.5);
 
-  const photos = [
-    { src: "/images/about/portrait.png", alt: "Father of Ahmed", x: "10%", y: "0px" },
-    { src: "/images/about/hazem_ahmed.jpg", alt: "Family First", x: "-20%", y: "580px" },
-    { src: "/images/about/desk.jpg", alt: "Craft over everything", x: "5%", y: "1160px" },
-    { src: "/images/about/candid.jpg", alt: "Hazem Anwar", x: "-10%", y: "1740px" },
-  ];
-
-  const firstPhotoAlts = ["Father of Ahmed", "Product Designer", "Frontend Engineer"];
-
-  useGSAP(() => {
-    const introTl = gsap.timeline({ delay: 0.5 });
-
-    // 1. Initial Cursor Animation
-    introTl.fromTo(cursorRef.current, { opacity: 0, x: 800, y: 400 }, { opacity: 1, duration: 0.5 });
-    introTl.to(cursorRef.current, {
-      x: () => {
-        const rect = titleRef.current?.getBoundingClientRect();
-        return rect ? rect.left + 20 : 0;
-      },
-      y: () => {
-        const rect = titleRef.current?.getBoundingClientRect();
-        return rect ? rect.top + 40 : 0;
-      },
-      duration: 1,
-      ease: "power3.inOut",
-      onComplete: () => setShowTitleBox(true)
-    });
-
-    introTl.to({}, { duration: 1 }); // Wait
-
-    // 2. Sequential Typing for FIRST PHOTO ONLY (3 Strings)
-    introTl.to(cursorRef.current, {
-      x: () => {
-        const el = document.getElementById("photo-0");
-        const rect = el?.getBoundingClientRect();
-        return rect ? rect.left + rect.width / 2 : 0;
-      },
-      y: () => {
-        const el = document.getElementById("photo-0");
-        const rect = el?.getBoundingClientRect();
-        return rect ? rect.top + rect.height / 2 : 0;
-      },
-      duration: 0.8,
-      ease: "power2.inOut",
-      onStart: () => {
-        setShowTitleBox(false);
-        setActivePhotoIdx(-1);
-      },
-      onUpdate: () => {
-        const x = gsap.getProperty(cursorRef.current, "x") as number;
-        const y = gsap.getProperty(cursorRef.current, "y") as number;
-        setCursorPos({ x, y });
-      },
-      onComplete: () => {
-        setActivePhotoIdx(0);
-        gsap.set(cursorRef.current, { opacity: 0 }); // Hide main cursor immediately when PhotoTag takes over
+    // 2. Smooth Scroll to About Content
+    const scrollTimeout = setTimeout(() => {
+      if (scrollSectionRef.current) {
+        window.scrollTo({
+          top: scrollSectionRef.current.offsetTop - 80,
+          behavior: "smooth"
+        });
       }
-    });
+    }, 1500); // Wait for hero animation to breathe
 
-    // Sub-sequence for the 3 strings on the same photo
-    firstPhotoAlts.forEach((text, i) => {
-      introTl.to({}, { 
-        duration: 3, 
-        onStart: () => setFirstPhotoAlt(text) 
-      });
-      if (i < firstPhotoAlts.length - 1) {
-        introTl.to({}, { duration: 0.5 }); 
-      }
-    });
-
-    // Final stay and vanish
-    introTl.to({}, { duration: 1 });
-    introTl.to({}, {
-      duration: 0.5,
-      onStart: () => {
-        setActivePhotoIdx(-1);
-        setShowTitleBox(false);
-      }
-    });
-
-    // introTl.to(cursorRef.current, { opacity: 0, scale: 0.8, duration: 0.5 }); // Removed as we hide it above
-
-    // 3. Pinning
-    if (window.innerWidth > 1024) {
-      ScrollTrigger.create({
-        trigger: "#hero-section",
-        start: "top 140px",
-        end: "bottom bottom",
-        pin: leftColRef.current,
-        pinSpacing: false,
-        anticipatePin: 1
-      });
-    }
-
-    // Reveals
+    // 3. Reveal Animations for About Content
     const reveals = gsap.utils.toArray<HTMLElement>(".reveal");
     reveals.forEach((el) => {
-      gsap.fromTo(el, { opacity: 0, y: 30 }, {
-        opacity: 1, y: 0, duration: 1, ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 85%", once: true }
+      gsap.fromTo(el, { opacity: 0, y: 20 }, {
+        opacity: 1, y: 0, duration: 0.8,
+        scrollTrigger: { trigger: el, start: "top 90%", once: true }
       });
     });
 
-  }, { scope: containerRef });
+    return () => clearTimeout(scrollTimeout);
+  }, []);
 
   return (
-    <div ref={containerRef} className="bg-bg min-h-screen relative overflow-x-hidden">
-      <Nav />
-      <div ref={cursorRef} className="fixed pointer-events-none z-[200] opacity-0 flex flex-row items-start font-sans">
-        <svg width="24" height="24" viewBox="0 0 24 24" className="drop-shadow-md z-10 mt-1 mr-[-6px]">
-          <path d="M5 3L19 10L12.5 13.5L9 20L5 3Z" fill="#a855f7" stroke="white" strokeWidth="2" strokeLinejoin="round" />
-        </svg>
-        <div className="flex flex-col text-left mt-4" style={{ filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.4))" }}>
-          <div className="bg-[#d8b4fe] text-black px-2 py-0.5 text-[10px] font-sans rounded-t-md w-max font-semibold border border-[#c084fc]/30">
-            Hazem Anwar
-          </div>
-        </div>
-      </div>
+    <div className="bg-white text-[#111] selection:bg-[#ff4d00] selection:text-white font-inter overflow-x-hidden min-h-screen">
+      <NavbarLight />
 
-      {activePhotoIdx === 0 && (
-        <PhotoTag 
-          text={firstPhotoAlt} 
-          active={true} 
-          cursorPos={cursorPos} 
-        />
-      )}
-
-      <main className="max-w-[1440px] mx-auto px-6 md:px-12 pt-24 lg:pt-[140px] relative z-10">
-        <section id="hero-section" className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-20 items-start pb-6 lg:pb-40 relative">
-          <div ref={leftColRef} className="reveal-pinned flex flex-col justify-start max-lg:pb-4 lg:pb-20">
-            <span className="font-mono text-[13px] md:text-[15px] tracking-[0.25em] uppercase text-[#e4fe9a] mb-10 block">
-              01 / The Book
-            </span>
-            <div className="relative inline-block mb-12">
-              <h1 ref={titleRef} className="font-display text-[84px] md:text-[160px] leading-[0.85] tracking-[-0.02em] relative">
-                ABOUT
+      {/* IDENTICAL HERO SECTION */}
+      <section className="w-full bg-[#fff] mt-20 lg:pt-6 flex flex-col relative overflow-hidden">
+        <div className="absolute top-[-5%] left-[-10%] w-[450px] h-[450px] bg-[#0000001a] blur-[180px] rounded-full z-0 opacity-0 animate-[pulse_15s_ease-in-out_infinite]" id="glow-1" />
+        <div className="container-custom pt-[80px] pb-40 relative z-10 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-14 lg:gap-16 items-center w-full">
+            <div className="flex flex-col lg:pt-10 z-10 min-w-0 order-2 md:order-1">
+              <h6 className="text-[#111] text-[22px] md:text-[26px] font-['Caveat'] font-bold opacity-0 -rotate-1" id="hero-signature">
+                <SignatureTypewriter text="Hazem Anwar" delay={0.7} />
+              </h6>
+              <h1 ref={headingRef} className="font-bricolage font-extrabold mt-4 text-[clamp(2.5rem,6vw,44px)] leading-[1.1] tracking-[-0.03em] text-[#111] opacity-0">
+                Design-Driven <br /> Front-End Engineer<span className="text-[#ff4d00]">.</span>
               </h1>
-              <FigmaBox label="h1 / Title" show={showTitleBox} />
-            </div>
-            <div className="flex flex-col gap-10">
-              <p className="text-[24px] md:text-[34px] font-light leading-[1.3] text-text/90 max-w-[720px]">
-                I&apos;ve spent 20+ years learning that{" "}
-                <strong className="font-medium text-text border-b-2 border-[#e4fe9a]/60 pb-1">craft isn&apos;t a shortcut</strong> — it&apos;s the path.
-                I design for those who crave clarity without sacrificing
-                depth. I build things that move, feel intentional,
-                and <em className="italic text-text/70">actually ship</em>.
+              <p ref={descRef} className="mt-4 md:mt-6 text-[#888] leading-[1.6] text-[14px] md:text-[15px] opacity-0 max-w-[450px]">
+                Front-end Engineer & UX/UI Designer crafting scalable, high-performance interfaces with a strong focus on UX, detail, and bridging design with development.
               </p>
-              <div className="space-y-12 mt-4">
-                 <div className="flex flex-col">
-                  <span className="font-mono text-[12px] text-[#e4fe9a] tracking-widest uppercase mb-4 opacity-80">01 / The Drive</span>
-                  <p className="text-[17px] md:text-[20px] text-text/50 max-w-[620px] leading-[1.7] font-light">
-                    I design for those who refuse to blend in. I craft digital experiences that are bold, memorable, and engineered to leave a lasting impact.
-                  </p>
-                 </div>
-                 <div className="flex flex-col">
-                  <span className="font-mono text-[12px] text-[#e4fe9a] tracking-widest uppercase mb-4 opacity-80">02 / The Off-Screen</span>
-                  <p className="text-[17px] md:text-[20px] text-text/50 max-w-[620px] leading-[1.7] font-light">
-                    When I&apos;m not pushing pixels, you&apos;ll find me in <strong className="text-text/70 font-medium italic">Minecraft</strong> — solving problems on the fly. It&apos;s the nerd side of me, and I&apos;m not sorry about it.
-                  </p>
-                 </div>
+              <div ref={btnsRef} className="md:mt-8 mt-4 flex flex-row flex-wrap items-center gap-3 md:gap-4 opacity-0 text-[12px] uppercase tracking-widest font-bold">
+                 {/* Re-using buttons but focusing on the scroll effect */}
+                 <button onMouseEnter={() => setIsHoveredWork(true)} onMouseLeave={() => setIsHoveredWork(false)} className="group bg-[#111] text-white px-8 py-3 rounded-full transition-all flex items-center gap-2 overflow-hidden min-w-[160px]">
+                    <TypewriterText text="View Work" active={isHoveredWork} />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="transition-transform group-hover:rotate-45"><line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" /></svg>
+                 </button>
+              </div>
+              <div ref={skillsRef} className="mt-8 text-[13px] md:text-[15px] text-[#555] font-medium opacity-0">React • Next.js • UX/UI • Performance</div>
+            </div>
+            <div className="relative flex justify-center md:pe-10 order-1 md:order-2 pt-12 md:pt-0">
+              <div ref={imgCardRef} className="w-[220px] h-[280px] md:w-[300px] md:h-[400px] shadow-lg rounded-[24px] bg-[#eee] overflow-hidden relative opacity-0">
+                <Image src="/images/about/portrait.png" alt="Hazem Anwar" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+              </div>
+              <div ref={badgeRef} className="absolute md:-bottom-6 -bottom-10 md:-right-6 right-2 md:w-[120px] md:h-[120px] w-[100px] h-[100px] bg-white rounded-full shadow-2xl flex items-center justify-center z-20 opacity-0 scale-50">
+                <span className="text-2xl font-extrabold text-[#111]">6+</span>
               </div>
             </div>
           </div>
-
-          <div 
-            ref={photoStackRef} 
-            className="relative lg:pt-12 lg:min-h-[2600px] mb-2 lg:mb-20 max-lg:w-screen max-lg:-ml-[6vw] overflow-x-auto lg:overflow-visible snap-x snap-mandatory scrollbar-hide no-scrollbar flex lg:block"
-          >
-            {/* On mobile, we use a flex layout with snap points. Spacing is maintained for clean section transitions. */}
-            <div className="flex lg:contents gap-6 px-[6vw] pb-4 lg:pb-10 items-center">
-              {photos.map((photo, i) => (
-                <div
-                  key={i}
-                  id={`photo-${i}`}
-                  className="relative lg:absolute shrink-0 w-[85vw] md:w-[480px] aspect-[4/5] bg-bg border border-white/5 transition-all duration-700 ease-out hover:scale-[1.02] overflow-hidden rounded-lg lg:hover:z-50 group shadow-[0_30px_60px_rgba(0,0,0,0.4)] lg:shadow-[0_50px_100px_rgba(0,0,0,0.6)] snap-center"
-                  style={{
-                    transform: isDesktop 
-                      ? `translate(${photo.x}, ${photo.y})` 
-                      : 'none',
-                    zIndex: 10 + i,
-                  }}
-                >
-                  <img 
-                    src={photo.src} 
-                    alt={photo.alt} 
-                    className="w-full h-full object-cover grayscale brightness-[0.8] rounded-lg hover:brightness-[1.1] hover:grayscale-0 hover:scale-[1.02] transition-all duration-700 pointer-events-none lg:pointer-events-auto" 
-                  />
-                  <FigmaBox label={`Image / 0${i+1}`} show={activePhotoIdx === i} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <div className="bg-[#e4fe9a] w-[100vw] relative left-1/2 -translate-x-1/2 px-6 md:px-12 py-24 md:py-40 grid grid-cols-1 md:grid-cols-3 gap-20 md:gap-0 lg:mt-24 mt-16 reveal containe">
-          <div className="text-center md:px-12 md:border-r border-black/10">
-            <div className="font-display text-[84px] md:text-[130px] leading-none text-bg tracking-[-0.04em]">5+</div>
-            <div className="font-mono text-[14px] md:text-[16px] tracking-[0.3em] uppercase text-bg/40 mt-4 leading-none">Years Experience</div>
-          </div>
-          <div className="text-center md:px-12 md:border-r border-black/10">
-            <div className="font-display text-[84px] md:text-[130px] leading-none text-bg tracking-[-0.04em]">20+</div>
-            <div className="font-mono text-[14px] md:text-[16px] tracking-[0.3em] uppercase text-bg/40 mt-4 leading-none">Projects Shipped</div>
-          </div>
-          <div className="text-center md:px-12">
-            <div className="font-display text-[84px] md:text-[130px] leading-none text-bg tracking-[-0.04em]">3</div>
-            <div className="font-mono text-[14px] md:text-[16px] tracking-[0.3em] uppercase text-bg/40 mt-4 leading-none">Disciplines</div>
+          <div className="mt-20 opacity-0" id="hero-logos">
+            <LogoSlider />
           </div>
         </div>
+      </section>
 
-        {/* 01 — THE STORY */}
-        <section className="py-32 border-t border-border mt-32">
-          <div className="flex items-baseline gap-5 mb-16 reveal">
-            <span className="font-mono text-[11px] tracking-[0.2em] text-[#e4fe9a]">01</span>
-            <h2 className="font-display text-[48px] md:text-[72px] leading-none tracking-[0.02em]">
-              THE <span className="text-outline">STORY</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-16 reveal">
-            <div className="hidden lg:block font-mono text-[11px] tracking-[0.2em] uppercase text-muted pt-2 opacity-40">
-              <span className="block w-8 h-[1px] bg-white/20 mb-3" />
-              Hazem Anwar
-            </div>
-            <div className="text-[18px] md:text-[20px] font-light leading-[1.8] text-text/80 space-y-8">
-              <p>
-                I&apos;m Hazem Anwar — a product designer and frontend engineer
-                based in EMEA. What makes me different: <strong className="text-text font-medium border-b border-[#e4fe9a]/30 pb-px">I design and build</strong>.
-                No handoff friction. No &quot;that&apos;s an engineering problem.&quot;
-              </p>
-              <div className="text-[24px] md:text-[28px] font-light italic text-text border-l-[3px] border-[#e4fe9a] pl-8 py-2 leading-relaxed opacity-90">
-                Father. United supporter. Losing at FIFA to a four-year-old
-                who has no business being that good.
-              </div>
-              <p>
-                I studied Multimedia & Web Development at the Islamic University of Gaza —
-                a place that taught me resourcefulness as much as technology.
-                Today I work across the full product lifecycle: research, design,
-                implementation, and quality assurance.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* CAREER TIMELINE */}
-        <section className="py-24 border-t border-border">
-          <div className="flex items-baseline gap-5 mb-14 reveal">
-            <span className="font-mono text-[11px] tracking-[0.2em] text-[#e4fe9a]">02</span>
-            <h2 className="font-display text-[36px] md:text-[64px] leading-none tracking-[0.02em]">
-              CAREER <span className="text-outline">TIMELINE</span>
-            </h2>
-          </div>
-          <div className="flex flex-col">
-            {[
-              { years: "2024 — Now", title: "Product Designer & Frontend Engineer", desc: "Full-stack design and engineering across booking, loyalty, and real estate platforms. Design systems, React implementation, and SQA.", company: "Freelance" },
-              { years: "2022 — 2024", title: "Senior UX Designer", desc: "Led end-to-end product design for a loyalty and gamification platform serving 200k+ users. Built the company's first design system.", company: "Loyalty Co." },
-              { years: "2020 — 2022", title: "UI/UX Designer", desc: "Designed mobile-first experiences for iOS and Android. Introduced component-based design thinking to the team.", company: "Tech Studio" },
-              { years: "2019 — 2020", title: "Frontend Developer", desc: "Built responsive interfaces with React and Vue. Bridged the gap between design mockups and production code.", company: "Agency" },
-            ].map((item, i) => (
-              <div key={i} className="timeline-row grid grid-cols-1 md:grid-cols-[120px_1fr_auto] gap-8 items-baseline py-7 border-b border-border hover:bg-white/[0.02] transition-colors group">
-                <span className="font-mono text-[11px] tracking-[0.12em] text-muted">{item.years}</span>
+      {/* COMPACT ABOUT CONTENT - SCROLL TARGET */}
+      <main ref={scrollSectionRef} className="max-w-[1100px] mx-auto px-6 md:px-12 pt-10 pb-10">
+        <section className="reveal mb-16 md:mb-24 pt-12 border-t-2 border-[#111]/5">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_280px] gap-10 md:gap-20 items-start">
+              <div className="flex flex-col gap-10">
                 <div>
-                  <div className="text-[16px] font-medium mb-1 text-text">{item.title}</div>
-                  <div className="text-[14px] text-muted max-w-[480px] leading-relaxed">{item.desc}</div>
+                  <span className="block font-mono text-[10px] tracking-[0.3em] uppercase text-[#ff4d00] mb-6">GENERAL / ABOUT ME</span>
+                  <p className="text-[20px] md:text-[24px] leading-[1.5] text-[#111] font-medium max-w-[650px]">
+                    I’m Hazem, Product Designer & Front-End Engineer with over 6 years of experience. 
+                    I build scalable product systems and high-logic interfaces, prioritizing functional logic over decoration. 
+                    Currently shaping high-stakes infrastructure and complex financial flows.
+                  </p>
                 </div>
-                <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-[#e4fe9a]">{item.company}</span>
+                <div className="flex items-center gap-4 group cursor-pointer border-b-2 border-[#111] w-max pb-1">
+                  <a href="/resume.pdf" target="_blank" className="font-bricolage font-extrabold text-[20px]">Resume.PDF</a>
+                  <span className="font-mono text-[11px] text-[#ff4d00]">← Preview</span>
+                </div>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 03 — CORE FOUNDATIONS */}
-        <section className="py-24 border-t border-border">
-          <div className="flex items-baseline gap-5 mb-14 reveal">
-            <span className="font-mono text-[11px] tracking-[0.2em] text-[#e4fe9a]">03</span>
-            <h2 className="font-display text-[36px] md:text-[64px] leading-none tracking-[0.02em]">
-              CORE <span className="text-outline">FOUNDATIONS</span>
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border border border-border">
-            {[
-              { num: "01", name: "People First", desc: "Every pixel, every component, every interaction exists to serve a human being. I start with why before I start with how." },
-              { num: "02", name: "Commit to Craft", desc: "Lazy good enough isn't good enough. Every project deserves intention — in the typography, the animation, the edge cases." },
-              { num: "03", name: "Adapt & Iterate", desc: "Plans change. Users surprise you. Great design adapts without losing its core intention. Ship, learn, improve." },
-              { num: "04", name: "Connect the Dots", desc: "Design and engineering aren't separate disciplines — they're the same conversation. I speak both languages fluently." },
-            ].map((item, i) => (
-              <div key={i} className="foundation-item bg-bg p-8 md:p-9 hover:bg-white/[0.02] transition-colors">
-                <div className="font-mono text-[11px] text-[#e4fe9a] tracking-[0.2em] mb-3">{item.num}</div>
-                <div className="text-[18px] font-medium mb-2.5">{item.name}</div>
-                <div className="text-[14px] text-muted leading-[1.7]">{item.desc}</div>
+              <div className="hidden md:block pt-10">
+                <div className="p-6 bg-[#fafafa] rounded-[24px] border border-[#eee]">
+                  <span className="block font-mono text-[9px] tracking-widest text-[#888] mb-4 uppercase">Currently Based</span>
+                  <p className="font-bold text-[15px]">EMEA Region / Available Worldwide</p>
+                </div>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 04 — CORE COMPETENCIES */}
-        <section className="py-24 border-t border-border">
-          <div className="flex items-baseline gap-5 mb-14 reveal">
-            <span className="font-mono text-[11px] tracking-[0.2em] text-[#e4fe9a]">04</span>
-            <h2 className="font-display text-[36px] md:text-[64px] leading-none tracking-[0.02em]">
-              CORE <span className="text-outline">COMPETENCIES</span>
-            </h2>
-          </div>
-          <div className="flex flex-col">
-            {[
-              { icon: "◈", name: "Design Systems & Governance", desc: "Building scalable design languages and establishing governance frameworks that keep teams moving fast and aligned." },
-              { icon: "◲", name: "Platform 0-to-1 Products", desc: "Taking products from zero to launch — defining vision, architecture, and experience across web and mobile surfaces." },
-              { icon: "⊞", name: "Cross-Functional Delivery", desc: "Shipping design as code. Reducing handoff friction. Delivering production-ready components that match the design exactly." },
-              { icon: "◇", name: "Strategic Product Thinking", desc: "Connecting business objectives to user needs. Knowing which problems are worth solving and in what order." },
-              { icon: "∿", name: "Quality & SQA", desc: "Manual testing, UI/UX QA, and performance auditing. Shipping with confidence, not crossed fingers." },
-              { icon: "◉", name: "Animation & Interaction", desc: "GSAP, Framer Motion, Three.js. Motion that feels intentional — not decoration, but communication." },
-            ].map((item, i) => (
-              <div key={i} className="comp-row grid grid-cols-[32px_1fr] md:grid-cols-[40px_200px_1fr] gap-8 items-start py-6 border-b border-border hover:bg-white/[0.018] transition-colors">
-                <div className="w-8 h-8 border border-border flex items-center justify-center text-[14px] shrink-0">{item.icon}</div>
-                <div className="text-[15px] font-medium pt-1.5 md:pt-1">{item.name}</div>
-                <div className="hidden md:block text-[14px] text-muted leading-[1.65]">{item.desc}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 05 — TOOLKIT */}
-        <Tools />
-
-        {/* 06 — BEYOND WORK */}
-        <section className="py-24 border-t border-border">
-          <div className="flex items-baseline gap-5 mb-14 reveal">
-            <span className="font-mono text-[11px] tracking-[0.2em] text-[#e4fe9a]">06</span>
-            <h2 className="font-display text-[36px] md:text-[64px] leading-none tracking-[0.02em]">
-              BEYOND <span className="text-outline">WORK</span>
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-12 reveal">
-            <div className="hidden lg:block font-mono text-[11px] tracking-[0.2em] uppercase text-muted pt-1">
-              <span className="block w-6 h-px bg-border mb-2.5" />
-              Outside work
             </div>
-            <div className="text-[17px] font-light leading-[1.85] text-text/80">
-              <p>
-                Father of Ahmed — the reason there&apos;s a Minecraft room in this portfolio.
-                Manchester United supporter since before I understood what relegation meant.
-                Video game enthusiast who takes co-op sessions more seriously than he should.
-                Currently losing at FIFA to a four-year-old. It&apos;s humbling.
-              </p>
-            </div>
-          </div>
         </section>
 
-        {/* CTA SECTION */}
-        {/* <section className="py-[120px] border-t border-border mt-12 reveal">
-          <div className="font-mono text-[11px] tracking-[0.25em] uppercase text-muted mb-5">Let&apos;s work together</div>
-          <div className="font-display text-[56px] md:text-[120px] leading-[0.9] tracking-[-0.01em] mb-8">
-            LET&apos;S<br />
-            <span className="text-outline">TALK.</span>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <a href="mailto:hazem.amrainana98@gmail.com" className="font-mono text-[11px] tracking-[0.18em] uppercase text-bg bg-[#e4fe9a] px-6 py-4 font-bold hover:bg-[#e4fe9a]/80 transition-all shadow-lg shadow-[#e4fe9a]/10">
-              hazem.amrainana98@gmail.com
-            </a>
-            <a href="https://www.linkedin.com/in/hazem-anwar98" target="_blank" className="font-mono text-[11px] tracking-[0.18em] uppercase text-text border border-border px-6 py-4 hover:bg-text hover:text-bg transition-all">
-              LinkedIn ↗
-            </a>
-            <a href="https://www.behance.net/hazem-anwar" target="_blank" className="font-mono text-[11px] tracking-[0.18em] uppercase text-text border border-border px-6 py-4 hover:bg-text hover:text-bg transition-all">
-              Behance ↗
-            </a>
-          </div>
-        </section> */}
+        {/* COMPACT TIMELINE */}
+        <section className="reveal mb-16 md:mb-24 pt-12 border-t border-[#eee]">
+            <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-8">
+              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#888]">TIMELINE</span>
+              <div className="flex flex-col gap-6">
+                {timelineData.map((item, i) => (
+                  <div key={i} className="flex flex-col md:flex-row md:items-baseline justify-between gap-2 md:gap-10 pb-6 border-b border-[#f5f5f5] last:border-0 hover:ps-2 transition-all">
+                    <h3 className="font-bricolage font-bold text-[18px] md:text-[20px]">{item.role}</h3>
+                    <div className="flex items-center gap-4 text-[13px] font-mono text-[#888]">
+                      <span className="font-bold text-[#111]">{item.company}</span>
+                      <span className="w-1 h-1 bg-[#ff4d00] rounded-full"></span>
+                      <span>{item.years}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+        </section>
 
-         <InternalFooter />
+        {/* EXPERTISE */}
+        <section className="reveal mb-20 md:mb-32 pt-12 border-t border-[#eee]">
+            <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-8">
+              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#888]">EXPERTISE</span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+                {competencies.map((item, i) => (
+                  <div key={i} className="flex flex-col gap-3">
+                    <h4 className="font-bricolage font-bold text-[16px] uppercase tracking-tight text-[#ff4d00]">{item.title}</h4>
+                    <p className="text-[14px] text-[#555] leading-relaxed font-medium">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+        </section>
+
+        {/* MINI CONTACT */}
+        <section className="reveal text-center py-12 md:py-24 bg-[#111] text-white rounded-[40px] mb-10 overflow-hidden relative">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#ff4d00] blur-[150px] opacity-20"></div>
+            <h2 className="font-bricolage font-extrabold text-[32px] md:text-[56px] tracking-tight mb-10 relative z-10">Let&apos;s build something <br /> unconventional<span className="text-[#ff4d00]">.</span></h2>
+            <div className="flex flex-wrap justify-center gap-10 font-mono text-[11px] font-bold uppercase tracking-[0.2em] relative z-10">
+              <a href="mailto:hazem.amrainana98@gmail.com" className="hover:text-[#ff4d00] transition-colors">Email</a>
+              <a href="https://linkedin.com/in/hazem-anwar98" target="_blank" className="hover:text-[#ff4d00] transition-colors">LinkedIn</a>
+              <a href="https://behance.net/hazem-anwar" target="_blank" className="hover:text-[#ff4d00] transition-colors">Behance</a>
+            </div>
+        </section>
       </main>
+
+      <LineFooter />
     </div>
   );
 }

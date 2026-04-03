@@ -81,19 +81,27 @@ export default function HeroLight() {
   const [isHoveredCV, setIsHoveredCV] = useState(false);
 
   useEffect(() => {
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-    tl.to("nav", { opacity: 1, y: 0, duration: 0.8, startAt: { y: -20 } }, 0.1);
-    tl.to("#hero-signature", { opacity: 1, duration: 0.8 }, 0.4);
-    tl.to(headingRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20 } }, "-=0.6");
-    tl.to(descRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20 } }, "-=0.65");
-    tl.to(skillsRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20 } }, "-=0.7");
-    tl.to(btnsRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20 } }, "-=0.7");
-    tl.to("#hero-logos", { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20 } }, "-=0.7");
-    tl.to(imgCardRef.current, { opacity: 1, y: 0, duration: 0.9, startAt: { y: 40 } }, "-=0.8");
-    tl.to(badgeRef.current, { opacity: 1, scale: 1, duration: 0.6, startAt: { scale: 0.5, rotation: 0 } }, "-=0.4");
+    const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
     
-    // Background Glow - Neutral Sequence
-    tl.to("#glow-1", { opacity: 1, duration: 3, ease: "power2.out" }, 0.5);
+    // 1. PORTRAIT & BADGE FIRST (The "Face" of the site)
+    tl.to(imgCardRef.current, { opacity: 1, y: 0, duration: 1.2, startAt: { y: 40, opacity: 0 } }, 0);
+    tl.to(badgeRef.current, { opacity: 1, scale: 1, duration: 0.8, startAt: { scale: 0, opacity: 0 } }, 0.3);
+    
+    // 2. NAVIGATION
+    tl.to("nav", { opacity: 1, y: 0, duration: 0.8, startAt: { y: -20, opacity: 0 } }, 0.5);
+    
+    // 3. NAME & SIGNATURE (Significant Delay to highlight the image first)
+    tl.to("#hero-signature", { opacity: 1, duration: 0.8, startAt: { opacity: 0 } }, 1.2);
+    
+    // 4. MAIN TITLES & CONTENT
+    tl.to(headingRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.4);
+    tl.to(descRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.5);
+    tl.to(skillsRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.6);
+    tl.to(btnsRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.7);
+    tl.to("#hero-logos", { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.8);
+    
+    // Background Glow
+    tl.to("#glow-1", { opacity: 1, duration: 3, ease: "power2.out" }, 1.5);
   }, []);
 
   return (
@@ -109,10 +117,10 @@ export default function HeroLight() {
           {/* Left Side Content - Now order-2 on mobile */}
           <div className="flex flex-col lg:pt-10 z-10 min-w-0 order-2 md:order-1">
             <h6 
-              className="text-[#111] text-[22px] md:text-[26px] font-['Caveat'] font-bold tracking-normal opacity-0 -rotate-1"
-              id="hero-signature"
+               className="text-[#111] text-[22px] md:text-[26px] font-['Caveat'] font-bold tracking-normal opacity-0 -rotate-1"
+               id="hero-signature"
             >
-              <SignatureTypewriter text="Hazem Anwar" delay={0.7} />
+              <SignatureTypewriter text="Hazem Anwar" delay={0} />
             </h6>
             <h1 
               ref={headingRef}
@@ -168,17 +176,17 @@ export default function HeroLight() {
 
           {/* Right Side Image - Now order-1 on mobile */}
           <div className="relative flex justify-center md:justify-end md:pe-10 mb-12 md:mb-0 lg:pt-10 w-full min-w-0 order-1 md:order-2 pt-12 md:pt-0">
-             <div 
-               ref={imgCardRef}
-               className="w-[220px] h-[280px] md:w-[300px] md:h-[400px] aspect-[4/5] shadow-lg rounded-[24px] bg-[#eee] overflow-hidden relative opacity-0 hover:grayscale-0 transition-all duration-700 group will-change-transform"
-             >
-               <Image 
+              <div 
+                ref={imgCardRef}
+                className="w-[220px] h-[280px] md:w-[300px] md:h-[400px] aspect-[4/5] shadow-lg rounded-[24px] bg-[#eee] overflow-hidden relative opacity-0 hover:grayscale-0 transition-all duration-700 group will-change-transform"
+              >
+                <Image 
                  src="/images/about/SS.png" 
-                 alt="Hazem Anwar Portrait" 
-                 fill
-                 className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
-               />
-             </div>
+                  alt="Hazem Anwar Portrait" 
+                  fill
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
              
              {/* Floating Experience Badge */}
               <div 
