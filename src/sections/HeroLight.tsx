@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
-import NavbarLight from "@/components/NavbarLight";
 import LogoSlider from "@/components/LogoSlider";
 
 function TypewriterText({ text, active }: { text: string; active: boolean }) {
@@ -68,7 +68,7 @@ function SignatureTypewriter({ text, delay = 0.5 }: { text: string; delay?: numb
   );
 }
 
-export default function HeroLight() {
+export default function HeroLight({ startAnimations = true }: { startAnimations?: boolean }) {
   const heroRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
@@ -81,38 +81,38 @@ export default function HeroLight() {
   const [isHoveredCV, setIsHoveredCV] = useState(false);
 
   useEffect(() => {
+    if (!startAnimations) return;
+
     const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
     
     // 1. PORTRAIT & BADGE FIRST (The "Face" of the site)
-    tl.to(imgCardRef.current, { opacity: 1, y: 0, duration: 1.2, startAt: { y: 40, opacity: 0 } }, 0);
-    tl.to(badgeRef.current, { opacity: 1, scale: 1, duration: 0.8, startAt: { scale: 0, opacity: 0 } }, 0.3);
+    tl.to(imgCardRef.current, { opacity: 1, y: 0, duration: 1.2, startAt: { y: 40, opacity: 0 } }, 0.2);
+    tl.to(badgeRef.current, { opacity: 1, scale: 1, duration: 0.8, startAt: { scale: 0, opacity: 0 } }, 0.5);
     
     // 2. NAVIGATION
-    tl.to("nav", { opacity: 1, y: 0, duration: 0.8, startAt: { y: -20, opacity: 0 } }, 0.5);
+    tl.to("nav", { opacity: 1, y: 0, duration: 0.8, startAt: { y: -20, opacity: 0 } }, 0.7);
     
-    // 3. NAME & SIGNATURE (Significant Delay to highlight the image first)
-    tl.to("#hero-signature", { opacity: 1, duration: 0.8, startAt: { opacity: 0 } }, 1.2);
+    // 3. NAME & SIGNATURE
+    tl.to("#hero-signature", { opacity: 1, duration: 0.8, startAt: { opacity: 0 } }, 1.0);
     
     // 4. MAIN TITLES & CONTENT
-    tl.to(headingRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.4);
-    tl.to(descRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.5);
-    tl.to(skillsRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.6);
-    tl.to(btnsRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.7);
-    tl.to("#hero-logos", { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.8);
+    tl.to(headingRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.2);
+    tl.to(descRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.3);
+    tl.to(skillsRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.4);
+    tl.to(btnsRef.current, { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.5);
+    tl.to("#hero-logos", { opacity: 1, y: 0, duration: 0.8, startAt: { y: 20, opacity: 0 } }, 1.6);
     
     // Background Glow
-    tl.to("#glow-1", { opacity: 1, duration: 3, ease: "power2.out" }, 1.5);
-  }, []);
+    tl.to("#glow-1", { opacity: 1, duration: 3, ease: "power2.out" }, 1.2);
+  }, [startAnimations]);
 
   return (
     <>  
-      <NavbarLight />
-
-    <section ref={heroRef} className="w-full bg-[#fff] mt-20 lg:pt-6 flex flex-col font-inter selection:bg-[#ff4d00] selection:text-white overflow-hidden relative">
+    <section ref={heroRef} className="w-full bg-[#fff] mt-10 lg:pt-6 flex flex-col font-inter selection:bg-[#ff4d00] selection:text-white overflow-hidden relative">
       {/* Neutral Smoky Ambient Glow - Refined Luxury Treatment */}
-      <div className="absolute top-[-5%] left-[-10%] w-[450px] h-[450px] bg-[#0000001a] blur-[180px] rounded-full z-0 opacity-0 animate-[pulse_15s_ease-in-out_infinite] " style={{ animationDelay: '2s' }} id="glow-1" />
+      <div className="absolute top-[-5%] left-[-10%] w-[450px] h-[450px] bg-[#0000001a] blur-[180px] rounded-full z-0 opacity-0 animate-[pulse_15s_ease-in-out_infinite] hidden md:block" style={{ animationDelay: '2s' }} id="glow-1" />
     
-      <div className="container-custom pt-[80px] pb-40 flex-1 flex flex-col relative z-10 w-full">
+      <div className="container-custom lg:pt-[80px] pt-10   flex-1 flex flex-col relative z-10 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-14 lg:gap-16 items-center w-full">
           {/* Left Side Content - Now order-2 on mobile */}
           <div className="flex flex-col lg:pt-10 z-10 min-w-0 order-2 md:order-1">
@@ -137,19 +137,20 @@ export default function HeroLight() {
             </p>
             
             <div ref={btnsRef} className="md:mt-8 mt-4 flex flex-row flex-wrap items-center gap-3 md:gap-4 opacity-0">
-              <button 
+              <Link
+                href="/work"
                 onMouseEnter={() => setIsHoveredWork(true)}
                 onMouseLeave={() => setIsHoveredWork(false)}
                 className="group bg-[#111] text-white px-5 md:px-8 py-3 rounded-full font-medium text-[11px] md:text-[14px] transition-all duration-300 shadow-sm hover:shadow-md hover:bg-[#222] text-left flex-1 sm:flex-initial flex items-center justify-center sm:justify-start gap-2 overflow-hidden"
               >
                 <span className="min-w-[80px] md:min-w-[100px] inline-block transition-transform duration-300 group-hover:translate-x-[1px] text-center sm:text-left">
-                  <TypewriterText text="View My Work" active={isHoveredWork} />
+                  <TypewriterText text="VIEW MY WORK" active={isHoveredWork} />
                 </span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:rotate-[45deg] group-hover:translate-x-[2px] hidden sm:block">
                   <line x1="7" y1="17" x2="17" y2="7"></line>
                   <polyline points="7 7 17 7 17 17"></polyline>
                 </svg>
-              </button>
+              </Link>
               <button 
                 onMouseEnter={() => setIsHoveredCV(true)}
                 onMouseLeave={() => setIsHoveredCV(false)}

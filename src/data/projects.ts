@@ -1,60 +1,130 @@
 export const cases = [
   {
     id: "01",
-    title: "847 Components, One System",
-    category: "DESIGN SYSTEMS",
+    title: "hashbank",
+    category: "MOBILE BANK",
     type: "Design",
-    description:
-      "Create a unified design system that would serve as the foundation for all Allegion digital products—enabling designers to prototype faster, developers to build consistently, and users to enjoy cohesive experiences across every touchpoint.",
+    role: "Founding Designer",
+    duration: "6 months",
+    link: "https://hashbank.example.com",
+    bgColor: "linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)",
+    description: "Founding designer from concept to launch. Redefining mobile banking with a bold, simple, and secure experience.",
     stats: [
-      { value: "3x", label: "FASTER PROTOTYPING" },
-      { value: "100%", label: "COMPONENT DOCUMENTATION COVERAGE" },
+      { value: "98%", label: "SATISFACTION" },
+      { value: "40k+", label: "ACTIVE USERS" },
+      { value: "<20s", label: "TRANSFER TIME" },
+      { value: "31%", label: "RETENTION" },
     ],
-    slug: "design-systems",
-    image: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop"
+    problem: "Building hashbank from zero meant solving for extreme industry-wide user drop-off. Our objective was radical transparency.",
+    approach: "We wanted to connect the safety of old banks with the new world of crypto by replacing messy interfaces.",
+    architecture: "The foundation of hashbank is a modular micro-frontend architecture designed to scale across multiple services.",
+    designSystem: "A living Design System was built to ensure 100% parity between Figma and the final React codebase.",
+    prototyping: "High-fidelity interactive prototypes were developed to test the critical paths of money movement.",
+    testing: "Comprehensive usability testing with 50+ beta participants helped us refine the verification flow.",
+    outcome: "Successfully launched the beta with 40k+ active users within the first 3 months.",
+    slug: "booking-platform",
+    image: "/images/projects/thumbnails/2.png",
+    images: [
+      "/images/projects/thumbnails/2.png",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2670&auto=format&fit=crop"
+    ]
   },
   {
     id: "02",
-    title: "Designing For Complex State",
-    category: "LOYALTY PLATFORM",
+    title: "USER Billing",
+    category: "MANAGEMENT SYSTEM",
     type: "Front-end",
-    link: "https://example.com",
-    description:
-      "Building a scalable loyalty engine that handles millions of transactions daily, providing users with a seamless and rewarding experience through intuitive interface design.",
+    role: "Lead Frontend Engineer",
+    duration: "4 months",
+    link: "https://billing.example.com",
+    bgColor: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+    description: "A flexible billing and subscription management experience with powerful controls and clear hierarchy.",
     stats: [
-      { value: "85%", label: "ENGAGEMENT LIFT" },
-      { value: "12", label: "CORE COMPONENTS" },
+      { value: "2x", label: "REVENUE GROWTH" },
+      { value: "12min", label: "ONBOARDING" },
+      { value: "80%", label: "ERROR REDUCTION" },
+      { value: "99.9%", label: "ACCURACY" },
     ],
-    slug: "loyalty-platform",
-    image: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop"
+    problem: "User billing was a complex puzzle of legacy subscriptions and manual invoicing requiring enterprise-scale simplicity.",
+    approach: "We focused on a 'Transaction-First' architecture, ensuring that every financial change is surfaced instantly.",
+    architecture: "We built a multi-tenant orchestration layer that easily integrates with external ERPs like SAP and Oracle.",
+    designSystem: "The billing interface uses a 'Technical Utility' design system with a high-contrast palette.",
+    prototyping: "Prototyping focused on the 'Financial Snapshot' views, ensuring complex data remains readable.",
+    testing: "Beta testing with three enterprise finance teams allowed us to optimize the bulk-upload logic.",
+    outcome: "The platform now manages over $12M in annual recurring revenue with zero manual errors reported.",
+    slug: "user-billing",
+    image: "/images/projects/thumbnails/1.png",
+    images: [
+      "/images/projects/thumbnails/1.png",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2670&auto=format&fit=crop"
+    ]
   },
   {
     id: "03",
-    title: "Property Search Redesigned",
-    category: "REAL ESTATE",
-    type: "Design",
-    description:
-      "A complete overhaul of the property search experience, focusing on speed, accuracy, and mobile-first accessibility for high-intent buyers.",
+    title: "BONUS Website",
+    category: "WEBSITE",
+    type: "Front-end",
+    role: "Senior UX Engineer",
+    duration: "3 months",
+    link: "http://bonus.sa/",
+    bgColor: "linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)",
+    description: "Developing a high-performance interactive website with complex state management and custom UI components.",
     stats: [
-      { value: "2x", label: "SEARCH EFFICIENCY" },
-      { value: "60%", label: "FASTER ONBOARDING" },
+      { value: "0.2s", label: "LATENCY" },
+      { value: "15k+", label: "ACTIVE USERS" },
+      { value: "95%", label: "UPTIME" },
+      { value: "125%", label: "ROI" }
     ],
-    slug: "real-estate-platform",
-    image: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop"
+    problem: "The previous iteration was plagued by slow render times and a disconnected component library.",
+    approach: "We implemented a 'Atomic Front-end' methodology, rebuilding the core architecture using React Concurrent Mode.",
+    architecture: "The application utilizes a modular micro-service architecture for its front-end.",
+    designSystem: "A specialized engineering-first design system was created, emphasizing data-density.",
+    prototyping: "Rapid prototyping cycles were used to stress-test the state transitions of the dashboard.",
+    testing: "Automated regression testing and unit tests reached 90% coverage across 20+ devices.",
+    outcome: "The website achieved a 40% performance boost and scaled to handle 15k+ users.",
+    slug: "bonus-app",
+    image: "/images/projects/thumbnails/1.png",
+    images: [
+      "/images/projects/thumbnails/1.png",
+      "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop"
+    ]
   },
   {
     id: "04",
-    title: "Modern FinTech Dashboard",
-    category: "FINTECH",
+    title: "TTS Website",
+    category: "WEBSITE",
     type: "Front-end",
-    link: "https://example.com",
-    description:
-      "Developing a high-performance financial dashboard that prioritizes data visualization and real-time analytics for professional traders.",
+    role: "Lead Platform Engineer",
+    duration: "5 months",
+    link: "https://mytts.sa/",
+    bgColor: "linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)",
+    description: "Building the core front-end foundation for a complex technical tracking and sequencing website.",
     stats: [
-      { value: "0.2s", label: "LATENCY REDUCTION" },
-      { value: "15k+", label: "ACTIVE MONTHLY USERS" },
+      { value: "1.2s", label: "LOAD TIME" },
+      { value: "100%", label: "ACCESSIBILITY" },
+      { value: "48ms", label: "INTERACTION" },
+      { value: "3x", label: "SPEED" }
     ],
-    slug: "fintech-dashboard",
-    image: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop"
-  },
+    problem: "Translating high-frequency tracking logic into a manageable, responsive interface.",
+    approach: "We used a 'Functional UI' strategy, strictly typing every interaction.",
+    architecture: "The architecture is built on a custom internal component library.",
+    designSystem: "A high-contrast 'Command-Center' aesthetic was adopted to reduce eye fatigue.",
+    prototyping: "Interactive Gantt-style charts and tracking timelines were prototyped.",
+    testing: "Intensive QA testing across legacy and modern browser versions ensured global stability.",
+    outcome: "The TTS website now serves as the primary tracking engine for a global logistics network.",
+    slug: "tts-platform",
+    image: "/images/projects/thumbnails/2.png",
+    images: [
+      "/images/projects/thumbnails/2.png",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2670&auto=format&fit=crop"
+    ]
+  }
 ];

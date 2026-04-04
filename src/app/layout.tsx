@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Grain from "@/components/Grain";
-import Cursor from "@/components/Cursor";
+import LoaderProvider from "@/components/LoaderProvider";
 
 export const metadata: Metadata = {
   title: "Hazem Anwar — Product Designer & Frontend Engineer",
@@ -23,6 +23,8 @@ export const metadata: Metadata = {
   },
 };
 
+import NavbarLight from "@/components/NavbarLight";
+
 export default function RootLayout({
   children,
 }: {
@@ -43,8 +45,11 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-bg text-text antialiased">
-        <Grain />
-        {children}
+        <LoaderProvider>
+          <Grain />
+          <NavbarLight />
+          {children}
+        </LoaderProvider>
       </body>
     </html>
   );

@@ -30,10 +30,11 @@ export default function Loader({ onComplete }: LoaderProps) {
       {
         y: "0%",
         opacity: 1,
-        duration: 0.8,
-        ease: "power3.out",
-        stagger: 0.04,
-      }
+        duration: 0.3,
+        ease: "power4.out",
+        stagger: 0.02,
+      },
+      0
     );
 
     // Progress bar + counter
@@ -42,29 +43,29 @@ export default function Loader({ onComplete }: LoaderProps) {
       obj,
       {
         value: 100,
-        duration: 1.8,
-        ease: "power2.inOut",
+        duration: 0.4,
+        ease: "none",
         onUpdate: () => {
           const v = Math.round(obj.value);
           if (counter) counter.textContent = v + "%";
           if (progress) progress.style.width = v + "%";
         },
       },
-      "-=0.4"
+      "-=0.15"
     );
 
     // Exit animation
     tl.to(
       text,
-      { y: "-80px", opacity: 0, duration: 0.6, ease: "power3.in" },
-      "-=0.2"
+      { opacity: 0, scale: 0.98, duration: 0.2, ease: "power2.in" },
+      "+=0.05"
     );
     tl.to(
       loader,
       {
-        y: "-100%",
-        duration: 1,
-        ease: "power4.inOut",
+        opacity: 0,
+        duration: 0.4,
+        ease: "power2.out",
         onComplete: () => {
           document.body.style.overflow = "";
           onComplete();

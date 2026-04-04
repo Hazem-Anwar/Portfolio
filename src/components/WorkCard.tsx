@@ -64,28 +64,30 @@ export default function WorkCard({ project }: { project: Project }) {
         </div>
 
         <div className="flex items-center gap-6 mt-4 flex-wrap">
-          <Link
-            href={`/work/${project.slug}`}
-            className="group flex items-center gap-4 w-fit"
-          >
-            <div className="flex flex-col overflow-hidden">
-              <span className="font-display text-xs md:text-sm tracking-[0.2em] uppercase transition-all duration-500 font-bold">
-                VIEW CASE STUDY
-              </span>
-              <div className="h-px bg-text w-0 group-hover:w-full transition-all duration-500" />
-            </div>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="group-hover:translate-x-3 transition-transform duration-500"
+          {project.type === "Design" && (
+            <Link
+              href={`/work/${project.slug}`}
+              className="group flex items-center gap-4 w-fit"
             >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
+              <div className="flex flex-col overflow-hidden">
+                <span className="font-display text-xs md:text-sm tracking-[0.2em] uppercase transition-all duration-500 font-bold">
+                  VIEW CASE STUDY
+                </span>
+                <div className="h-px bg-text w-0 group-hover:w-full transition-all duration-500" />
+              </div>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="group-hover:translate-x-3 transition-transform duration-500"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </Link>
+          )}
 
           {project.type === "Front-end" && project.link && (
             <a

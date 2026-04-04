@@ -9,21 +9,23 @@
   --font-bricolage: "Bricolage Grotesque", sans-serif;
   --font-bebas: "Bebas Neue", sans-serif;
   --font-epilogue: "Epilogue", sans-serif;
-  --bg: #05050a;
-  --text: #f0f0eb;
-  --accent: #2563eb;
-  --accent-light: #3b82f6;
-  --muted: #6b7280;
-  --border: rgba(240, 240, 235, 0.1);
-}
-
-html.light-mode {
+  
+  /* DEFAULT: LIGHT MODE */
   --bg: #FFFFFF;
   --text: #111111;
   --accent: #FF4D00;
   --accent-light: #ff7a41;
   --muted: #666666;
   --border: #E5E5E5;
+}
+
+html.dark-mode {
+  --bg: #05050a;
+  --text: #f0f0eb;
+  --accent: #2563eb;
+  --accent-light: #3b82f6;
+  --muted: #6b7280;
+  --border: rgba(240, 240, 235, 0.1);
 }
 
 
@@ -143,12 +145,14 @@ html.lenis {
 .container-custom {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 @media (max-width: 768px) {
   .container-custom {
-    padding: 0 24px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 }
 
