@@ -1,0 +1,4 @@
+﻿src/app/work/[slug]/page.tsx(10,27): error TS1149: File name 'C:/Users/pc/hazem/node_modules/gsap/types/Draggable.d.ts' differs from already included file name 'C:/Users/pc/hazem/node_modules/gsap/types/draggable.d.ts' only in casing.
+  The file is in the program because:
+    Referenced via 'draggable.d.ts' from file 'C:/Users/pc/hazem/node_modules/gsap/types/index.d.ts'
+    Imported via "gsap/Draggable" from file 'C:/Users/pc/hazem/src/app/work/[slug]/page.tsx' with packageId 'gsap/types/Draggable.d.ts@3.14.2'

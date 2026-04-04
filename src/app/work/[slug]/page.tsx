@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { Draggable } from "gsap/Draggable";
+import { Draggable } from "gsap/all";
 import { cases } from "@/data/projects";
 
 if (typeof window !== "undefined") {
