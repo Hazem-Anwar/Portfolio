@@ -23,9 +23,9 @@ export const cases = [
     testing: "Comprehensive usability testing with 50+ beta participants helped us refine the verification flow.",
     outcome: "Successfully launched the beta with 40k+ active users within the first 3 months.",
     slug: "booking-platform",
-    image: "/images/projects/thumbnails/2.png",
+    image: "/images/Projects/thumbnails/2.png",
     images: [
-      "/images/projects/thumbnails/2.png",
+      "/images/Projects/thumbnails/2.png",
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2670&auto=format&fit=crop"
@@ -55,9 +55,9 @@ export const cases = [
     testing: "Beta testing with three enterprise finance teams allowed us to optimize the bulk-upload logic.",
     outcome: "The platform now manages over $12M in annual recurring revenue with zero manual errors reported.",
     slug: "user-billing",
-    image: "/images/projects/thumbnails/1.png",
+    image: "/images/Projects/thumbnails/1.png",
     images: [
-      "/images/projects/thumbnails/1.png",
+      "/images/Projects/thumbnails/1.png",
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2670&auto=format&fit=crop"
@@ -87,9 +87,9 @@ export const cases = [
     testing: "Automated regression testing and unit tests reached 90% coverage across 20+ devices.",
     outcome: "The website achieved a 40% performance boost and scaled to handle 15k+ users.",
     slug: "bonus-app",
-    image: "/images/projects/thumbnails/1.png",
+    image: "/images/Projects/thumbnails/1.png",
     images: [
-      "/images/projects/thumbnails/1.png",
+      "/images/Projects/thumbnails/1.png",
       "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2670&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop"
@@ -119,9 +119,9 @@ export const cases = [
     testing: "Intensive QA testing across legacy and modern browser versions ensured global stability.",
     outcome: "The TTS website now serves as the primary tracking engine for a global logistics network.",
     slug: "tts-platform",
-    image: "/images/projects/thumbnails/2.png",
+    image: "/images/Projects/thumbnails/2.png",
     images: [
-      "/images/projects/thumbnails/2.png",
+      "/images/Projects/thumbnails/2.png",
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2670&auto=format&fit=crop"

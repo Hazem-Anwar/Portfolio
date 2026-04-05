@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Nav from "@/components/Nav";
+import NavbarLight from "@/components/NavbarLight";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -204,7 +204,7 @@ export default function AboutArchivePage() {
 
   return (
     <div ref={containerRef} className="bg-bg min-h-screen relative overflow-x-hidden">
-      <Nav />
+      <NavbarLight />
       <div ref={cursorRef} className="fixed pointer-events-none z-[200] opacity-0 flex flex-row items-start font-sans">
         <svg width="24" height="24" viewBox="0 0 24 24" className="drop-shadow-md z-10 mt-1 mr-[-6px]">
           <path d="M5 3L19 10L12.5 13.5L9 20L5 3Z" fill="#a855f7" stroke="white" strokeWidth="2" strokeLinejoin="round" />

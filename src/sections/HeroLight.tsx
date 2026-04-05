@@ -79,6 +79,19 @@ export default function HeroLight({ startAnimations = true }: { startAnimations?
 
   const [isHoveredWork, setIsHoveredWork] = useState(false);
   const [isHoveredCV, setIsHoveredCV] = useState(false);
+  const [showFixedMobileBtns, setShowFixedMobileBtns] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 150) {
+        setShowFixedMobileBtns(true);
+      } else {
+        setShowFixedMobileBtns(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (!startAnimations) return;
@@ -90,7 +103,7 @@ export default function HeroLight({ startAnimations = true }: { startAnimations?
     tl.to(badgeRef.current, { opacity: 1, scale: 1, duration: 0.8, startAt: { scale: 0, opacity: 0 } }, 0.5);
     
     // 2. NAVIGATION
-    tl.to("nav", { opacity: 1, y: 0, duration: 0.8, startAt: { y: -20, opacity: 0 } }, 0.7);
+    tl.to("nav", { opacity: 1, y: 0, duration: 0.8, startAt: { y: -20, opacity: 0 }, clearProps: "y" }, 0.7);
     
     // 3. NAME & SIGNATURE
     tl.to("#hero-signature", { opacity: 1, duration: 0.8, startAt: { opacity: 0 } }, 1.0);
@@ -214,6 +227,32 @@ export default function HeroLight({ startAnimations = true }: { startAnimations?
         </div>
       </div>
     </section>
+
+    {/* Mobile Fixed Bottom Buttons */}
+    <div 
+      className={`md:hidden fixed bottom-0 left-0 right-0 z-[150] flex flex-row items-center gap-3 transition-all rounded-t-md duration-500 ease-in-out p-1 bg-white/60 backdrop-blur-xl border-t border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.1)]   ${
+        showFixedMobileBtns ? "translate-y-0 opacity-100" : "translate-y-[150%] opacity-0 pointer-events-none"
+      }`}
+    >
+      <Link
+        href="/work"
+        className="flex-1 bg-[#111] text-white py-2.5 rounded-full font-bold text-[11px] shadow-sm flex items-center justify-center gap-1.5 text-center h-[42px] uppercase tracking-wider"
+      >
+        <span>  works</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="7" y1="17" x2="17" y2="7"></line>
+          <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
+      </Link>
+      <button 
+        className="flex-1 bg-white text-[#111] py-2.5 rounded-full font-bold text-[11px] shadow-sm border border-[#cdcdcd] flex items-center justify-center gap-1.5 whitespace-nowrap h-[42px] uppercase tracking-wider"
+      >
+        <span>Resume</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 3v13M7 11l5 5 5-5M5 21h14"></path>
+        </svg>
+      </button>
+    </div>
     </>
   );
 }

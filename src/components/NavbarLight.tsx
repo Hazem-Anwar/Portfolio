@@ -47,6 +47,10 @@ export default function NavbarLight() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const isHome = pathname === "/";
   const isWork = pathname === "/work";
@@ -106,15 +110,53 @@ export default function NavbarLight() {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    const controlNavbar = () => {
+      if (typeof window !== "undefined") {
+        const currentScrollY = window.scrollY;
+        
+        // 1. Scrolled State
+        if (currentScrollY > 20) {
+          setIsScrolled(true);
+        } else {
+          setIsScrolled(false);
+        }
+
+        // 2. Visibility Logic (More sensitive)
+        const scrollDelta = currentScrollY - lastScrollY;
+        
+        if (currentScrollY <= 5) {
+          // Force visible at the very top
+          setIsVisible(true);
+        } else if (Math.abs(scrollDelta) > 5) {
+          // Sensitive to direction changes
+          if (scrollDelta > 0) {
+            setIsVisible(false); // Scrolling down
+          } else {
+            setIsVisible(true); // Scrolling up
+          }
+          setLastScrollY(currentScrollY);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", controlNavbar, { passive: true });
+    return () => window.removeEventListener("scroll", controlNavbar);
+  }, [lastScrollY]);
+
   if (isProjectPage) return null;
 
   return (
     <>
       <nav 
         ref={containerRef}
-        className={`fixed top-0 left-0 w-full z-[120] py-5 transition-colors duration-300
-          ${isOpen ? "" : "before:content-[''] before:absolute before:inset-0 before:bg-white/70 before:backdrop-blur-md before:z-[-1]"}
-          after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black/[0.04] after:z-[-1]`}
+        className={`fixed top-0 left-0 w-full z-[120] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+          ${isVisible || isOpen ? "translate-y-0" : "-translate-y-full"}
+          ${isScrolled || isOpen 
+            ? "py-4 before:opacity-100 shadow-sm" 
+            : "py-6 before:opacity-0 shadow-none"}
+          before:content-[''] before:absolute before:inset-0 before:bg-white/80 before:backdrop-blur-md before:z-[-1] before:transition-opacity before:duration-300
+          after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black/10 after:z-[-1]`}
       >
         <div className="container-custom flex items-center justify-between relative font-epilogue">
           {/* Logo */}
