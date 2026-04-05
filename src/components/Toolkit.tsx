@@ -235,9 +235,9 @@ const AntigravityLogo = () => (
                 </div>
               )}
               <div className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted mb-6 reveal">{group.label}</div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border reveal">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border reveal">
                 {group.items.map((item: any, i) => (
-                  <div key={i} className={`tool-item bg-bg p-6 transition-all duration-300 group relative ${item.highlight ? 'bg-[#e4fe9a]/[0.03] border-[#e4fe9a]/20' : 'hover:bg-white/[0.02]'}`}>
+                  <div key={i} className={`tool-item bg-bg p-4 md:p-6 transition-all duration-300 group relative ${item.highlight ? 'bg-[#e4fe9a]/[0.03] border-[#e4fe9a]/20' : 'hover:bg-white/[0.02]'}`}>
                     <div className={`${item.wideLogo ? 'w-auto' : 'w-8'} h-8 mb-5 flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}>
                       {item.logo}
                     </div>

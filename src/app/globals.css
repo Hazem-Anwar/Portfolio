@@ -373,6 +373,20 @@ html.lenis {
   height: 100%;
 }
 
+/* Vertical Auto-Scroll for Mockups */
+@keyframes scroll-vertical {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-85%); }
+}
+
+.animate-scroll-vertical {
+  animation: scroll-vertical 60s linear infinite alternate;
+}
+
+.pause-animation:hover .animate-scroll-vertical {
+  animation-play-state: paused;
+}
+
 /* Scrollbar Hide Utilities */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
