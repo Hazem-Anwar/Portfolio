@@ -12,7 +12,7 @@ export default function SelectedProjects() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section id="work" ref={containerRef} className="bg-white py-12 mb-12 md:mb-18 font-jakarta border-border">
+    <section id="work" ref={containerRef} className="bg-white py-6 md:py-12 mb-12 md:mb-18 font-jakarta border-border">
       <div className="container-custom">
         
         {/* Header Section */}
@@ -54,8 +54,7 @@ export default function SelectedProjects() {
               {/* Image Side (Top) */}
               <Link 
                  href={`/work/${work.slug}`}
-                 className="relative overflow-hidden rounded-[16px] md:rounded-[20px] aspect-[1.4/1] mb-6 border border-transparent group-hover:border-[#eee] transition-all duration-300"
-                 style={{ background: (work as any).bgColor || '#f9f9f9' }}
+                 className="relative overflow-hidden rounded-[16px] md:rounded-[20px] aspect-[1.4/1] mb-6 border border-[#f0f0f0] hover:border-[#e5e5e5] transition-all duration-300 bg-[#f9f9f9]"
               >
                 <div className="absolute inset-0">
                    <Image 

@@ -1,6 +1,146 @@
 export const cases = [
   {
     id: "01",
+    title: "Mootery",
+    category: "AUCTIONS PLATFORM",
+    type: "Design",
+    role: "UI/UX Designer",
+    duration: "4 months",
+    link: "",
+    bgColor: "linear-gradient(135deg, #6B46C1 0%, #38A169 100%)",
+    description: "Mootery is a high-end automotive auction platform that bridges the gap between luxury car collecting and cutting-edge financial technology.",
+    stats: [
+      { value: "Real-time", label: "BIDDING" },
+      { value: "Instant", label: "FEEDBACK" },
+      { value: "Secure", label: "WALLET" },
+      { value: "Live", label: "INSIGHTS" },
+      { value: "0% ", label: "BID LAG" },
+      { value: "Multi", label: "MONITORING" },
+    ],
+    keyTakeaways: [
+      {
+        title: "Balancing Luxury and Urgency",
+        content: "The challenge was to maintain a premium, high-end feel while incorporating the high-energy, fast-paced nature of real-time auctions. We achieved this through a sophisticated purple palette paired with strategic green accents that signal success and trust."
+      },
+      {
+        title: "Data Density without Cognitive Load",
+        content: "Power users need to monitor multiple auctions and technical specs simultaneously. I designed a modular, high-density layout that uses 'Urgency Indicators' and visual hierarchies to help users make split-second decisions without feeling overwhelmed."
+      },
+      {
+        title: "Trust through Transparency",
+        content: "In high-stakes bidding, trust is everything. We integrated live data visualizations, price trend graphs, and social proof elements like regional bidder flags to create a transparent environment where users feel confident in their investment."
+      }
+    ],
+    problem: "Existing auction platforms were either too cluttered for casual users or lacked the real-time data depth required by professional traders. There was a significant gap in the market for a platform that could handle complex financial data while feeling like a luxury experience.",
+    approach: "I focused on a 'Command Center' methodology for the bidding experience, ensuring all critical controls are within reach, while using clean typography and spacious layouts for the web dashboard to cater to power users.",
+    architecture: "The platform is built on a real-time data architecture that synchronizes bid states across mobile and web instantly. The UX architecture prioritizes information hierarchy, allowing for fast scanning of hundreds of listings.",
+    designSystem: "A comprehensive design system was developed using a deep purple for exclusivity and a vibrant green for achievement. Custom icons and urgency-based status badges ensure a consistent visual language across all screen sizes.",
+    prototyping: "High-fidelity prototypes were used to test the 'Bidding Control Center' gauge and real-time state changes, ensuring the gamified excitement felt responsive and rewarding.",
+    testing: "User testing focused on the 'Buy Now' flow and multi-auction monitoring, refining the navigation to minimize fatigue and ensure no bidding opportunity is missed.",
+    outcome: "Mootery successfully gamifies the auction process without losing its premium identity. It empowers both casual collectors and professional traders with the data and speed needed to dominate the luxury car market.",
+    slug: "mootery",
+    detailedSections: [
+      {
+        title: "Onboarding & Authentication",
+        subTitle: "First Impressions & Seamless Access.",
+        content: "Designed to minimize cognitive load. High-quality imagery creates immediate trust, while the authentication flow is optimized for speed, featuring a clear country-code selector and a high-contrast CTA to drive user conversion.",
+        image: "/images/Projects/motoory/1.png"
+      },
+      {
+        title: "Listing & Discovery (UX Architecture)",
+        subTitle: "Information Hierarchy for Faster Decision Making.",
+        content: "In a data-heavy environment, clarity is key. I designed the vehicle cards to highlight 'Urgency Indicators' (Live timers) and 'Status Badges' (Accident/Clean), allowing users to scan and evaluate hundreds of listings at a glance.",
+        image: "/images/Projects/motoory/2.png"
+      },
+      {
+        title: "Live Bidding Experience",
+        subTitle: "Turning Auction Tension into Gamified Excitement.",
+        content: "The heart of the app. I created a real-time 'Bidding Control Center' with a circular progress gauge for a visual representation of price increases. Color-coded states (Win/Outbid) provide instant feedback without requiring the user to read text.",
+        image: "/images/Projects/motoory/3.png"
+      },
+      {
+        title: "Dashboard & Digital Wallet",
+        subTitle: "Transparent Financial Management.",
+        content: "A simplified hub for tracking bids, wins, and losses. The wallet features an intuitive 'Subscription Tier' system (Silver/Gold) with smart progress bars to encourage upselling by showing exactly what’s needed for the next tier.",
+        image: "/images/Projects/motoory/4.png"
+      },
+      {
+        title: "Web UI - Advanced Search & Filters",
+        subTitle: "Scaling the Experience for Power Users.",
+        content: "The desktop version leverages the wide aspect ratio to provide persistent filters and side-by-side comparison. This layout is optimized for professional traders who need to monitor market trends and car specs simultaneously.",
+        image: "/images/Projects/motoory/5.png"
+      },
+      {
+        title: "Technical Specs & 'Buy Now' Feature",
+        subTitle: "Deep Dive without the Clutter.",
+        content: "Complex technical data (VIN, engine type, mileage) is organized using custom icons for easy visual scanning. I also integrated a secondary 'Buy Now' flow to cater to users looking for immediate acquisition outside the auction loop.",
+        image: "/images/Projects/motoory/6.png"
+      },
+      {
+        title: "Multi-Auction Monitoring Control",
+        subTitle: "Empowering Users with Real-Time Data.",
+        content: "For power users, I designed a specialized view that allows monitoring multiple active auctions on a single screen. This minimizes navigation fatigue and ensures no bidding opportunity is missed.",
+        image: "/images/Projects/motoory/7.png"
+      },
+      {
+        title: "Data Visualization & Social Proof",
+        subTitle: "Building Trust through Live Insights.",
+        content: "Integrated a dynamic price-trend graph to help bidders understand market value. The 'Recent Bidders' list with regional flags adds a layer of social proof and transparency, vital for the platform's credibility.",
+        image: "/images/Projects/motoory/8.png"
+      }
+    ],
+    colors: [
+      { hex: "#6B46C1", name: 'Primary Purple' },
+      { hex: "#38A169", name: 'Success Green' },
+      { hex: "#1A202C", name: 'Deep Onyx' },
+      { hex: "#718096", name: 'Steel Gray' }
+    ],
+    image: "/images/Projects/motoory/COVER.png",
+    images: [
+      "/images/Projects/motoory/1.png",
+      "/images/Projects/motoory/2.png",
+      "/images/Projects/motoory/3.png",
+      "/images/Projects/motoory/4.png",
+      "/images/Projects/motoory/5.png",
+      "/images/Projects/motoory/6.png",
+      "/images/Projects/motoory/7.png",
+      "/images/Projects/motoory/8.png",
+      "/images/Projects/motoory/COVER.png"
+    ]
+  },
+  {
+    id: "02",
+    title: "BONUS Website",
+    category: "WEBSITE",
+    type: "Front-end",
+    role: "Senior UX Engineer",
+    duration: "3 months",
+    link: "http://bonus.sa/",
+    bgColor: "linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)",
+    description: "Developing a high-performance interactive website with complex state management and custom UI components.",
+    stats: [
+      { value: "0.2s", label: "LATENCY" },
+      { value: "15k+", label: "ACTIVE USERS" },
+      { value: "95%", label: "UPTIME" },
+      { value: "125%", label: "ROI" }
+    ],
+    problem: "The previous iteration was plagued by slow render times and a disconnected component library.",
+    approach: "We implemented a 'Atomic Front-end' methodology, rebuilding the core architecture using React Concurrent Mode.",
+    architecture: "The application utilizes a modular micro-service architecture for its front-end.",
+    designSystem: "A specialized engineering-first design system was created, emphasizing data-density.",
+    prototyping: "Rapid prototyping cycles were used to stress-test the state transitions of the dashboard.",
+    testing: "Automated regression testing and unit tests reached 90% coverage across 20+ devices.",
+    outcome: "The website achieved a 40% performance boost and scaled to handle 15k+ users.",
+    slug: "bonus-app",
+    image: "/images/Projects/thumbnails/3.png",
+    images: [
+      "/images/Projects/thumbnails/3.png",
+      "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop"
+    ]
+  },
+  {
+    id: "03",
     title: "Places",
     category: "BOOKING ECOSYSTEM",
     type: "Design",
@@ -95,6 +235,12 @@ export const cases = [
         image: "/images/Projects/places/data.png"
       }
     ],
+    colors: [
+      { hex: "#000000", name: 'Pitch Black' },
+      { hex: "#555555", name: 'Concrete' },
+      { hex: "#AAAAAA", name: 'Silver' },
+      { hex: "#F5F5F5", name: 'Soft Paper' }
+    ],
     image: "/images/Projects/places/1.png",
     images: [
       "/images/Projects/places/1.png",
@@ -106,37 +252,6 @@ export const cases = [
       "/images/Projects/places/7.png",
       "/images/Projects/places/8.png",
       "/images/Projects/places/data.png"
-    ]
-  },
-  {
-    id: "03",
-    title: "BONUS Website",
-    category: "WEBSITE",
-    type: "Front-end",
-    role: "Senior UX Engineer",
-    duration: "3 months",
-    link: "http://bonus.sa/",
-    bgColor: "linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)",
-    description: "Developing a high-performance interactive website with complex state management and custom UI components.",
-    stats: [
-      { value: "0.2s", label: "LATENCY" },
-      { value: "15k+", label: "ACTIVE USERS" },
-      { value: "95%", label: "UPTIME" },
-      { value: "125%", label: "ROI" }
-    ],
-    problem: "The previous iteration was plagued by slow render times and a disconnected component library.",
-    approach: "We implemented a 'Atomic Front-end' methodology, rebuilding the core architecture using React Concurrent Mode.",
-    architecture: "The application utilizes a modular micro-service architecture for its front-end.",
-    designSystem: "A specialized engineering-first design system was created, emphasizing data-density.",
-    prototyping: "Rapid prototyping cycles were used to stress-test the state transitions of the dashboard.",
-    testing: "Automated regression testing and unit tests reached 90% coverage across 20+ devices.",
-    outcome: "The website achieved a 40% performance boost and scaled to handle 15k+ users.",
-    slug: "bonus-app",
-    image: "/images/Projects/thumbnails/3.png",
-    images: [
-      "/images/Projects/thumbnails/3.png",
-      "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2670&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop"
     ]
   },
   {

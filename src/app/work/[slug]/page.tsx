@@ -224,7 +224,7 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
                       const imgIndex = allProjectImages.indexOf(section.image);
                       if (imgIndex !== -1) setSelectedIndex(imgIndex);
                     }} 
-                    className={`w-full rounded-2xl overflow-hidden cursor-zoom-in group border border-black/5 ${section.title.includes("Data Visualization") ? "bg-[#f1f1f1] p-4 md:p-6 mb-4" : "bg-[#f7f7f7]"}`}
+                    className={`w-full rounded-2xl overflow-hidden cursor-zoom-in group border border-black/5 ${section.title.includes("Data Visualization") ? "bg-[#f1f1f1] mb-4" : "bg-[#f7f7f7]"}`}
                   >
                     <Image 
                       src={section.image} 
@@ -247,7 +247,7 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
                   </div>
 
                   {/* LANDING PREVIEW WRAPPER (ELITE #F1F1F1 ZONE) */}
-                  {section.title.includes("Smart Stay") && c.slug === "places" && (
+                  {section.title.includes("Smart Stay") && (c.slug === "places" || c.slug === "althowre") && (
                      <div className="mt-12 bg-[#f1f1f1] p-8 md:p-4 lg:p-6 rounded-[16px] border border-black/5">
                         <div className="space-y-8">
                            <div className="space-y-3 max-w-[500px]">
@@ -357,12 +357,12 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
                   </div>
                   <div className="pt-10 border-t border-black/5 space-y-6">
                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {[
+                        {(c.colors || [
                            { hex: "#FF5C00", name: 'Primary' },
                            { hex: "#333333", name: 'Secondary' },
                            { hex: "#888888", name: 'Muted' },
                            { hex: "#E5E5E5", name: 'Surface' }
-                        ].map((col, i) => (
+                        ]).map((col: any, i: number) => (
                            <div key={i} className="space-y-3">
                               <div className="aspect-square rounded-lg border border-black/5 shadow-sm" style={{ background: col.hex }} />
                               <div className="space-y-1">

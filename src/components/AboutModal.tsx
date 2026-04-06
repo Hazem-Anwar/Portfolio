@@ -11,10 +11,34 @@ interface AboutModalProps {
 }
 
 const timelineData = [
-  { years: "2024 — NOW", role: "Product Designer & Engineer", company: "Freelance", desc: "Crafting scalable design systems and high-logic interfaces." },
-  { years: "2022 — 2024", role: "Senior UX Designer", company: "Loyalty Co.", desc: "Led UI/UX for financial and loyalty platforms." },
-  { years: "2020 — 2022", role: "UI/UX Designer", company: "Tech Studio", desc: "Focused on user research and interface logic." },
-  { years: "2019 — 2020", role: "Frontend Developer", company: "Agency", desc: "Developed responsive layouts with a focus on performance." }
+  { 
+    years: "2023 — NOW", 
+    role: "Front-End Web Developer", 
+    company: "DaleelStore", 
+    desc: "Spearheading the front-end architecture and user experience for the region's leading gaming and digital cards marketplace.",
+    image: "/images/exps/daleel.svg"
+  },
+  { 
+    years: "2022 — 2023", 
+    role: "Product Designer", 
+    company: "DROPIFY", 
+    desc: "Crafting scalable e-commerce solutions and design systems.",
+    image: "/images/exps/dropify.svg"
+  },
+  { 
+    years: "2020 — 2022", 
+    role: "Product Designer & Front-End Developer", 
+    company: "Optimal Pass", 
+    desc: "Developed responsive web applications with a focus on performance and UX.",
+    image: "/images/exps/optimal.svg"
+  },
+  { 
+    years: "2017 — 2020", 
+    role: "Product Designer & Front-End Developer", 
+    company: "Al-Wisata Real Estate", 
+    desc: "Built modern interfaces for the real estate market in Saudi Arabia.",
+    image: "/images/exps/wsata.svg"
+  }
 ];
 
 const skills = [
@@ -158,19 +182,24 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                         <div className="flex flex-col items-start md:flex-row md:items-start gap-5 md:gap-8">
                            <div className="shrink-0 w-8 md:w-10 pt-1 flex md:justify-center">
                               <Image 
-                                 src={`/images/partners/${i + 1}.png`} 
+                                 src={item.image} 
                                  alt={item.company} 
-                                 width={24} 
-                                 height={24} 
+                                 width={28} 
+                                 height={28} 
                                  className="object-contain opacity-100" 
                               />
                            </div>
                            <div className="flex-1">
-                              <div className="flex flex-col items-start md:flex-row md:items-baseline justify-between gap-1.5 mb-3">
-                                 <h4 className="font-bricolage font-extrabold text-[17px] md:text-[18px] text-[#111] leading-tight">
-                                    {item.role} <span className="text-[#eee] mx-2 font-light hidden md:inline">/</span> <span className="text-[#888] font-bold text-[13px] uppercase tracking-widest">{item.company}</span>
-                                 </h4>
-                                 <span className="hidden md:inline-flex font-mono text-[10px] font-extrabold text-[#111] bg-[#f5f5f5] px-2 py-0.5 rounded border border-[#eee] w-fit uppercase tracking-tighter">
+                              <div className="flex flex-col md:flex-row md:items-start justify-between gap-3 mb-3">
+                                 <div className="flex flex-col gap-1.5">
+                                    <h4 className="font-bricolage font-extrabold text-[15px] md:text-[16px] text-[#111] leading-tight">
+                                       {item.role}
+                                    </h4>
+                                    <span className="text-[#888] font-bold text-[10px] md:text-[11px] uppercase tracking-widest leading-none">
+                                       {item.company}
+                                    </span>
+                                 </div>
+                                 <span className="inline-flex font-mono text-[10px] font-extrabold text-[#111] bg-[#f5f5f5] px-2.5 py-1 rounded border border-[#eee] w-fit uppercase tracking-tighter self-start transition-colors group-hover:bg-white group-hover:border-[#111]">
                                     {item.years}
                                  </span>
                               </div>
@@ -203,11 +232,11 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                                 {item}
                              </span>
                            ))}
-                           <div className="relative group/counter">
-                              <span className="px-3 py-1 bg-[#ededed] text-[#555] text-[11px] font-black rounded-md border border-[#eee] hover:border-[#111] hover:bg-white hover:text-[#111] transition-all duration-300 cursor-help">
-                                 {s.category === "DESIGN" ? "+ 15 More" : "+ 24 More"}
-                              </span>
-                              <div className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 px-5 py-4 bg-[#111] text-white rounded-2xl shadow-2xl opacity-0 invisible translate-y-2 group-hover/counter:opacity-100 group-hover/counter:visible group-hover/counter:translate-y-0 transition-all duration-500 z-[100] w-[320px] pointer-events-none border border-white/10">
+                            <div className="relative group/counter">
+                               <span className="px-3 py-1 bg-[#ededed] text-[#555] text-[11px] font-black rounded-md border border-[#eee] hover:border-[#111] hover:bg-white hover:text-[#111] transition-all duration-300 cursor-help active:bg-[#111] active:text-white">
+                                  {s.category === "DESIGN" ? "+ 15 More" : "+ 24 More"}
+                               </span>
+                               <div className="fixed md:absolute bottom-6 md:bottom-[calc(100%+12px)] left-1/2 -translate-x-1/2 px-5 py-4 bg-[#111] text-white rounded-2xl shadow-2xl opacity-0 invisible translate-y-2 group-hover/counter:opacity-100 group-hover/counter:visible group-hover/counter:translate-y-0 group-active/counter:opacity-100 group-active/counter:visible group-active/counter:translate-y-0 transition-all duration-500 z-[300] w-[min(320px,85vw)] pointer-events-none border border-white/10">
                                  <div className="flex flex-col gap-3">
                                     <span className="text-[9px] font-mono font-bold text-[#666] uppercase tracking-[0.2em] border-b border-white/10 pb-2">Full Expertise Registry</span>
                                     <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
@@ -240,13 +269,22 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 </div>
                 <span className="font-bricolage font-extrabold text-[13.5px] tracking-tight text-[#111] group-hover:text-white transition-colors">Resume.PDF</span>
                 <div className="w-5 h-5 rounded-full bg-black/5 flex items-center justify-center transition-all group-hover:bg-white/10 ml-1">
-                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-500 group-hover:rotate-45 group-hover:text-white"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                 </div>
              </a>
-             <div className="flex items-center gap-6 font-mono text-[9px] font-bold uppercase tracking-widest text-[#888]">
-                <a href="mailto:hazem.am@gmail.com" className="hover:text-[#111] transition-colors">✉️ Email</a>
-                <a href="#" className="hover:text-[#111] transition-colors">🔗 LinkedIn</a>
-                <a href="#" className="hover:text-[#111] transition-colors">📱 WhatsApp</a>
+             <div className="flex items-center gap-5 md:gap-7 font-mono text-[9px] font-bold uppercase tracking-widest text-[#888]">
+                <a href="mailto:hazem.amrainana98@gmail.com" className="flex items-center gap-2 transition-opacity hover:opacity-70 group/social">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#111]"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 18h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v7.5" /><path d="M3 6l9 6l9 -6" /><path d="M15 18h6" /><path d="M18 15l3 3l-3 3" /></svg>
+                   Email
+                </a>
+                <a href="https://linkedin.com/in/hazemanwar" target="_blank" className="flex items-center gap-2 transition-opacity hover:opacity-70 group/social">
+                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#0077B5]"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg>
+                   LinkedIn
+                </a>
+                <a href="https://wa.me/966500000000" target="_blank" className="flex items-center gap-2 transition-opacity hover:opacity-70 group/social">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#25D366]"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg>
+                   WhatsApp
+                </a>
              </div>
           </div>
         </div>
