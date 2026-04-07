@@ -3,6 +3,7 @@
 import Link from "next/link";
 import gsap from "gsap";
 import { useEffect, useRef, useState, useCallback } from "react";
+import { getLenis } from "@/lib/lenis";
 
 function TypewriterText({ text, active }: { text: string; active: boolean }) {
   const [displayText, setDisplayText] = useState(text);
@@ -75,7 +76,6 @@ export default function NavbarLight() {
     const el = document.querySelector(id);
     if (el) {
       e.preventDefault();
-      const { getLenis } = require("@/lib/lenis");
       const lenis = getLenis();
 
       if (lenis) {

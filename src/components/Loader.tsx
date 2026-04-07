@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 interface LoaderProps {
@@ -34,7 +34,7 @@ export default function Loader({ onComplete }: LoaderProps) {
         ease: "power4.out",
         stagger: 0.02,
       },
-      0
+      0,
     );
 
     // Progress bar + counter
@@ -51,14 +51,14 @@ export default function Loader({ onComplete }: LoaderProps) {
           if (progress) progress.style.width = v + "%";
         },
       },
-      "-=0.15"
+      "-=0.15",
     );
 
     // Exit animation
     tl.to(
       text,
       { opacity: 0, scale: 0.98, duration: 0.2, ease: "power2.in" },
-      "+=0.05"
+      "+=0.05",
     );
     tl.to(
       loader,
@@ -71,7 +71,7 @@ export default function Loader({ onComplete }: LoaderProps) {
           onComplete();
         },
       },
-      "-=0.1"
+      "-=0.1",
     );
 
     document.body.style.overflow = "hidden";

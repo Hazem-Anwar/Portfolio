@@ -109,12 +109,6 @@ const ReactIcon = () => (
   </svg>
 );
 
-const GSAPIcon = () => (
-  <span className="text-[#88ce02] font-black text-[12px] tracking-tight leading-none">
-    GSAP
-  </span>
-);
-
 const AgileIcon = () => (
   <svg
     width="18"
@@ -363,7 +357,6 @@ export default function HeroLight({
   const badgeRef = useRef<HTMLDivElement>(null);
 
   const [isHoveredWork, setIsHoveredWork] = useState(false);
-  const [isHoveredCV, setIsHoveredCV] = useState(false);
   const [showFixedMobileBtns, setShowFixedMobileBtns] = useState(false);
 
   const [skillsIndex, setSkillsIndex] = useState(0);
@@ -501,8 +494,8 @@ export default function HeroLight({
               >
                 Product Engineer <span className="text-[#ff4d00]">.</span>{" "}
                 <br />
-                <span className="text-[clamp(1.5rem,3vw,28px)] font-bold block mt-3 text-[#333] opacity-0]">
-                Frontend • Product Design • QA
+                <span className="text-[clamp(1.5rem,3vw,28px)] font-medium block mt-3 text-[#555] opacity-0] tracking-[-0.01em]">
+                  Frontend • Product Design • QA
                 </span>
               </h1>
 
@@ -550,8 +543,6 @@ export default function HeroLight({
                   href="https://drive.google.com/file/d/1uUFMJ2NaeOPF3ufMFYJr4aET6Q4CH37F/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onMouseEnter={() => setIsHoveredCV(true)}
-                  onMouseLeave={() => setIsHoveredCV(false)}
                   className="group bg-transparent text-[#111] px-5 md:px-8 py-3 rounded-full font-medium text-[11px] md:text-[14px] border border-[#ccc] hover:border-[#111] transition-all duration-300 uppercase tracking-wide text-left flex-1 sm:flex-initial flex items-center justify-center sm:justify-start gap-2 overflow-hidden whitespace-nowrap"
                 >
                   <span className="min-w-[80px] md:min-w-[100px] inline-block transition-transform duration-300 group-hover:translate-x-[1px] text-center sm:text-left">

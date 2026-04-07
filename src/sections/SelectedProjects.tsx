@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef } from "react";
 import { cases } from "@/data/projects";
 
 // Only taking the first 4 projects for the homepage
@@ -12,30 +12,33 @@ export default function SelectedProjects() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section id="work" ref={containerRef} className="bg-white py-6 md:py-12 mb-12 md:mb-18 font-jakarta border-border">
+    <section
+      id="work"
+      ref={containerRef}
+      className="bg-white py-6 md:py-12 mb-12 md:mb-18 font-jakarta border-border"
+    >
       <div className="container-custom">
-        
         {/* Header Section */}
-        <div className="flex items-center justify-between mb-12 md:mb-12 pt-12 border-t border-[#f0f0f0]" >
+        <div className="flex items-center justify-between mb-12 md:mb-12 pt-12 border-t border-[#f0f0f0]">
           <h2 className="text-[11px] md:text-[12px] font-bold tracking-[0.2em] text-[#2c2c2c] uppercase font-jakarta">
             SELECTED PROJECTS
           </h2>
-          <Link 
+          <Link
             href="/work"
             className="w-fit flex items-center justify-start gap-1.5 text-[13px] font-bold text-[#111] group/btn font-jakarta overflow-hidden"
           >
             <span className="relative min-w-[110px] inline-block transition-transform duration-300 group-hover/btn:translate-x-[1px] text-left uppercase">
-               VIEW ALL WORK
+              VIEW ALL WORK
             </span>
-            <svg 
-              width="15" 
-              height="15" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2.5" 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="transition-transform duration-300 group-hover/btn:rotate-[45deg] group-hover/btn:translate-x-[2px]"
             >
               <line x1="7" y1="17" x2="17" y2="7"></line>
@@ -47,22 +50,22 @@ export default function SelectedProjects() {
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14">
           {works.map((work, i) => (
-            <div 
+            <div
               key={i}
               className="group flex flex-col transition-all duration-300"
             >
               {/* Image Side (Top) */}
-              <Link 
-                 href={`/work/${work.slug}`}
-                 className="relative overflow-hidden rounded-[16px] md:rounded-[20px] aspect-[1.4/1] mb-6 border border-[#f0f0f0] hover:border-[#e5e5e5] transition-all duration-300 bg-[#f9f9f9]"
+              <Link
+                href={`/work/${work.slug}`}
+                className="relative overflow-hidden rounded-[16px] md:rounded-[20px] aspect-[1.4/1] mb-6 border border-[#f0f0f0] hover:border-[#e5e5e5] transition-all duration-300 bg-[#f9f9f9]"
               >
                 <div className="absolute inset-0">
-                   <Image 
-                     src={work.image} 
-                     alt={work.title}
-                     fill
-                     className="object-cover transition-transform duration-700 group-hover:scale-105"
-                   />
+                  <Image
+                    src={work.image}
+                    alt={work.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
                 </div>
               </Link>
 
@@ -71,24 +74,24 @@ export default function SelectedProjects() {
                 <h3 className="text-[17px] font-bold text-[#111] uppercase tracking-tighter">
                   {work.title}
                 </h3>
-                
+
                 {work.type === "Design" ? (
-                  <Link 
-                     href={`/work/${work.slug}`}
-                     className="w-fit flex items-center justify-start gap-1.5 text-[13px] font-bold text-[#111] group/btn uppercase tracking-widest"
+                  <Link
+                    href={`/work/${work.slug}`}
+                    className="w-fit flex items-center justify-start gap-1.5 text-[13px] font-bold text-[#111] group/btn uppercase tracking-widest"
                   >
                     <span className="relative min-w-[100px] inline-block transition-transform duration-300 group-hover/btn:translate-x-[1px] text-left">
-                       EXPLORE CASE STUDY
+                      EXPLORE CASE STUDY
                     </span>
-                    <svg 
-                      width="15" 
-                      height="15" 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth="2.5" 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       className="transition-transform duration-300 group-hover/btn:rotate-[45deg] group-hover/btn:translate-x-[2px]"
                     >
                       <line x1="7" y1="17" x2="17" y2="7"></line>
@@ -97,24 +100,24 @@ export default function SelectedProjects() {
                   </Link>
                 ) : (
                   work.link && (
-                    <a 
-                       href={work.link}
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       className="w-fit flex items-center justify-start gap-1.5 text-[13px] font-bold text-[#111] group/btn uppercase tracking-widest"
+                    <a
+                      href={work.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-fit flex items-center justify-start gap-1.5 text-[13px] font-bold text-[#111] group/btn uppercase tracking-widest"
                     >
                       <span className="relative min-w-[100px] inline-block transition-transform duration-300 group-hover/btn:translate-x-[1px] text-left">
-                         VIEW PROJECT
+                        VIEW PROJECT
                       </span>
-                      <svg 
-                        width="15" 
-                        height="15" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        strokeWidth="2.5" 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
+                      <svg
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         className="transition-transform duration-300 group-hover/btn:rotate-[45deg] group-hover/btn:translate-x-[2px]"
                       >
                         <line x1="7" y1="17" x2="17" y2="7"></line>

@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 import Lenis from "lenis";
 
 let lenis: Lenis | null = null;

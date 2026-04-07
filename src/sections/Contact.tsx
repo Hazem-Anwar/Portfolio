@@ -47,7 +47,6 @@ export default function Contact() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [isHoveredCV, setIsHoveredCV] = useState(false);
 
   useEffect(() => {
     if (headingRef.current) {
@@ -152,8 +151,6 @@ export default function Contact() {
 
               <a
                 href="mailto:hazem.amrainana98@gmail.com"
-                onMouseEnter={() => setIsHoveredCV(true)}
-                onMouseLeave={() => setIsHoveredCV(false)}
                 className="group bg-transparent text-[#111] px-10 py-4 rounded-full font-bold text-[14px] border border-[#ccc] hover:border-[#111] transition-all duration-300 uppercase tracking-widest inline-flex items-center justify-start gap-2 overflow-hidden w-full sm:w-auto"
               >
                 <span className="transition-transform duration-300 group-hover:translate-x-[1px] min-w-[155px] inline-block text-left">

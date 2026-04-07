@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Grain from "@/components/Grain";
 import LoaderProvider from "@/components/LoaderProvider";
@@ -49,6 +50,7 @@ export default function RootLayout({
           <Grain />
           <NavbarLight />
           {children}
+          <Analytics />
         </LoaderProvider>
       </body>
     </html>
