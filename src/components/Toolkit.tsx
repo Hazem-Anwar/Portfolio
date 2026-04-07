@@ -494,7 +494,7 @@ export default function Tools() {
                 {group.items.map((item, i) => (
                   <div
                     key={i}
-                    className={`tool-item bg-bg p-4 md:p-6 transition-all duration-300 group relative ${item.highlight ? "bg-[#e4fe9a]/[0.03] border-[#e4fe9a]/20" : "hover:bg-white/[0.02]"}`}
+                    className="tool-item bg-bg p-4 md:p-6 transition-all duration-300 group relative hover:bg-white/[0.02]"
                   >
                     <div
                       className={`${item.wideLogo ? "w-auto" : "w-8"} h-8 mb-5 flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}
@@ -509,10 +509,6 @@ export default function Tools() {
                     <div className="text-[12px] text-muted leading-relaxed font-light">
                       {item.sub}
                     </div>
-
-                    {item.highlight && (
-                      <div className="absolute top-4 right-4 h-1.5 w-1.5 rounded-full bg-[#e4fe9a] shadow-[0_0_8px_#e4fe9a]" />
-                    )}
                   </div>
                 ))}
               </div>
