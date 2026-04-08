@@ -456,7 +456,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 Email
               </a>
               <a
-                href="https://linkedin.com/in/hazemanwar"
+                href="https://www.linkedin.com/in/hazem-anwar98/"
                 target="_blank"
                 className="flex items-center gap-2 transition-opacity hover:opacity-70 group/social"
               >
@@ -481,7 +481,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 LinkedIn
               </a>
               <a
-                href="https://wa.me/966500000000"
+                href="https://wa.me/972567370003"
                 target="_blank"
                 className="flex items-center gap-2 transition-opacity hover:opacity-70 group/social"
               >

@@ -54,7 +54,7 @@ export default function InternalFooter() {
             hazem.amrainana98@gmail.com
           </a>
           <a
-            href="https://www.linkedin.com/in/hazem-anwar98"
+            href="https://www.linkedin.com/in/hazem-anwar98/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-text transition-colors border-b border-white/10 pb-0.5"

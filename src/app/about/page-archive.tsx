@@ -669,7 +669,7 @@ export default function AboutArchivePage() {
             <a href="mailto:hazem.amrainana98@gmail.com" className="font-mono text-[11px] tracking-[0.18em] uppercase text-bg bg-[#e4fe9a] px-6 py-4 font-bold hover:bg-[#e4fe9a]/80 transition-all shadow-lg shadow-[#e4fe9a]/10">
               hazem.amrainana98@gmail.com
             </a>
-            <a href="https://www.linkedin.com/in/hazem-anwar98" target="_blank" className="font-mono text-[11px] tracking-[0.18em] uppercase text-text border border-border px-6 py-4 hover:bg-text hover:text-bg transition-all">
+            <a href="https://www.linkedin.com/in/hazem-anwar98/" target="_blank" className="font-mono text-[11px] tracking-[0.18em] uppercase text-text border border-border px-6 py-4 hover:bg-text hover:text-bg transition-all">
               LinkedIn ↗
             </a>
             <a href="https://www.behance.net/hazem-anwar" target="_blank" className="font-mono text-[11px] tracking-[0.18em] uppercase text-text border border-border px-6 py-4 hover:bg-text hover:text-bg transition-all">

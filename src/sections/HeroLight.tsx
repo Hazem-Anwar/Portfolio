@@ -680,7 +680,7 @@ export default function HeroLight({
 
       {/* Mobile Fixed Bottom Buttons */}
       <div
-        className={`md:hidden fixed bottom-0 left-0 right-0 z-[150] flex flex-row items-center gap-3 transition-all rounded-t-md duration-500 ease-in-out p-1 bg-white/60 backdrop-blur-xl border-t border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.1)]   ${
+        className={`md:hidden fixed bottom-0 left-0 right-0 z-[150] flex flex-row items-center gap-3 transition-all rounded-t-md duration-500 ease-in-out p-1 pb-2 bg-white/60 backdrop-blur-xl border-t border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.1)]   ${
           showFixedMobileBtns
             ? "translate-y-0 opacity-100"
             : "translate-y-[150%] opacity-0 pointer-events-none"

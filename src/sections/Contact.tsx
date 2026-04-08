@@ -115,9 +115,19 @@ export default function Contact() {
             {/* Email */}
             <a
               href="mailto:hazem.amrainana98@gmail.com"
-              className="font-inter text-[16px] md:text-[20px] text-[#888] hover:text-[#111] transition-all duration-300 inline-block mb-8 font-medium"
+              className="font-inter text-[16px] md:text-[20px] text-[#888] hover:text-[#111] transition-all duration-300 inline-block mb-4 font-medium"
             >
               hazem.amrainana98@gmail.com
+            </a>
+
+            {/* WhatsApp */}
+            <a
+              href="https://wa.me/972567370003"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-inter text-[16px] md:text-[20px] text-[#888] hover:text-[#111] transition-all duration-300 inline-block mb-8 font-medium"
+            >
+              +972 56 737 0003
             </a>
 
             {/* CTA Buttons */}

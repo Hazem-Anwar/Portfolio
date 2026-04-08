@@ -376,7 +376,7 @@ export default function AboutPage() {
               Email
             </a>
             <a
-              href="https://linkedin.com/in/hazem-anwar98"
+              href="https://www.linkedin.com/in/hazem-anwar98/"
               target="_blank"
               className="hover:text-[#ff4d00] transition-colors"
             >

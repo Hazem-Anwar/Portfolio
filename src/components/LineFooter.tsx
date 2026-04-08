@@ -6,7 +6,7 @@ export default function LineFooter() {
             © {new Date().getFullYear()} Hazem Anwar. <span className="hidden md:inline">All rights reserved.</span>
           </div>
         <div className="mt-4 md:mt-0 flex items-center gap-6 uppercase tracking-widest text-[10px] md:text-[11px] font-bold">
-            <a href="https://www.linkedin.com/in/hazem-anwar98" target="_blank" rel="noopener noreferrer" className="hover:text-[#ff4d00] transition-colors">LinkedIn</a>
+            <a href="https://www.linkedin.com/in/hazem-anwar98/" target="_blank" rel="noopener noreferrer" className="hover:text-[#ff4d00] transition-colors">LinkedIn</a>
             <a href="https://www.behance.net/hazem-anwar" target="_blank" rel="noopener noreferrer" className="hover:text-[#ff4d00] transition-colors">Behance</a>
             <a href="mailto:hazem.amrainana98@gmail.com" className="hover:text-[#ff4d00] transition-colors">Email</a>
           </div>
