@@ -483,7 +483,7 @@ export default function HeroLight({
             {/* Left Side Content - Now order-2 on mobile */}
             <div className="flex flex-col lg:pt-10 z-10 min-w-0 order-2 md:order-1">
               <h6
-                className="text-[#111] text-[20px] md:text-[22px] font-['Caveat'] font-bold tracking-normal opacity-0 -rotate-1"
+                className="text-[#111] text-[20px] md:text-[22px] font-epilogue font-semibold tracking-normal opacity-0"
                 id="hero-signature"
               >
                 <SignatureTypewriter text="Hazem Anwar" delay={0} />
@@ -494,7 +494,7 @@ export default function HeroLight({
               >
                 Product Engineer <span className="text-[#ff4d00]">.</span>{" "}
                 <br />
-                <span className="text-[clamp(1.5rem,3vw,28px)] font-medium block mt-3 text-[#555] opacity-0] tracking-[-0.01em]">
+                <span className="text-[12px] md:text-[14px] font-epilogue font-bold block mt-4 text-[#111] opacity-0] tracking-[0.15em] uppercase">
                   Frontend • Product Design • QA
                 </span>
               </h1>
