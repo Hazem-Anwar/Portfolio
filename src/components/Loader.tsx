@@ -38,7 +38,7 @@ export default function Loader({ onComplete }: LoaderProps) {
     );
 
     // Progress bar + counter
-    const obj = { value: 0 };
+    const obj = { value: 35 };
     tl.to(
       obj,
       {
@@ -87,17 +87,17 @@ export default function Loader({ onComplete }: LoaderProps) {
         {"HAZEM".split("").map((char, i) => (
           <span
             key={i}
-            className="loader-char font-display text-6xl md:text-8xl text-text tracking-widest"
+            className="loader-char font-display text-4xl md:text-8xl text-text tracking-widest"
             style={{ display: "inline-block" }}
           >
             {char}
           </span>
         ))}
         <span
-          className="loader-char font-display text-6xl md:text-8xl tracking-widest"
+          className="loader-char font-display text-4xl md:text-8xl tracking-widest"
           style={{
             display: "inline-block",
-            WebkitTextStroke: "1.5px #f0f0eb",
+            WebkitTextStroke: "1px #f0f0eb",
             color: "transparent",
           }}
         >
@@ -106,10 +106,10 @@ export default function Loader({ onComplete }: LoaderProps) {
         {"ANWAR".split("").map((char, i) => (
           <span
             key={i}
-            className="loader-char font-display text-6xl md:text-8xl tracking-widest"
+            className="loader-char font-display text-4xl md:text-8xl tracking-widest"
             style={{
               display: "inline-block",
-              WebkitTextStroke: "1.5px #f0f0eb",
+              WebkitTextStroke: "1px #f0f0eb",
               color: "transparent",
             }}
           >
@@ -125,14 +125,14 @@ export default function Loader({ onComplete }: LoaderProps) {
             Loading
           </span>
           <span ref={counterRef} className="font-mono text-xs text-accent">
-            0%
+            35%
           </span>
         </div>
         <div className="h-px bg-border w-full relative overflow-hidden">
           <div
             ref={progressRef}
             className="absolute left-0 top-0 h-full bg-accent transition-none"
-            style={{ width: "0%" }}
+            style={{ width: "35%" }}
           />
         </div>
       </div>
