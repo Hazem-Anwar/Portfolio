@@ -18,10 +18,9 @@ const config: Config = {
         border: "var(--border)",
       },
       fontFamily: {
-        display: ["var(--font-bebas)", "sans-serif"],
-        body: ["var(--font-epilogue)", "sans-serif"],
-        mono: ["var(--font-dm-mono)", "monospace"],
-        space: ["var(--font-space-grotesk)", "sans-serif"],
+        jakarta: ["var(--font-jakarta)", "sans-serif"],
+        bricolage: ["var(--font-bricolage)", "sans-serif"],
+        epilogue: ["var(--font-epilogue)", "sans-serif"],
         inter: ["Inter", "sans-serif"],
       },
       fontSize: {

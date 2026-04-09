@@ -1,8 +1,27 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { Plus_Jakarta_Sans, Bricolage_Grotesque, Epilogue } from "next/font/google";
 import "./globals.css";
 import Grain from "@/components/Grain";
 import LoaderProvider from "@/components/LoaderProvider";
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage",
+  display: "swap",
+});
+
+const epilogue = Epilogue({
+  subsets: ["latin"],
+  variable: "--font-epilogue",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hazemanwar.com"),
@@ -94,18 +113,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-bg">
+    <html lang="en" className={`${plusJakarta.variable} ${bricolage.variable} ${epilogue.variable} bg-bg`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Bebas+Neue&family=Epilogue:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap"
-          rel="stylesheet"
-        />
       </head>
       <body className="bg-bg text-text antialiased">
         <script

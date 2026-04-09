@@ -637,6 +637,8 @@ export default function HeroLight({
                   src="/images/about/SS.png"
                   alt="Hazem Anwar Portrait"
                   fill
+                  priority
+                  quality={90}
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
