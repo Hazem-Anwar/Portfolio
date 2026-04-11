@@ -490,7 +490,7 @@ export default function HeroLight({
               </h6>
               <h1
                 ref={headingRef}
-                className="font-bricolage font-extrabold mt-2 text-[clamp(2.5rem,4w,36px)] md:text-[clamp(1.8rem,4vw,44px)] lg:text-[48px] leading-[1.1] tracking-[-0.02em] text-[#111] opacity-0"
+                className="font-bricolage font-extrabold mt-2 text-[24px]  md:text-[clamp(1.8rem,4vw,44px)] lg:text-[48px] leading-[1.1] tracking-[-0.02em] text-[#111] opacity-0"
               >
                 Product Engineer <span className="text-[#ff4d00]">.</span>{" "}
                 <br />

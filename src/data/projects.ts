@@ -159,9 +159,9 @@ export const cases = [
     outcome:
       "The website achieved a 40% performance boost and scaled to handle 15k+ users.",
     slug: "bonus-app",
-    image: "/images/Projects/thumbnails/3.png",
+    image: "/images/Projects/thumbnails/1.png",
     images: [
-      "/images/Projects/thumbnails/3.png",
+      "/images/Projects/thumbnails/1.png",
       "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2670&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2670&auto=format&fit=crop",
     ],
@@ -290,8 +290,9 @@ export const cases = [
       { hex: "#333333", name: "Charcoal" },
       { hex: "#C0C0C0", name: "Silver" },
     ],
-    image: "/images/Projects/places/1.png",
+    image: "/images/Projects/thumbnails/places-cover.png",
     images: [
+      "/images/Projects/places/places-cover.png",
       "/images/Projects/places/1.png",
       "/images/Projects/places/2.png",
       "/images/Projects/places/3.png",

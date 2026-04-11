@@ -55,25 +55,45 @@ export default function SelectedProjects() {
               className="group flex flex-col transition-all duration-300"
             >
               {/* Image Side (Top) */}
-              <Link
-                href={`/work/${work.slug}`}
-                className="relative overflow-hidden rounded-[16px] md:rounded-[20px] aspect-[1.4/1] mb-6 border border-[#f0f0f0] hover:border-[#e5e5e5] transition-all duration-300 bg-[#f9f9f9]"
-              >
-                <div className="absolute inset-0">
-                  <Image
-                    src={work.image}
-                    alt={work.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    quality={85}
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
-              </Link>
+              {work.type === "Front-end" && work.link ? (
+                <a
+                  href={work.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative overflow-hidden rounded-[16px] md:rounded-[20px] aspect-[1.4/1] mb-6 border border-[#f0f0f0] hover:border-[#e5e5e5] transition-all duration-300 bg-[#f9f9f9] block"
+                >
+                  <div className="absolute inset-0">
+                    <Image
+                      src={work.image}
+                      alt={work.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      quality={85}
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                </a>
+              ) : (
+                <Link
+                  href={`/work/${work.slug}`}
+                  className="relative overflow-hidden rounded-[16px] md:rounded-[20px] aspect-[1.4/1] mb-6 border border-[#f0f0f0] hover:border-[#e5e5e5] transition-all duration-300 bg-[#f9f9f9]"
+                >
+                  <div className="absolute inset-0">
+                    <Image
+                      src={work.image}
+                      alt={work.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      quality={85}
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                </Link>
+              )}
 
               {/* Content Side (Bottom) */}
               <div className="pt-4 space-y-2">
-                <h3 className="text-[17px] font-bold text-[#111] uppercase tracking-tighter">
+                <h3 className="text-[17px] font-bold text-[#111] uppercase  ">
                   {work.title}
                 </h3>
 
