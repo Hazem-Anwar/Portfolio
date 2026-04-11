@@ -469,7 +469,7 @@ export default function HeroLight({
     <>
       <section
         ref={heroRef}
-        className="w-full bg-[#fff] mt-10 lg:pt-6 flex flex-col font-inter selection:bg-[#ff4d00] selection:text-white overflow-hidden relative"
+        className="w-full t0 bg-[#fff] mt-10 lg:pt-6 flex flex-col font-inter selection:bg-[#ff4d00] selection:text-white overflow-hidden relative"
       >
         {/* Neutral Smoky Ambient Glow - Refined Luxury Treatment */}
         <div
