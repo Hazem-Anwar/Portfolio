@@ -14,6 +14,284 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, SplitText, Draggable);
 }
 
+const ProLayout = ({ c, setSelectedIndex }: { c: any, setSelectedIndex: (i: number | null) => void }) => {
+  const usedImages = [
+    c.heroImage,
+    c.productPreviewImage,
+    ...(c.keyDecisions ? c.keyDecisions.map((kd: any) => kd.image) : [])
+  ].filter(Boolean);
+  
+  const extraImages = (c.images || []).filter((img: string) => !usedImages.includes(img));
+
+  return (
+    <div className="w-full bg-white select-none">
+      <div className="max-w-[768px] mx-auto px-6 py-24 space-y-20">
+        
+        {/* 1. Hero Section */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <h1 className="text-[36px] md:text-[44px] font-black leading-[1.05] tracking-tight text-[#111]">
+                {c.title}
+              </h1>
+              {c.subtitle && (
+                <p className="text-[15px] text-[#555] font-medium leading-relaxed">
+                  {c.subtitle}
+                </p>
+              )}
+            </div>
+            {c.quickPoints && (
+              <ul className="space-y-3 pt-2">
+                {c.quickPoints.map((qp: any, i: number) => (
+                  <li key={i} className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-black/20" />
+                    <span className="text-[13px] font-medium text-[#444]">
+                      <strong className="text-[#111]">{qp.label}:</strong> {qp.value}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          {c.heroImage && (
+            <div className="relative w-full rounded-2xl bg-[#f7f7f7] border border-black/5 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] cursor-zoom-in group p-2 pb-0" onClick={() => setSelectedIndex(c.images.indexOf(c.heroImage))}>
+              <Image src={c.heroImage} alt="Hero mockup" width={800} height={600} style={{ width: "100%", height: "auto" }} className="rounded-t-xl group-hover:-translate-y-2 transition-transform duration-700" priority />
+            </div>
+          )}
+        </section>
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
+
+        {/* 2. Problem + Solution */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 relative">
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-black/10 to-transparent -translate-x-1/2" />
+          <div className="space-y-4 md:pr-12">
+            <div className="w-8 h-8 rounded-full bg-[#FFF0F0] text-[#FF3333] flex items-center justify-center mb-2 shadow-sm border border-[#FF3333]/10">
+               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            </div>
+            <h2 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">The Problem</h2>
+            <div className="text-[14px] text-[#555] leading-[1.8] whitespace-pre-line font-medium">
+              {c.problem}
+            </div>
+          </div>
+          <div className="space-y-4 md:pl-12">
+             <div className="w-8 h-8 rounded-full bg-[#F0FFF4] text-[#33CC66] flex items-center justify-center mb-2 shadow-sm border border-[#33CC66]/10">
+               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <h2 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">The Solution</h2>
+            <div className="text-[14px] text-[#555] leading-[1.8] whitespace-pre-line font-medium">
+              {c.solution}
+            </div>
+          </div>
+        </section>
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
+
+        {/* 3. Product Preview */}
+        {c.productPreviewImage && (
+          <section className="space-y-8">
+            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">Product Preview</h2>
+            <div className="relative w-full rounded-2xl border border-black/5 bg-[#fcfcfc] overflow-hidden shadow-[0_8px_40px_rgb(0,0,0,0.06)] cursor-zoom-in group" onClick={() => setSelectedIndex(c.images.indexOf(c.productPreviewImage))}>
+              <Image src={c.productPreviewImage} alt="Preview" width={1600} height={900} style={{ width: "100%", height: "auto", display: "block" }} className="group-hover:scale-[1.02] transition-transform duration-700" />
+            </div>
+          </section>
+        )}
+
+        {c.features && <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />}
+
+        {/* 4. Key Features */}
+        {c.features && (
+          <section className="space-y-8">
+            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">Key Features</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {c.features.map((f: any, i: number) => (
+                <div key={i} className="p-6 border border-black/5 rounded-2xl text-center flex flex-col items-center justify-center gap-3 bg-white shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300">
+                  <div className="text-[28px] drop-shadow-sm">{f.icon}</div>
+                  <div className="space-y-1.5">
+                    <div className="text-[13px] font-bold text-[#111] leading-tight">{f.title}</div>
+                    <div className="text-[11px] text-[#888] font-medium leading-tight">{f.description}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
+
+        {/* 5. SMART Key Decisions w/ original sizes & timeline design */}
+        {c.keyDecisions && (
+          <section className="space-y-12">
+            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">Key Decisions</h2>
+            <div className="relative space-y-20">
+              {/* Timeline Vertical Line connecting the dots */}
+              <div className="absolute left-6 top-10 bottom-10 w-px bg-gradient-to-b from-transparent via-black/10 to-transparent md:left-8 hidden sm:block" />
+              
+              {c.keyDecisions.map((kd: any, i: number) => (
+                <div key={i} className="relative sm:pl-20 space-y-6">
+                  {/* Timeline Node */}
+                  <div className="hidden sm:flex absolute left-6 md:left-8 top-0 -translate-x-1/2 w-10 h-10 rounded-full bg-white border border-black/10 items-center justify-center text-[14px] font-black text-[#111] shadow-sm z-10">
+                    {i + 1}
+                  </div>
+                  
+                  {/* Content Header */}
+                  <div className="space-y-3 bg-[#fcfcfc] p-6 rounded-2xl border border-black/5 shadow-[0_4px_20px_rgb(0,0,0,0.02)] sm:bg-transparent sm:p-0 sm:border-0 sm:shadow-none">
+                     <div className="flex sm:hidden w-8 h-8 rounded-full bg-white border border-black/10 items-center justify-center text-[12px] font-black text-[#111] shadow-sm mb-4">
+                        {i + 1}
+                     </div>
+                     <h3 className="text-[18px] font-extrabold text-[#111] leading-tight flex items-center gap-2">
+                        {kd.title}
+                     </h3>
+                     <p className="text-[14px] text-[#555] font-medium leading-relaxed max-w-[540px]">
+                        {kd.description}
+                     </p>
+                  </div>
+
+                  {/* Original Size Image attached gracefully under the content */}
+                  {kd.image && (
+                    <div className="w-full rounded-2xl overflow-hidden border border-black/5 shadow-[0_8px_30px_rgb(0,0,0,0.05)] cursor-zoom-in group bg-[#fdfdfd]" onClick={() => setSelectedIndex(c.images.indexOf(kd.image))}>
+                      <Image src={kd.image} alt={kd.title} width={1200} height={800} style={{ width: "100%", height: "auto", display: "block" }} className="group-hover:scale-[1.02] hover:rotate-1 transition-all duration-700 origin-center" />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Remaining Images Dump (Stacked vertically, full width, original size!) */}
+        {extraImages.length > 0 && (
+          <section className="space-y-12 pt-8">
+            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">Gallery & Details</h2>
+            <div className="space-y-10">
+              {extraImages.map((xtraImg: string, i: number) => (
+                <div key={i} className="w-full rounded-2xl overflow-hidden border border-black/5 shadow-[0_4px_25px_rgb(0,0,0,0.03)] cursor-zoom-in group bg-[#fbfbfb]" onClick={() => setSelectedIndex(c.images.indexOf(xtraImg))}>
+                   <Image src={xtraImg} alt={`Detail ${i+1}`} width={1600} height={900} style={{ width: "100%", height: "auto", display: "block" }} className="group-hover:scale-[1.01] transition-transform duration-700" />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
+
+        {/* 6. User Flow */}
+        {c.userFlow && (
+          <section className="space-y-8">
+            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">User Flow</h2>
+            <div className="flex flex-wrap items-center justify-center p-2.5 rounded-[20px] bg-[#fafafa] border border-black/5 shadow-inner">
+              {c.userFlow.map((step: string, i: number) => (
+                <div key={i} className="flex items-center">
+                  <div className="px-5 py-2.5 text-[13px] font-bold text-[#111] bg-white rounded-xl shadow-[0_2px_8px_rgb(0,0,0,0.04)] border border-black/5">
+                    {step}
+                  </div>
+                  {i < c.userFlow.length - 1 && (
+                    <div className="text-[#aaa] px-2 flex items-center justify-center">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
+
+        {/* 7. Expected Impact */}
+        {c.impactBlocks && (
+          <section className="space-y-8">
+            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">Expected Impact</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {c.impactBlocks.map((block: any, i: number) => (
+                <div key={i} className="relative p-8 border border-black/5 rounded-2xl text-center flex flex-col justify-center items-center gap-3 bg-white shadow-[0_2px_15px_rgb(0,0,0,0.03)] hover:-translate-y-1 hover:shadow-[0_8px_25px_rgb(0,0,0,0.08)] transition-all duration-300 overflow-hidden group">
+                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-black/[0.02] to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+                   <div className="text-[32px] font-black text-[#111] leading-none">{block.value}</div>
+                   <div className="w-8 h-px bg-black/10" />
+                   <div className="text-[12px] font-bold text-[#555] leading-tight uppercase tracking-wider">{block.label}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {c.challenges && <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />}
+
+        {/* 8. Challenges */}
+        {c.challenges && (
+          <section className="space-y-5">
+             <h2 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#111] flex items-center gap-3">
+                <span className="w-6 h-px bg-black/20" />
+                Challenges
+             </h2>
+             <ul className="space-y-3 pl-8">
+               {c.challenges.map((ch: string, i: number) => (
+                 <li key={i} className="relative text-[14px] font-medium text-[#555]">
+                   <span className="absolute left-[-20px] top-[6px] w-1.5 h-1.5 rounded-full bg-black/20" />
+                   {ch}
+                 </li>
+               ))}
+             </ul>
+          </section>
+        )}
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
+
+        {/* 9. Next Steps + Contact Section GRID */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-12 relative">
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-black/10 to-transparent -translate-x-1/2" />
+          
+          {/* Next Steps */}
+          {c.nextSteps && (
+            <div className="space-y-5 md:pr-4">
+               <h2 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#111] flex items-center gap-3">
+                 <span className="w-6 h-px bg-black/20" />
+                 Next Steps
+               </h2>
+               <ul className="space-y-3 pl-8">
+                 {c.nextSteps.map((ns: string, i: number) => (
+                   <li key={i} className="relative text-[14px] font-medium text-[#555]">
+                     <span className="absolute left-[-20px] top-[6px] w-1.5 h-1.5 rounded-full bg-black/20" />
+                     {ns}
+                   </li>
+                 ))}
+               </ul>
+            </div>
+          )}
+
+          {/* Contact Section + Tech Stack */}
+          <div className="space-y-6 md:pl-8">
+            <h2 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#111] flex items-center gap-3">
+               <span className="w-6 h-px bg-black/20" />
+               Contact & Tools
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              <a href="mailto:hello@example.com" className="px-6 py-3 bg-[#111] text-white text-[12px] font-bold uppercase tracking-widest rounded-xl hover:bg-[#333] hover:-translate-y-0.5 transition-all shadow-[0_4px_14px_rgba(0,0,0,0.2)]">
+                Contact Me
+              </a>
+              <Link href="/work" className="px-6 py-3 bg-white text-[#111] border border-black/10 text-[12px] font-bold uppercase tracking-widest rounded-xl hover:bg-[#fafafa] hover:-translate-y-0.5 transition-all shadow-sm">
+                More Work
+              </Link>
+            </div>
+            {c.techStack && (
+              <div className="flex flex-wrap gap-2 pt-3">
+                {c.techStack.map((tech: string, i: number) => (
+                  <span key={i} className="px-3 py-1.5 bg-[#f5f5f5] text-[#555] text-[10px] font-bold uppercase tracking-widest rounded-lg border border-black/5 shadow-inner">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+  );
+};
+
+
 export default function CaseStudy({ params }: { params: { slug: string } }) {
   const c = cases.find((item) => item.slug === params.slug);
   if (!c) notFound();
@@ -160,8 +438,11 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
         </Link>
       </div>
 
-      <div className="max-w-[720px] mx-auto px-6 space-y-12">
-        {/* HEADER */}
+      {c.isProLayout ? (
+        <ProLayout c={c} setSelectedIndex={setSelectedIndex} />
+      ) : (
+        <div className="max-w-[720px] mx-auto px-6 space-y-12">
+          {/* HEADER */}
         <section className="pt-40 space-y-8">
           <div className="space-y-4">
             <h1
@@ -170,169 +451,178 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
             >
               {c.title}
             </h1>
+            {c.subtitle && (
+              <p className="text-[18px] md:text-[24px] font-black text-[#111]  uppercase  mt-4">
+                {c.subtitle}
+              </p>
+            )}
             <p className="text-[16px] md:text-[18px] text-[#555] leading-[1.6] max-w-[640px]">
               {c.description}
             </p>
           </div>
 
           {/* PROJECT META: HIGH-FIDELITY BRANDED BAR (OFFICIAL SVG PATHS) */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 py-10 border-y border-black/5">
-            {/* ECOSYSTEM */}
-            <div className="flex flex-col gap-3">
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#aaa]">
-                Ecosystem
-              </span>
-              <div className="flex items-center gap-6">
-                {/* iOS */}
-                <div className="flex items-center gap-2 group cursor-default">
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 384 512"
-                    fill="currentColor"
-                  >
-                    <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
-                  </svg>
-                  <span className="text-[12px] font-bold text-[#111]">iOS</span>
-                </div>
-                {/* Android */}
-                <div className="flex items-center gap-2 group cursor-default">
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="#3DDC84"
-                  >
-                    <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9997.9993-.9997c.5511 0 .9993.4486.9993.9997.0001.5511-.4482.9997-.9993.9997zM6.477 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9997.9993-.9997c.5511 0 .9993.4486.9993.9997.0001.5511-.4482.9997-.9993.9997zM17.885 10.587l1.733-3.0022a.498.498 0 00-.099-.6897.498.498 0 00-.6897.099l-1.751 3.0336c-1.482-.6769-3.136-1.0543-4.897-1.0543s-3.415.3774-4.897 1.0543L5.5343 6.9941a.498.498 0 00-.6897-.099.498.498 0 00-.099.6897l1.733 3.0022c-2.923 1.4801-4.975 4.417-5.321 7.89H19.337v-.001c-.347-3.473-2.399-6.411-5.321-7.89z" />
-                  </svg>
-                  <span className="text-[12px] font-bold text-[#111]">
-                    Android
-                  </span>
-                </div>
-                {/* Web Platform */}
-                <div className="flex items-center gap-2 group cursor-default">
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#4285F4"
-                    strokeWidth="2.5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9h18"
-                    />
-                  </svg>
-                  <span className="text-[12px] font-bold text-[#111]">
-                    Web Site
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* VERTICAL DIVIDER */}
-            <div className="hidden md:block w-px h-12 bg-black/5" />
-
-            {/* DESIGN STACK */}
-            <div className="flex flex-col gap-3">
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#aaa]">
-                Design Stack
-              </span>
-              <div className="flex items-center gap-6">
-                {/* FIGMA (PERFECT FIDELITY) */}
-                <div className="flex items-center gap-2">
-                  <svg
-                    width="15"
-                    height="22"
-                    viewBox="0 0 38 57"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M19 0H9.5C4.2533 0 0 4.2533 0 9.5C0 14.7467 4.2533 19 9.5 19H19V0Z"
-                      fill="#F24E1E"
-                    />
-                    <path
-                      d="M38 9.5C38 4.2533 33.7467 0 28.5 0H19V19H28.5C33.7467 19 38 14.7467 38 9.5Z"
-                      fill="#FF7262"
-                    />
-                    <path
-                      d="M19 19H9.5C4.2533 19 0 23.2533 0 28.5C0 33.7467 4.2533 38 9.5 38H19V19Z"
-                      fill="#A259FF"
-                    />
-                    <path
-                      d="M19 19H28.5C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38H19V19Z"
-                      fill="#1ABCFE"
-                    />
-                    <path
-                      d="M19 38H9.5C4.2533 38 0 42.2533 0 47.5C0 52.7467 4.2533 57 9.5 57C14.7467 57 19 52.7467 19 47.5V38Z"
-                      fill="#0ACF83"
-                    />
-                  </svg>
-                  <span className="text-[12px] font-bold text-[#111]">
-                    Figma
-                  </span>
-                </div>
-                {/* PHOTOSHOP (REAL TILE) */}
-                <div className="flex items-center gap-2">
-                  <div className="w-[18px] h-[18px] bg-[#001E36] rounded-[2px] flex items-center justify-center border border-white/5 shadow-sm">
-                    <span className="text-[#31A8FF] font-black text-[7px] tracking-tighter">
-                      Ps
-                    </span>
-                  </div>
-                  <span className="text-[12px] font-bold text-[#111]">
-                    Photoshop
-                  </span>
-                </div>
-                {/* ILLUSTRATOR (REAL TILE) */}
-                <div className="flex items-center gap-2">
-                  <div className="w-[18px] h-[18px] bg-[#330000] rounded-[2px] flex items-center justify-center border border-white/10 shadow-sm">
-                    <span className="text-[#FF9A00] font-black text-[7px] tracking-tighter">
-                      Ai
-                    </span>
-                  </div>
-                  <span className="text-[12px] font-bold text-[#111]">
-                    Illustrator
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* VERTICAL DIVIDER */}
-            <div className="hidden md:block w-px h-12 bg-black/5" />
-
-            {/* LIVE CTA */}
-            <div className="flex items-center">
-              {c.link && (
-                <a
-                  href={c.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col items-end gap-1 text-[#111] hover:text-[#FF5C00] transition-colors"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-[13px] font-black uppercase tracking-wider">
-                      Live View
-                    </span>
+          {!c.hideStack && (
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 py-10 border-y border-black/5">
+              {/* ECOSYSTEM */}
+              <div className="flex flex-col gap-3">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#aaa]">
+                  Ecosystem
+                </span>
+                <div className="flex items-center gap-6">
+                  {/* iOS */}
+                  <div className="flex items-center gap-2 group cursor-default">
                     <svg
-                      width="12"
-                      height="12"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 384 512"
+                      fill="currentColor"
+                    >
+                      <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
+                    </svg>
+                    <span className="text-[12px] font-bold text-[#111]">iOS</span>
+                  </div>
+                  {/* Android */}
+                  <div className="flex items-center gap-2 group cursor-default">
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="#3DDC84"
+                    >
+                      <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9997.9993-.9997c.5511 0 .9993.4486.9993.9997.0001.5511-.4482.9997-.9993.9997zM6.477 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9997.9993-.9997c.5511 0 .9993.4486.9993.9997.0001.5511-.4482.9997-.9993.9997zM17.885 10.587l1.733-3.0022a.498.498 0 00-.099-.6897.498.498 0 00-.6897.099l-1.751 3.0336c-1.482-.6769-3.136-1.0543-4.897-1.0543s-3.415.3774-4.897 1.0543L5.5343 6.9941a.498.498 0 00-.6897-.099.498.498 0 00-.099.6897l1.733 3.0022c-2.923 1.4801-4.975 4.417-5.321 7.89H19.337v-.001c-.347-3.473-2.399-6.411-5.321-7.89z" />
+                    </svg>
+                    <span className="text-[12px] font-bold text-[#111]">
+                      Android
+                    </span>
+                  </div>
+                  {/* Web Platform */}
+                  <div className="flex items-center gap-2 group cursor-default">
+                    <svg
+                      width="18"
+                      height="18"
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                      stroke="#4285F4"
+                      strokeWidth="2.5"
                     >
-                      <path d="M7 17L17 7M17 7H7M17 7V17" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9h18"
+                      />
                     </svg>
+                    <span className="text-[12px] font-bold text-[#111]">
+                      Web Site
+                    </span>
                   </div>
-                  <div className="h-[2.5px] w-0 group-hover:w-full bg-[#FF5C00] transition-all duration-300" />
-                </a>
+                </div>
+              </div>
+
+              {/* VERTICAL DIVIDER */}
+              <div className="hidden md:block w-px h-12 bg-black/5" />
+
+              {/* DESIGN STACK */}
+              <div className="flex flex-col gap-3">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#aaa]">
+                  Design Stack
+                </span>
+                <div className="flex items-center gap-6">
+                  {/* FIGMA (PERFECT FIDELITY) */}
+                  <div className="flex items-center gap-2">
+                    <svg
+                      width="15"
+                      height="22"
+                      viewBox="0 0 38 57"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19 0H9.5C4.2533 0 0 4.2533 0 9.5C0 14.7467 4.2533 19 9.5 19H19V0Z"
+                        fill="#F24E1E"
+                      />
+                      <path
+                        d="M38 9.5C38 4.2533 33.7467 0 28.5 0H19V19H28.5C33.7467 19 38 14.7467 38 9.5Z"
+                        fill="#FF7262"
+                      />
+                      <path
+                        d="M19 19H9.5C4.2533 19 0 23.2533 0 28.5C0 33.7467 4.2533 38 9.5 38H19V19Z"
+                        fill="#A259FF"
+                      />
+                      <path
+                        d="M19 19H28.5C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38H19V19Z"
+                        fill="#1ABCFE"
+                      />
+                      <path
+                        d="M19 38H9.5C4.2533 38 0 42.2533 0 47.5C0 52.7467 4.2533 57 9.5 57C14.7467 57 19 52.7467 19 47.5V38Z"
+                        fill="#0ACF83"
+                      />
+                    </svg>
+                    <span className="text-[12px] font-bold text-[#111]">
+                      Figma
+                    </span>
+                  </div>
+                  {/* PHOTOSHOP (REAL TILE) */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-[18px] h-[18px] bg-[#001E36] rounded-[2px] flex items-center justify-center border border-white/5 shadow-sm">
+                      <span className="text-[#31A8FF] font-black text-[7px] tracking-tighter">
+                        Ps
+                      </span>
+                    </div>
+                    <span className="text-[12px] font-bold text-[#111]">
+                      Photoshop
+                    </span>
+                  </div>
+                  {/* ILLUSTRATOR (REAL TILE) */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-[18px] h-[18px] bg-[#330000] rounded-[2px] flex items-center justify-center border border-white/10 shadow-sm">
+                      <span className="text-[#FF9A00] font-black text-[7px] tracking-tighter">
+                        Ai
+                      </span>
+                    </div>
+                    <span className="text-[12px] font-bold text-[#111]">
+                      Illustrator
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* VERTICAL DIVIDER */}
+              {(c.link || c.bgColor) && (
+                <div className="hidden md:block w-px h-12 bg-black/5" />
               )}
+
+              {/* LIVE CTA */}
+              <div className="flex items-center">
+                {c.link && (
+                  <a
+                    href={c.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex flex-col items-end gap-1 text-[#111] hover:text-[#FF5C00] transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-[13px] font-black uppercase tracking-wider">
+                        Live View
+                      </span>
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                      >
+                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                      </svg>
+                    </div>
+                    <div className="h-[2.5px] w-0 group-hover:w-full bg-[#FF5C00] transition-all duration-300" />
+                  </a>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </section>
 
         {/* CORE STORYTELLING */}
@@ -712,6 +1002,7 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
           </Link>
         </section>
       </div>
+      )}
 
       {/* GALLERY LIGHTBOX */}
       {selectedIndex !== null && (

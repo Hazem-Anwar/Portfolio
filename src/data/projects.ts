@@ -2,14 +2,16 @@ export const cases = [
   {
     id: "01",
     title: "Mootery",
+    subtitle: "HOW MOOTERY WAS DESIGNED INTO A REAL-TIME, STRUCTURED CAR MARKETPLACE EXPERIENCE",
     category: "AUCTIONS PLATFORM",
     type: "Design",
     role: "UI/UX Designer",
     duration: "4 months",
     link: "",
+    hideStack: true,
     bgColor: "linear-gradient(135deg, #6B46C1 0%, #38A169 100%)",
     description:
-      "Mootery is a high-end automotive auction platform that bridges the gap between luxury car collecting and cutting-edge financial technology.",
+      "A great marketplace is not about more listings — it’s about reducing the effort needed to make a decision.\n\nMootery was designed to simplify how users explore, compare, and manage car listings in a unified, real-time experience.",
     stats: [
       { value: "Real-time", label: "BIDDING" },
       { value: "Instant", label: "FEEDBACK" },
@@ -169,14 +171,16 @@ export const cases = [
   {
     id: "03",
     title: "Places",
+    subtitle: "TURNING APARTMENT RENTAL SEARCH INTO A CLEAR AND STRUCTURED MARKETPLACE EXPERIENCE",
     category: "BOOKING ECOSYSTEM",
     type: "Design",
     role: "Lead Product Designer",
     duration: "8 months",
     link: "",
+    hideStack: true,
     bgColor: "linear-gradient(135deg, #ed5727 0%, #000000 100%)",
     description:
-      "Places reimagines residential and hotel booking as a continuous journey — from discovery, to reservation, to physical access. Not a listing platform, but a decision ecosystem.",
+      "Places is a rental marketplace designed to simplify how users browse, compare, and choose apartments. It focuses on clarity, structure, and reducing decision friction across the booking flow.",
     stats: [
       { value: "0", label: "FRICTION" },
       { value: "100%", label: "CONFIDENCE" },
