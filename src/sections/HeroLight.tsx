@@ -469,16 +469,16 @@ export default function HeroLight({
     <>
       <section
         ref={heroRef}
-        className="w-full t0 bg-[#fff] mt-10 lg:pt-6 flex flex-col font-inter selection:bg-[#ff4d00] selection:text-white overflow-hidden relative"
+        className="w-full bg-[#fff] lg:pt-6 flex flex-col font-inter selection:bg-[#ff4d00] selection:text-white overflow-x-hidden relative"
       >
         {/* Neutral Smoky Ambient Glow - Refined Luxury Treatment */}
         <div
-          className="absolute top-[-5%] left-[-10%] w-[450px] h-[450px] bg-[#0000001a] blur-[180px] rounded-full z-0 opacity-0 animate-[pulse_15s_ease-in-out_infinite] hidden md:block"
+          className="absolute top-[-20%] left-[-10%] w-[450px] h-[450px] bg-[#0000001a] blur-[180px] rounded-full z-0 opacity-0 animate-[pulse_15s_ease-in-out_infinite] hidden md:block"
           style={{ animationDelay: "2s" }}
           id="glow-1"
         />
 
-        <div className="container-custom md:pt-[80px] pt-10   flex-1 flex flex-col relative z-10 w-full">
+        <div className="container-custom md:pt-[120px] pt-16   flex-1 flex flex-col relative z-10 w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-14 lg:gap-16 items-center w-full">
             {/* Left Side Content - Now order-2 on mobile */}
             <div className="flex flex-col lg:pt-10 z-10 min-w-0 order-2 md:order-1">
