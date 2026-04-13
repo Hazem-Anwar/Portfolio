@@ -43,3 +43,11 @@ ts_errors.txt
 ts_errors_utf8.txt
 nextjs_output.html
 .cursor/
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
