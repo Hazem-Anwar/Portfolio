@@ -177,7 +177,7 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
                 {c.subtitle}
               </p>
             )}
-            <p className="text-[16px] md:text-[18px] text-[#555] leading-[1.6] max-w-[640px]">
+            <p className="text-[16px] text-[#555] leading-[1.6] max-w-[640px]">
               {c.description}
             </p>
           </div>
