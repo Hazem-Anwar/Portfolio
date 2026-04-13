@@ -14,282 +14,6 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, SplitText, Draggable);
 }
 
-const ProLayout = ({ c, setSelectedIndex }: { c: any, setSelectedIndex: (i: number | null) => void }) => {
-  const usedImages = [
-    c.heroImage,
-    c.productPreviewImage,
-    ...(c.keyDecisions ? c.keyDecisions.map((kd: any) => kd.image) : [])
-  ].filter(Boolean);
-  
-  const extraImages = (c.images || []).filter((img: string) => !usedImages.includes(img));
-
-  return (
-    <div className="w-full bg-white select-none">
-      <div className="max-w-[768px] mx-auto px-6 py-24 space-y-20">
-        
-        {/* 1. Hero Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <div className="space-y-3">
-              <h1 className="text-[36px] md:text-[44px] font-black leading-[1.05] tracking-tight text-[#111]">
-                {c.title}
-              </h1>
-              {c.subtitle && (
-                <p className="text-[15px] text-[#555] font-medium leading-relaxed">
-                  {c.subtitle}
-                </p>
-              )}
-            </div>
-            {c.quickPoints && (
-              <ul className="space-y-3 pt-2">
-                {c.quickPoints.map((qp: any, i: number) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-black/20" />
-                    <span className="text-[13px] font-medium text-[#444]">
-                      <strong className="text-[#111]">{qp.label}:</strong> {qp.value}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          {c.heroImage && (
-            <div className="relative w-full rounded-2xl bg-[#f7f7f7] border border-black/5 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] cursor-zoom-in group p-2 pb-0" onClick={() => setSelectedIndex(c.images.indexOf(c.heroImage))}>
-              <Image src={c.heroImage} alt="Hero mockup" width={800} height={600} style={{ width: "100%", height: "auto" }} className="rounded-t-xl group-hover:-translate-y-2 transition-transform duration-700" priority />
-            </div>
-          )}
-        </section>
-
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
-
-        {/* 2. Problem + Solution */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 relative">
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-black/10 to-transparent -translate-x-1/2" />
-          <div className="space-y-4 md:pr-12">
-            <div className="w-8 h-8 rounded-full bg-[#FFF0F0] text-[#FF3333] flex items-center justify-center mb-2 shadow-sm border border-[#FF3333]/10">
-               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-            </div>
-            <h2 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">The Problem</h2>
-            <div className="text-[14px] text-[#555] leading-[1.8] whitespace-pre-line font-medium">
-              {c.problem}
-            </div>
-          </div>
-          <div className="space-y-4 md:pl-12">
-             <div className="w-8 h-8 rounded-full bg-[#F0FFF4] text-[#33CC66] flex items-center justify-center mb-2 shadow-sm border border-[#33CC66]/10">
-               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            </div>
-            <h2 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">The Solution</h2>
-            <div className="text-[14px] text-[#555] leading-[1.8] whitespace-pre-line font-medium">
-              {c.solution}
-            </div>
-          </div>
-        </section>
-
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
-
-        {/* 3. Product Preview */}
-        {c.productPreviewImage && (
-          <section className="space-y-8">
-            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">Product Preview</h2>
-            <div className="relative w-full rounded-2xl border border-black/5 bg-[#fcfcfc] overflow-hidden shadow-[0_8px_40px_rgb(0,0,0,0.06)] cursor-zoom-in group" onClick={() => setSelectedIndex(c.images.indexOf(c.productPreviewImage))}>
-              <Image src={c.productPreviewImage} alt="Preview" width={1600} height={900} style={{ width: "100%", height: "auto", display: "block" }} className="group-hover:scale-[1.02] transition-transform duration-700" />
-            </div>
-          </section>
-        )}
-
-        {c.features && <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />}
-
-        {/* 4. Key Features */}
-        {c.features && (
-          <section className="space-y-8">
-            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">Key Features</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {c.features.map((f: any, i: number) => (
-                <div key={i} className="p-6 border border-black/5 rounded-2xl text-center flex flex-col items-center justify-center gap-3 bg-white shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300">
-                  <div className="text-[28px] drop-shadow-sm">{f.icon}</div>
-                  <div className="space-y-1.5">
-                    <div className="text-[13px] font-bold text-[#111] leading-tight">{f.title}</div>
-                    <div className="text-[11px] text-[#888] font-medium leading-tight">{f.description}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
-
-        {/* 5. SMART Key Decisions w/ original sizes & timeline design */}
-        {c.keyDecisions && (
-          <section className="space-y-12">
-            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">Key Decisions</h2>
-            <div className="relative space-y-20">
-              {/* Timeline Vertical Line connecting the dots */}
-              <div className="absolute left-6 top-10 bottom-10 w-px bg-gradient-to-b from-transparent via-black/10 to-transparent md:left-8 hidden sm:block" />
-              
-              {c.keyDecisions.map((kd: any, i: number) => (
-                <div key={i} className="relative sm:pl-20 space-y-6">
-                  {/* Timeline Node */}
-                  <div className="hidden sm:flex absolute left-6 md:left-8 top-0 -translate-x-1/2 w-10 h-10 rounded-full bg-white border border-black/10 items-center justify-center text-[14px] font-black text-[#111] shadow-sm z-10">
-                    {i + 1}
-                  </div>
-                  
-                  {/* Content Header */}
-                  <div className="space-y-3 bg-[#fcfcfc] p-6 rounded-2xl border border-black/5 shadow-[0_4px_20px_rgb(0,0,0,0.02)] sm:bg-transparent sm:p-0 sm:border-0 sm:shadow-none">
-                     <div className="flex sm:hidden w-8 h-8 rounded-full bg-white border border-black/10 items-center justify-center text-[12px] font-black text-[#111] shadow-sm mb-4">
-                        {i + 1}
-                     </div>
-                     <h3 className="text-[18px] font-extrabold text-[#111] leading-tight flex items-center gap-2">
-                        {kd.title}
-                     </h3>
-                     <p className="text-[14px] text-[#555] font-medium leading-relaxed max-w-[540px]">
-                        {kd.description}
-                     </p>
-                  </div>
-
-                  {/* Original Size Image attached gracefully under the content */}
-                  {kd.image && (
-                    <div className="w-full rounded-2xl overflow-hidden border border-black/5 shadow-[0_8px_30px_rgb(0,0,0,0.05)] cursor-zoom-in group bg-[#fdfdfd]" onClick={() => setSelectedIndex(c.images.indexOf(kd.image))}>
-                      <Image src={kd.image} alt={kd.title} width={1200} height={800} style={{ width: "100%", height: "auto", display: "block" }} className="group-hover:scale-[1.02] hover:rotate-1 transition-all duration-700 origin-center" />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Remaining Images Dump (Stacked vertically, full width, original size!) */}
-        {extraImages.length > 0 && (
-          <section className="space-y-12 pt-8">
-            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">Gallery & Details</h2>
-            <div className="space-y-10">
-              {extraImages.map((xtraImg: string, i: number) => (
-                <div key={i} className="w-full rounded-2xl overflow-hidden border border-black/5 shadow-[0_4px_25px_rgb(0,0,0,0.03)] cursor-zoom-in group bg-[#fbfbfb]" onClick={() => setSelectedIndex(c.images.indexOf(xtraImg))}>
-                   <Image src={xtraImg} alt={`Detail ${i+1}`} width={1600} height={900} style={{ width: "100%", height: "auto", display: "block" }} className="group-hover:scale-[1.01] transition-transform duration-700" />
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
-
-        {/* 6. User Flow */}
-        {c.userFlow && (
-          <section className="space-y-8">
-            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">User Flow</h2>
-            <div className="flex flex-wrap items-center justify-center p-2.5 rounded-[20px] bg-[#fafafa] border border-black/5 shadow-inner">
-              {c.userFlow.map((step: string, i: number) => (
-                <div key={i} className="flex items-center">
-                  <div className="px-5 py-2.5 text-[13px] font-bold text-[#111] bg-white rounded-xl shadow-[0_2px_8px_rgb(0,0,0,0.04)] border border-black/5">
-                    {step}
-                  </div>
-                  {i < c.userFlow.length - 1 && (
-                    <div className="text-[#aaa] px-2 flex items-center justify-center">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
-
-        {/* 7. Expected Impact */}
-        {c.impactBlocks && (
-          <section className="space-y-8">
-            <h2 className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#111]">Expected Impact</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {c.impactBlocks.map((block: any, i: number) => (
-                <div key={i} className="relative p-8 border border-black/5 rounded-2xl text-center flex flex-col justify-center items-center gap-3 bg-white shadow-[0_2px_15px_rgb(0,0,0,0.03)] hover:-translate-y-1 hover:shadow-[0_8px_25px_rgb(0,0,0,0.08)] transition-all duration-300 overflow-hidden group">
-                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-black/[0.02] to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                   <div className="text-[32px] font-black text-[#111] leading-none">{block.value}</div>
-                   <div className="w-8 h-px bg-black/10" />
-                   <div className="text-[12px] font-bold text-[#555] leading-tight uppercase tracking-wider">{block.label}</div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {c.challenges && <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />}
-
-        {/* 8. Challenges */}
-        {c.challenges && (
-          <section className="space-y-5">
-             <h2 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#111] flex items-center gap-3">
-                <span className="w-6 h-px bg-black/20" />
-                Challenges
-             </h2>
-             <ul className="space-y-3 pl-8">
-               {c.challenges.map((ch: string, i: number) => (
-                 <li key={i} className="relative text-[14px] font-medium text-[#555]">
-                   <span className="absolute left-[-20px] top-[6px] w-1.5 h-1.5 rounded-full bg-black/20" />
-                   {ch}
-                 </li>
-               ))}
-             </ul>
-          </section>
-        )}
-
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
-
-        {/* 9. Next Steps + Contact Section GRID */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-12 relative">
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-black/10 to-transparent -translate-x-1/2" />
-          
-          {/* Next Steps */}
-          {c.nextSteps && (
-            <div className="space-y-5 md:pr-4">
-               <h2 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#111] flex items-center gap-3">
-                 <span className="w-6 h-px bg-black/20" />
-                 Next Steps
-               </h2>
-               <ul className="space-y-3 pl-8">
-                 {c.nextSteps.map((ns: string, i: number) => (
-                   <li key={i} className="relative text-[14px] font-medium text-[#555]">
-                     <span className="absolute left-[-20px] top-[6px] w-1.5 h-1.5 rounded-full bg-black/20" />
-                     {ns}
-                   </li>
-                 ))}
-               </ul>
-            </div>
-          )}
-
-          {/* Contact Section + Tech Stack */}
-          <div className="space-y-6 md:pl-8">
-            <h2 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#111] flex items-center gap-3">
-               <span className="w-6 h-px bg-black/20" />
-               Contact & Tools
-            </h2>
-            <div className="flex flex-wrap gap-3">
-              <a href="mailto:hello@example.com" className="px-6 py-3 bg-[#111] text-white text-[12px] font-bold uppercase tracking-widest rounded-xl hover:bg-[#333] hover:-translate-y-0.5 transition-all shadow-[0_4px_14px_rgba(0,0,0,0.2)]">
-                Contact Me
-              </a>
-              <Link href="/work" className="px-6 py-3 bg-white text-[#111] border border-black/10 text-[12px] font-bold uppercase tracking-widest rounded-xl hover:bg-[#fafafa] hover:-translate-y-0.5 transition-all shadow-sm">
-                More Work
-              </Link>
-            </div>
-            {c.techStack && (
-              <div className="flex flex-wrap gap-2 pt-3">
-                {c.techStack.map((tech: string, i: number) => (
-                  <span key={i} className="px-3 py-1.5 bg-[#f5f5f5] text-[#555] text-[10px] font-bold uppercase tracking-widest rounded-lg border border-black/5 shadow-inner">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-
-        </section>
-
-      </div>
-    </div>
-  );
-};
 
 
 export default function CaseStudy({ params }: { params: { slug: string } }) {
@@ -438,21 +162,18 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
         </Link>
       </div>
 
-      {c.isProLayout ? (
-        <ProLayout c={c} setSelectedIndex={setSelectedIndex} />
-      ) : (
-        <div className="max-w-[720px] mx-auto px-6 space-y-12">
+      <div className="max-w-[720px] mx-auto px-6 space-y-12">
           {/* HEADER */}
         <section className="pt-40 space-y-8">
           <div className="space-y-4">
             <h1
               ref={titleRef}
-              className="text-[32px] md:text-[44px] font-extrabold leading-[1.1] tracking-tight uppercase text-[#111]"
+              className="text-[32px] md:text-[44px] font-bold leading-[1.1] tracking-tight uppercase text-[#111]"
             >
               {c.title}
             </h1>
             {c.subtitle && (
-              <p className="text-[18px] md:text-[24px] font-black text-[#111]  uppercase  mt-4">
+              <p className="text-[18px] md:text-[24px] font-bold text-[#111]  uppercase  mt-4">
                 {c.subtitle}
               </p>
             )}
@@ -1002,7 +723,6 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
           </Link>
         </section>
       </div>
-      )}
 
       {/* GALLERY LIGHTBOX */}
       {selectedIndex !== null && (
